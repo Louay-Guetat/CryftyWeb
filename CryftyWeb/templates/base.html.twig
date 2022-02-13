@@ -6,14 +6,34 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
+            <!-- CSS -->
+            <link rel="stylesheet" href={{ asset('css/bootstrap-reboot.min.css') }}>
+            <link rel="stylesheet" href={{ asset('css/bootstrap-grid.min.css') }}>
+            <link rel="stylesheet" href={{ asset('css/owl.carousel.min.css') }}>
+            <link rel="stylesheet" href={{ asset('css/magnific-popup.css') }}>
+            <link rel="stylesheet" href={{ asset('css/select2.min.css') }}>
+            <link rel="stylesheet" href={{ asset('css/main.css') }}>
+
+            <!-- Favicons -->
+            <link rel="icon" type="image/png" href={{ asset('icon/favicon-32x32.png') }} sizes="32x32">
+            <link rel="apple-touch-icon" href={{ asset('icon/favicon-32x32.png') }}>
+
         {% endblock %}
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
+
     </head>
     <body>
         {% block body %}{% endblock %}
+
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+            <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+            <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+            <script src="{{ asset('js/select2.min.js') }}"></script>
+            <script src="{{ asset('js/smooth-scrollbar.js') }}"></script>
+            <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
+            <script src="{{ asset('js/main.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
