@@ -29,7 +29,7 @@ class Nft
     private $description;
 
     /**
-     * @ORM\Column(type="double")
+     * @ORM\Column(type="float")
      */
     private $price;
 
@@ -40,10 +40,24 @@ class Nft
     private $creationDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users\Client", inversedBy="Nfts")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users\Client", inversedBy="nfts")
      */
     private $owner;
+
+    /**
+     * @ORM\Column ManyToOne(targetEntity="App\Entity\NFT\Category", inversedBy="nfts")
+     */
+    private $category;
+
+    /**
+     * @ORM\Column ManyToOne(targetEntity="App\Entity\NFT\SubCategory", inversedBy="nfts")
+     */
+    private $subCategory;
+
+    /**
+     * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="nft")
+     */
+    private $comments= [];
 
     public function getId(): ?int
     {
@@ -130,6 +144,52 @@ class Nft
         $this->owner = $owner;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
 
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category): void
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubCategory()
+    {
+        return $this->subCategory;
+    }
+
+    /**
+     * @param mixed $subCategory
+     */
+    public function setSubCategory($subCategory): void
+    {
+        $this->subCategory = $subCategory;
+    }
+
+    /**
+     * @return array
+     */
+    public function getComments(): array
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param array $comments
+     */
+    public function setComments(array $comments): void
+    {
+        $this->comments = $comments;
+    }
 
 }

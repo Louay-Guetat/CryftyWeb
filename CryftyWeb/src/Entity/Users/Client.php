@@ -47,6 +47,16 @@ class Client extends User
      */
     private $address;
 
+    /**
+     * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="owner")
+     */
+    private $nfts;
+
+    /**
+     * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="client")
+     */
+    private $comments;
+
     public function getId(): ?int
     {
         return $this->id;
