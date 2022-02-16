@@ -20,11 +20,12 @@ class Category
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotNull
      */
     private $name;
 
     /**
-     *@Assert\DateTime()
+     * @Assert\DateTime()
      * @ORM\Column(type="datetime")
      */
     private $creationDate;

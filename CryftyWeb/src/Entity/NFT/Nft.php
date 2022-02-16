@@ -20,6 +20,7 @@ class Nft
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotNull
      */
     private $title;
 
@@ -30,6 +31,7 @@ class Nft
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotNull
      */
     private $price;
 
@@ -40,17 +42,26 @@ class Nft
     private $creationDate;
 
     /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Ajouter une image jpg")
+     * @Assert\NotNull
+     */
+    private $image;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users\Client", inversedBy="nfts")
      */
     private $owner;
 
     /**
      * @ORM\Column ManyToOne(targetEntity="App\Entity\NFT\Category", inversedBy="nfts")
+     * @Assert\NotNull
      */
     private $category;
 
     /**
      * @ORM\Column ManyToOne(targetEntity="App\Entity\NFT\SubCategory", inversedBy="nfts")
+     * @Assert\NotNull
      */
     private $subCategory;
 
@@ -59,16 +70,16 @@ class Nft
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment\Cart", mappedBy="nftProd")
+     */
+    private $cartProd;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\entity\Payment\Cart",mappedBy="cartProd")
-     */
-    private $nftProd;
 
     /**
      * @return mixed
@@ -153,6 +164,10 @@ class Nft
     /**
      * @return mixed
      */
+
+    /**
+     * @return mixed
+     */
     public function getCategory()
     {
         return $this->category;
@@ -196,6 +211,38 @@ class Nft
     public function setComments(array $comments): void
     {
         $this->comments = $comments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image): void
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCartProd()
+    {
+        return $this->cartProd;
+    }
+
+    /**
+     * @param mixed $cartProd
+     */
+    public function setCartProd($cartProd): void
+    {
+        $this->cartProd = $cartProd;
     }
 
 }
