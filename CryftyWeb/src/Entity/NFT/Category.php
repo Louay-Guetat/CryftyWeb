@@ -30,13 +30,17 @@ class Category
     private $creationDate;
 
     /**
+     * @ORM\Column (type="integer")
+     */
+    private $nbrNft;
+
+    /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="category")
      */
     private $nfts;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\NFT\SubCategory", mappedBy="category")
-     * @ORM\Column (type="integer")
      */
     private $subCategories;
 

@@ -57,12 +57,18 @@ class Nft
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="nft")
      */
-    private $comments= [];
+    private $comments;
 
     public function getId(): ?int
     {
         return $this->id;
     }
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\entity\Payment\Cart",mappedBy="cartProd")
+     */
+    private $nftProd;
 
     /**
      * @return mixed

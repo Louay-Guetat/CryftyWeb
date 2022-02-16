@@ -25,6 +25,17 @@ class NftComment
     private $postDate;
 
     /**
+     * @ORM\Column (type="integer")
+     */
+    private $likes;
+
+    /**
+     * @ORM\Column (type="integer")
+     */
+    private $dislikes;
+
+
+    /**
      * @ORM\ManyToOne (targetEntity="App\Entity\NFT\Nft", inversedBy="comments")
      */
     private $nft;
@@ -32,7 +43,7 @@ class NftComment
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Users\Client", inversedBy="comments")
      */
-    private $client;
+    private $user;
 
 
 
