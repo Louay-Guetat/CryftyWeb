@@ -49,18 +49,23 @@ class Nft
     private $image;
 
     /**
+     * @ORM\Column (type="integer")
+     */
+    private $likes;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users\Client", inversedBy="nfts")
      */
     private $owner;
 
     /**
-     * @ORM\Column ManyToOne(targetEntity="App\Entity\NFT\Category", inversedBy="nfts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\NFT\Category", inversedBy="nfts")
      * @Assert\NotNull
      */
     private $category;
 
     /**
-     * @ORM\Column ManyToOne(targetEntity="App\Entity\NFT\SubCategory", inversedBy="nfts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\NFT\SubCategory", inversedBy="nfts")
      * @Assert\NotNull
      */
     private $subCategory;
@@ -244,5 +249,23 @@ class Nft
     {
         $this->cartProd = $cartProd;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param mixed $likes
+     */
+    public function setLikes($likes): void
+    {
+        $this->likes = $likes;
+    }
+
+
 
 }

@@ -114,5 +114,21 @@ class SubCategory
         $this->nfts = $nfts;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getNbrNft()
+    {
+        return $this->nbrNft;
+    }
+
+    /**
+     * @param mixed $nbrNft
+     */
+    public function setNbrNft($nbrNft): void
+    {
+        $this->nbrNft = $nbrNft;
+    }
+
 
 }
