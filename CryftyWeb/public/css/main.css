@@ -4606,7 +4606,7 @@ body::-webkit-scrollbar-thumb {
 }
 .footer__logo img {
   width: auto;
-  height: 40px;
+  height: 200px;
   display: block;
 }
 .footer__tagline {

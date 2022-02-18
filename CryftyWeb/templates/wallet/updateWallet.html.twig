@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <main class="main container">
+        <div class="main__title main__title--create">
+            <h2>Update Your Wallet ! </h2>
+        </div>
+        {{ form_start(update_form,{'attr':{'class': 'sign__form sign__form--create'}}) }}
+        <div class="col-12 col-xl-3">
+            <div class="sign__group">
+                {{ form_row(update_form.walletLabel) }}
+            </div>
+        </div>
+        <div class="col-12 col-xl-3">
+            <div class="sign__group">
+                {{ form_row(update_form.nodeId) }}
+            </div>
+        </div>
+        <div class="col-12 col-xl-3">
+            {{ form_row(update_form.submit,{'label':'Update Wallet'}) }}
+        </div>
+        {{ form_end(update_form) }}
+    </main>
+{% endblock %}
