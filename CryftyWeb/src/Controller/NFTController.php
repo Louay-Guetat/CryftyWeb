@@ -8,6 +8,7 @@ use App\Entity\NFT\SubCategory;
 use App\Form\AjoutNftType;
 use App\Form\ModifierNftType;
 use App\Repository\NftRepository;
+use PhpParser\Node\Scalar\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -61,7 +62,7 @@ class NFTController extends AbstractController
             $fileName= md5(uniqid()).'.'.$file->guessExtension();
             try{
                 $file->move($this->getParameter('images_directory'),$fileName);
-            }catch(FileException $e){
+            }catch(FileException $e) {
                 $e->getMessage();
             }
             $em = $this->getDoctrine()->getManager();
