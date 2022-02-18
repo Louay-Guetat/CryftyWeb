@@ -39,6 +39,7 @@ abstract class User implements UserInterface
     private $password;
 
     /**
+
      * @param $Groups
      */
     public function __construct()
@@ -49,6 +50,11 @@ abstract class User implements UserInterface
     /**
      * @param $Groups
      */
+
+
+     * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="user")
+     */
+    private $comments;
 
 
     public function getId(): ?int
