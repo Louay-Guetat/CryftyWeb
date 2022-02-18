@@ -87,6 +87,12 @@ class Nft
 
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment\Cart", mappedBy="nftProd")
+     */
+    private $cartProd;
+
+
+    /**
      * @return mixed
      */
     public function getTitle()
@@ -250,6 +256,7 @@ class Nft
         $this->cartProd = $cartProd;
     }
 
+
     /**
      * @return mixed
      */
@@ -265,7 +272,5 @@ class Nft
     {
         $this->likes = $likes;
     }
-
-
 
 }

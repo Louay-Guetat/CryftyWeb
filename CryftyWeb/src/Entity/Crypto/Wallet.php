@@ -61,6 +61,28 @@ class Wallet
         return $this->id;
     }
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Payment\Cart",mappedBy="wallets")
+     */
+    private $cartwallet;
+
+    /**
+     * @return mixed
+     */
+    public function getCartwallet()
+    {
+        return $this->cartwallet;
+    }
+
+    /**
+     * @param mixed $cartwallet
+     */
+    public function setCartwallet($cartwallet): void
+    {
+        $this->cartwallet = $cartwallet;
+    }
+
+
     public function getWalletAddress(): ?string
     {
         return $this->walletAddress;
@@ -137,4 +159,5 @@ class Wallet
 
         return $this;
     }
+
 }
