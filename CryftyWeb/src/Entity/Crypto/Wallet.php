@@ -40,8 +40,8 @@ class Wallet
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
      * @Assert\Length(min=5,max=50,
-     *                minMessage="Your address should be atleast {{ limit }} long",
-     *                minMessage="Your address should be less than {{ limit }} characters")
+     *                minMessage="Your label should longer than {{ limit }} ",
+     *                maxMessage="Your address should be less than {{ limit }} ")
      */
     private $walletLabel;
 
