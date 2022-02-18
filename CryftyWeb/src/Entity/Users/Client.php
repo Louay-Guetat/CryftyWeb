@@ -51,6 +51,16 @@ class Client extends User
     private $address;
 
     /**
+     * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="owner")
+     * @ORM\Column (type="integer")
+     */
+    private $nfts;
+
+    /**
+     * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="client")
+     */
+    private $comments;
+    /**
      * @ORM\OneToMany(targetEntity=Wallet::class, mappedBy="client", orphanRemoval=true)
      */
     private $wallets;
@@ -59,6 +69,7 @@ class Client extends User
     {
         $this->wallets = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
