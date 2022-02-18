@@ -1,0 +1,155 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <style>
+        a{
+            color: #F3F3F3;
+            background-color: #222227;
+            border-radius: 14px;
+        }
+        label{
+            color: #1da1f2;
+        }
+        button{
+            color: #F3F3F3;
+            margin: 30px;
+            background-color: #222227;
+            width: calc(100% - 30px);
+            border-radius: 14px;
+
+        }
+        input{
+            color: #F3F3F3;
+            background-color: #222227;
+           margin: 0.5cm;
+            border-radius: 14px;
+            font-size: medium;
+
+        }
+        textarea{
+            color: #F3F3F3;
+            background-color: #222227;
+            border-radius: 14px;
+        }
+        select{
+            color: #F3F3F3;
+            background-color: #222227;
+            border-radius: 14px;
+        }
+    </style>
+    <!-- header -->
+    <header class="header">
+    <div class="header__content">
+    <div class="header__logo">
+        <a href="index.html">
+            <img src="img/logo.svg" alt="">
+        </a>
+    </div>
+
+    <form action="#" class="header__search">
+        <input type="text" placeholder="Search items, collections, and creators">
+
+        <button type="button" class="close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
+    </form>
+
+    <div class="header__menu">
+        <ul class="header__nav">
+            <li class="header__nav-item">
+                <a class="header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"/></svg></a>
+
+                <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenuHome">
+                    <li><a href="index.html">Home style 1</a></li>
+                    <li><a href="index2.html">Home style 2</a></li>
+                    <li><a href="index3.html">Home style 3</a></li>
+                </ul>
+            </li>
+            <li class="header__nav-item">
+                <a class="header__nav-link" href="#" role="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Explore <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"/></svg></a>
+
+                <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu">
+                    <li><a href="explore.html">Explore style 1</a></li>
+                    <li><a href="explore2.html">Explore style 2</a></li>
+                    <li><a href="explore3.html">Explore style 3</a></li>
+                    <li><a href="item.html">Item style 1</a></li>
+                    <li><a href="item2.html">Item style 2</a></li>
+                </ul>
+            </li>
+            <li class="header__nav-item">
+                <a href="activity.html" class="header__nav-link">Activity</a>
+            </li>
+            <li class="header__nav-item">
+                <a class="header__nav-link" href="#" role="button" id="dropdownMenu0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Community <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"/></svg></a>
+
+                <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu0">
+                    <li><a href="token.html">Unitok</a></li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#" role="button" id="dropdownMenuSub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blog <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"/></svg></a>
+
+                        <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenuSub">
+                            <li><a href="blog.html">Blog style 1</a></li>
+                            <li><a href="blog2.html">Blog style 2</a></li>
+                            <li><a href="article.html">Article</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="faq.html">Help center</a></li>
+                    <li><a href="contacts.html">Contacts</a></li>
+                </ul>
+            </li>
+            <li class="header__nav-item">
+                <a class="header__nav-link" href="#" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"/></svg></a>
+
+                <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="authors.html">Authors</a></li>
+                    <li><a href="author.html">Author</a></li>
+                    <li><a href="collection.html">Collection</a></li>
+                    <li><a href="create.html">Create</a></li>
+                </ul>
+            </li>
+            <li class="header__nav-item">
+                <a class="header__nav-link header__nav-link--menu" href="#" role="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,10a2,2,0,1,0,2,2A2,2,0,0,0,12,10ZM5,10a2,2,0,1,0,2,2A2,2,0,0,0,5,10Zm14,0a2,2,0,1,0,2,2A2,2,0,0,0,19,10Z"/></svg></a>
+
+                <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu2">
+                    <li><a href="signin.html">Sign in</a></li>
+                    <li><a href="signup.html">Sign up</a></li>
+                    <li><a href="forgot.html">Forgot password</a></li>
+                    <li><a href="404.html">404 Page</a></li>
+                    <li><a href="privacy.html">Privacy policy</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="header__actions">
+    <div class="header__action header__action--search">
+        <button class="header__action-btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/></svg></button>
+    </div>
+    </div>
+
+        <button class="header__btn" type="button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+    </header>
+    <main class="main">
+    <div class="container">
+    <div class="row row--grid">
+    <!-- breadcrumb -->
+    <div class="col-12">
+        <ul class="breadcrumb">
+            <li class="breadcrumb__item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb__item breadcrumb__item--active">Blog</li>
+        </ul>
+    </div>
+{{ form_start(form) }}
+    <button style="color: #bdbdbd">>>Add</button>
+
+{{ form_widget(form) }}
+    {{ form_row(form) }}
+
+
+    <a href=" {{ path('AfficheBA' )}} ">Back to menu </a>
+{{ form_end(form) }}
+
+{% endblock %}
