@@ -3,19 +3,103 @@
 namespace App\Entity\Chat;
 
 use App\Repository\GroupChatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=GroupChatRepository::class)
  */
-class GroupChat
+class GroupChat extends Conversation
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Users\User")
+
+     */
+    private $participants;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users\User", inversedBy="Group")
+     */
+    private $Owner;
+
+    /**
+     * @param $participants
+     */
+    public function __construct()
+    {
+        $this->participants = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getOwner()
+    {
+        return $this->Owner;
+    }
+
+    /**
+     * @param mixed $Owner
+     */
+    public function setOwner($Owner): void
+    {
+        $this->Owner = $Owner;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @param mixed $nom
+     */
+    public function setNom($nom): void
+    {
+        $this->nom = $nom;
+    }
+
+
+
+
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getParticipants()
+    {
+        return $this->participants;
+    }
+
+    /**
+     * @param mixed $participants
+     */
+    public function setParticipants($participants): void
+    {
+        $this->participants = $participants;
+    }
+
+
+
+
+
+
+
+
+
 
     public function getId(): ?int
     {
