@@ -6,7 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/CryftyWeb/tests" isTestSource="true" packagePrefix="App\Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
-
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/doctrine/orm" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/doctrine/migrations" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/doctrine/lexer" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/doctrine/instantiator" />
@@ -116,7 +116,6 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/phpdocumentor/reflection-common" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/friendsofphp/proxy-manager-lts" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/webmozart/assert" />
-
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/var-exporter" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/var-dumper" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/service-contracts" />
@@ -171,14 +170,12 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/phpdocumentor/type-resolver" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/phpdocumentor/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/phpdocumentor/reflection-common" />
-
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/version" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/type" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/resource-operations" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/recursion-context" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/object-reflector" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/object-enumerator" />
-
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/lines-of-code" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/global-state" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/exporter" />
@@ -192,7 +189,6 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/doctrine/sql-formatter" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/doctrine/persistence" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/doctrine/orm" />
-
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/global-state" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/exporter" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/webmozart/assert" />
@@ -261,7 +257,6 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/twig/extra-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/flex" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/polyfill-php72" />
-
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
