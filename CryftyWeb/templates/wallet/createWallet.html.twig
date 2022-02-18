@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <main class="main container">
+        <div class="main__title main__title--create">
+            <h2>Create A New Wallet ! </h2>
+        </div>
+        {{ form_start(wallet_creation_form,{'attr':{'class': 'sign__form sign__form--create'}}) }}
+        <div class="col-12 col-xl-3">
+            <div class="sign__group">
+               {{ form_row(wallet_creation_form.walletLabel) }}
+            </div>
+        </div>
+        <div class="col-12 col-xl-3">
+            <div class="sign__group">
+                {{ form_row(wallet_creation_form.nodeId) }}
+            </div>
+        </div>
+        <div class="col-12 col-xl-3">
+            {{ form_widget(wallet_creation_form.submit) }}
+        </div>
+        {{ form_end(wallet_creation_form) }}
+    </main>
+{% endblock %}

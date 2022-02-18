@@ -19,6 +19,14 @@ class BlockRepository extends ServiceEntityRepository
         parent::__construct($registry, Block::class);
     }
 
+    public function countUserBlocks(int $id){
+        return $this->createQueryBuilder('b')
+            ->select('count(b.id)')
+            ->andWhere('b.wallet = :walletId')
+            ->setParameter('walletId',$id)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
     // /**
     //  * @return Block[] Returns an array of Block objects
     //  */

@@ -3,8 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
+
         {% block stylesheets %}
             <!-- CSS -->
             <link rel="stylesheet" href={{ asset('css/bootstrap-reboot.min.css') }}>
@@ -15,16 +14,17 @@
             <link rel="stylesheet" href={{ asset('css/main.css') }}>
 
             <!-- Favicons -->
-            <link rel="icon" type="image/png" href={{ asset('icon/favicon-32x32.png') }} sizes="32x32">
-            <link rel="apple-touch-icon" href={{ asset('icon/favicon-32x32.png') }}>
+            <link rel="icon" type="image/png" href={{ asset('img/logoNoText.png') }} sizes="32x32">
+            <link rel="apple-touch-icon" href={{ asset('img/logoNoText.png') }}>
 
         {% endblock %}
 
 
     </head>
     <body>
+        {% include 'shared/_header.html.twig' %}
         {% block body %}{% endblock %}
-
+        {% include 'shared/_footer.html.twig' %}
         {% block javascripts %}
             <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
             <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
@@ -35,5 +35,8 @@
             <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
             <script src="{{ asset('js/main.js') }}"></script>
         {% endblock %}
+
+
+
     </body>
 </html>
