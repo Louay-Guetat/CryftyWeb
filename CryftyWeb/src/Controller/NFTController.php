@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\NFT\Category;
 use App\Entity\NFT\Nft;
+use App\Entity\NFT\SubCategory;
 use App\Form\AjoutNftType;
 use App\Form\ModifierNftType;
 use App\Repository\NftRepository;
@@ -46,11 +48,15 @@ class NFTController extends AbstractController
      */
     public function ajoutNft(Request $request){
         $nft = new Nft();
+        $category = new Category();
+        $subCategory = new SubCategory();
         $nft->setCreationDate(new \DateTime('now'));
         $nft->setLikes(0);
         $formNft = $this->createForm(AjoutNftType::class,$nft);
         $formNft->handleRequest($request);
         if(($formNft->isSubmitted()) && $formNft->isValid()) {
+            $category->setNbrNft($category->getNbrNft()+1);
+            $subCategory->setNbrNft($subCategory->getNbrNft()+1);
             $file= $nft->getImage();
             $fileName= md5(uniqid()).'.'.$file->guessExtension();
             try{

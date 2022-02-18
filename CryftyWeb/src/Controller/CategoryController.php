@@ -34,7 +34,7 @@ class CategoryController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
-            return $this->redirectToRoute('nft');
+            return $this->redirectToRoute('AjoutNft');
         }
         return $this->render('category/AjoutCategory.html.twig',['formAjoutCategory'=>$formCat->createView()]);
     }
