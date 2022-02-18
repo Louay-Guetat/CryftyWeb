@@ -20,7 +20,7 @@ class Cart
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\entity\NFT\Nft",inversedBy="cartProd")
+     * @ORM\ManyToOne(targetEntity="App\Entity\NFT\Nft",inversedBy="cartProd")
      */
     private $nftProd;
 
@@ -94,10 +94,7 @@ class Cart
     }
     
     
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NFT\Nft",inversedBy="cartProd")
-     */
-    private $nftProd;
+
 
     /**
      * @return mixed

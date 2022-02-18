@@ -63,7 +63,6 @@ class Client extends User
 
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="owner")
-     * @ORM\Column (type="integer")
      */
     private $nfts;
 

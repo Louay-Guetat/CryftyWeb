@@ -87,12 +87,6 @@ class Nft
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payment\Cart", mappedBy="nftProd")
-     */
-    private $cartProd;
-
-
-    /**
      * @return mixed
      */
     public function getTitle()

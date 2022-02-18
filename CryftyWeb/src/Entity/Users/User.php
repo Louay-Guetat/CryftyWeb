@@ -54,7 +54,7 @@ abstract class User implements UserInterface
      * @param $Groups
      */
 
-
+    /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="user")
      */
     private $comments;
