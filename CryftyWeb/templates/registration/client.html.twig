@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Log in!{% endblock %}
-
+{% block title %} Inscription{% endblock %}
 {% block body %}
+
     <!-- header -->
     <header class="header">
         <div class="header__content">
@@ -47,7 +46,7 @@
                         <a class="header__nav-link" href="#" role="button" id="dropdownMenu0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Community <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"/></svg></a>
 
                         <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu0">
-                            <li><a href="token.html">Unitok</a></li>
+                            <li><a href="token.html">Cryfty</a></li>
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item" href="#" role="button" id="dropdownMenuSub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blog <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"/></svg></a>
 
@@ -75,7 +74,7 @@
                         <a class="header__nav-link header__nav-link--menu" href="#" role="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,10a2,2,0,1,0,2,2A2,2,0,0,0,12,10ZM5,10a2,2,0,1,0,2,2A2,2,0,0,0,5,10Zm14,0a2,2,0,1,0,2,2A2,2,0,0,0,19,10Z"/></svg></a>
 
                         <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu2">
-                            <li><a href="signin.html">Sign in</a></li>
+                            <li><a href=>Sign in</a></li>
                             <li><a href="signup.html">Sign up</a></li>
                             <li><a href="forgot.html">Forgot password</a></li>
                             <li><a href="404.html">404 Page</a></li>
@@ -91,7 +90,7 @@
                 </div>
 
                 <div class="header__action header__action--signin">
-                    <a class="header__action-btn header__action-btn--signin" href="signin.html">
+                    <a class="header__action-btn header__action-btn--signin" href={{ path('app_login') }}   >
                         <span>Sign in</span>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,12a1,1,0,0,0-1-1H11.41l2.3-2.29a1,1,0,1,0-1.42-1.42l-4,4a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l4,4a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L11.41,13H19A1,1,0,0,0,20,12ZM17,2H7A3,3,0,0,0,4,5V19a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V16a1,1,0,0,0-2,0v3a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V8a1,1,0,0,0,2,0V5A3,3,0,0,0,17,2Z"/></svg>
                     </a>
@@ -115,58 +114,25 @@
                 <div class="col-12">
                     <ul class="breadcrumb">
                         <li class="breadcrumb__item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb__item breadcrumb__item--active">Sign in</li>
+                        <li class="breadcrumb__item breadcrumb__item--active">Sign up</li>
                     </ul>
                 </div>
                 <!-- end breadcrumb -->
 
-                <!-- sign in -->
+                <!-- registration form -->
                 <div class="col-12">
                     <div class="sign">
                         <div class="sign__content">
-                            <!-- authorization form -->
-                            <form method="post" class="sign__form">
-                                {% if error %}
-                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                                {% endif %}
-
-                                {% if app.user %}
-                                    <div class="mb-3">
-                                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-                                    </div>
-                                {% endif %}
+                            <div action="#" class="sign__form">
                                 <a href="index.html" class="sign__logo">
                                     <img src="img/logo.svg" alt="">
                                 </a>
-
-                                <div class="sign__group">
-                                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="sign__input" placeholder="Email">
-                                </div>
-
-                                <div class="sign__group">
-                                    <input type="password" name="password" id="inputPassword" class="sign__input" placeholder="Password">
-                                </div>
-                                <input type="hidden" name="_csrf_token"
-                                       value="{{ csrf_token('authenticate') }}"
-                                >
-                                {#
-                                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                                See https://symfony.com/doc/current/security/remember_me.html
-
-                                <div class="checkbox mb-3">
-                                    <label>
-                                        <input type="checkbox" name="_remember_me"> Remember me
-                                    </label>
-                                </div>
-                                #}
+                                <div class="sign__form">
+                                {{ form(form) }}
 
 
-                                <div class="sign__group sign__group--checkbox">
-                                    <input id="remember" name="remember" type="checkbox" checked="checked">
-                                    <label for="remember">Remember Me</label>
-                                </div>
 
-                                <button class="sign__btn" type="submit">Sign in</button>
+
 
                                 <span class="sign__delimiter">or</span>
 
@@ -176,15 +142,12 @@
                                     <a class="gl" href="#"><svg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'><path d='M473.16 221.48l-2.26-9.59H262.46v88.22H387c-12.93 61.4-72.93 93.72-121.94 93.72-35.66 0-73.25-15-98.13-39.11a140.08 140.08 0 01-41.8-98.88c0-37.16 16.7-74.33 41-98.78s61-38.13 97.49-38.13c41.79 0 71.74 22.19 82.94 32.31l62.69-62.36C390.86 72.72 340.34 32 261.6 32c-60.75 0-119 23.27-161.58 65.71C58 139.5 36.25 199.93 36.25 256s20.58 113.48 61.3 155.6c43.51 44.92 105.13 68.4 168.58 68.4 57.73 0 112.45-22.62 151.45-63.66 38.34-40.4 58.17-96.3 58.17-154.9 0-24.67-2.48-39.32-2.59-39.96z'/></svg></a>
                                 </div>
 
-                                <span class="sign__text">Don't have an account? <a href="signup.html">Sign up!</a></span>
-
-                                <span class="sign__text"><a href="forgot.html">Forgot password?</a></span>
-                            </form>
-                            <!-- end authorization form -->
+                                <span class="sign__text">Already have an account? <a href={{ path('app_login') }}>Sign in!</a></span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- end sign in -->
+                <!-- end registration form -->
             </div>
         </div>
     </main>
@@ -253,7 +216,7 @@
                 <div class="col-6 col-md-4 col-lg-3 col-xl-2 order-2 order-lg-3 order-md-4 order-xl-4">
                     <h6 class="footer__title">Community</h6>
                     <div class="footer__nav">
-                        <a href="token.html">Unitok</a>
+                        <a href="token.html">Cryfty</a>
                         <a href="blog.html">Our Blog</a>
                         <a href="faq.html">Help Center</a>
                         <a href="contacts.html">Contacts</a>
@@ -280,7 +243,7 @@
                             <a href="#" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H5A3,3,0,0,0,2,7V17a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V7A3,3,0,0,0,19,4Zm-.41,2-5.88,5.88a1,1,0,0,1-1.42,0L5.41,6ZM20,17a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V7.41l5.88,5.88a3,3,0,0,0,4.24,0L20,7.41Z"/></svg></a>
                         </div>
 
-                        <small class="footer__copyright">© Unitok, 2021. Created by <a href="https://themeforest.net/user/dmitryvolkov/portfolio" target="_blank">Dmitry Volkov</a>.</small>
+                        <small class="footer__copyright">© CryFty, 2021. Created by <a href="https://themeforest.net/user/dmitryvolkov/portfolio" target="_blank">Dmitry Volkov</a>.</small>
                     </div>
                 </div>
             </div>

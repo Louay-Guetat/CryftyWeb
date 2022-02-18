@@ -10,22 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Admin extends User
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $firstName;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getFirstName(): ?string
     {

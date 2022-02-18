@@ -7,25 +7,32 @@ use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
 
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
+ * @UniqueEntity("email")
  */
 class Client extends User
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity="App\Entity\Users\SupportTicket", mappedBy="Client")
      */
-    protected $id;
+
+    private $supportticket;
+
 
     /**
+     * @Assert\Length(min=5,max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $firstName;
 
     /**
+     * @Assert\Length(min=5,max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $lastName;
@@ -37,18 +44,22 @@ class Client extends User
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Regex("/^[0-9]{9}$/")
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *@Assert\Range(min=10,max=90)
      */
     private $age;
 
     /**
+     * @Assert\Length(min=5,max=255)
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
+
 
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="owner")
@@ -68,12 +79,6 @@ class Client extends User
     public function __construct()
     {
         $this->wallets = new ArrayCollection();
-    }
-
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getFirstName(): ?string
