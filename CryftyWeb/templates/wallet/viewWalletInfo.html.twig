@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <main class="main container">
+
+        <section class="row row--grid">
+            <!-- title -->
+            <div class="col-12">
+                <div class="main__title main__title--border-top">
+                    <h2><a href="explore.html">Wallet Info</a></h2>
+                </div>
+            </div>
+            <div class="activity">
+                <div class="activity__cover">
+                    <img src="{{ asset("img/cover/cover1.jpg") }}">
+                </div>
+                <div class="activity__content">
+                    <h3 class="activity__title">Wallet Label : </h3>
+                        <p class="activity__text">{{ wallet.walletLabel }}</p>
+                    <h3 class="activity__title">Your Wallet Address :
+                    </h3>
+                    <div class="author__code col-4">
+                        <input type="text" value="{{ wallet.walletAddress }}" id="author-code">
+                        <button type="button" class="">
+                            <span>Copied</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18,19H6a3,3,0,0,1-3-3V8A1,1,0,0,0,1,8v8a5,5,0,0,0,5,5H18a1,1,0,0,0,0-2Zm5-9.06a1.31,1.31,0,0,0-.06-.27l0-.09a1.07,1.07,0,0,0-.19-.28h0l-6-6h0a1.07,1.07,0,0,0-.28-.19l-.09,0L16.06,3H8A3,3,0,0,0,5,6v8a3,3,0,0,0,3,3H20a3,3,0,0,0,3-3V10S23,10,23,9.94ZM17,6.41,19.59,9H18a1,1,0,0,1-1-1ZM21,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V6A1,1,0,0,1,8,5h7V8a3,3,0,0,0,3,3h3Z"></path></svg>
+                        </button>
+                    </div>
+
+                    <h3 class="activity__title">Your Balance :</h3>
+                        <p class="activity__text">
+                            {% if wallet.nodeId is null %}
+                                <small style="color: red!important;">Not Attached to a node</small>
+                                {% else %}
+                                {{ wallet.balance }}
+                            {% endif %}
+                        </p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+            <a class="asset__btn"
+                    {% if wallet.nodeId is null %}
+                        style="cursor: not-allowed;"
+                    {% endif %}
+                    {% if wallet.nodeId is not null %}
+                        href="{{ path("mine-block",{'walletId':wallet.id}) }}
+                    {% endif %}">
+                {% if wallet.nodeId is null %}
+                    <small>You're not attached to a Node ! Update your Wallet to mine</small>
+                {% else %}
+                        Mine Crypto
+                {% endif %}
+            </a>
+
+            </div>
+            <div class="row justify-content-center">
+                {% if wallet.nodeId is not null %}
+                <div class="col-12 col-xl-3">
+                    <a class="sign__btn open-modal" href="#modal-bid">Transfer</a>
+
+                </div>
+                {% endif %}
+                <div class="col-12 col-xl-3">
+                    <a class="sign__btn" href="{{ path("update-wallet",{'walletId':wallet.id}) }}">Update</a>
+                </div>
+
+                <div class="col-12 col-xl-3">
+                    <a class="sign__btn" href="{{ path("delete-wallet",{'walletId':wallet.id}) }}">Delete</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <div id="modal-bid" class="zoom-anim-dialog modal modal--form mfp-hide">
+        <button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path></svg></button>
+
+        <h4 class="sign__title">Transfer</h4>
+
+        {{ form_start(transfer_form) }}
+            {{ form_row(transfer_form.senderId,{'attr':{'value':wallet.walletAddress,'readonly':'readonly'}}) }}
+        {{ form_end(transfer_form) }}
+    </div>
+{% endblock %}

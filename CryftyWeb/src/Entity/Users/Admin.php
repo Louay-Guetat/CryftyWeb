@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Admin extends User
 {
 
-
     /**
      * @ORM\Column(type="string", length=255)
      */
