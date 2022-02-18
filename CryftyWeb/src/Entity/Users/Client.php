@@ -123,4 +123,25 @@ class Client extends User
 
         return $this;
     }
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Payment\Cart",mappedBy="clientId")
+     */
+    private $cartId;
+
+    /**
+     * @return mixed
+     */
+    public function getCartId()
+    {
+        return $this->cartId;
+    }
+
+    /**
+     * @param mixed $cartId
+     */
+    public function setCartId($cartId): void
+    {
+        $this->cartId = $cartId;
+    }
+
 }

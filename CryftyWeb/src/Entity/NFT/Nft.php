@@ -21,4 +21,26 @@ class Nft
     {
         return $this->id;
     }
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment\Cart",mappedBy="nftProd")
+     */
+    private $cartProd;
+
+    /**
+     * @return mixed
+     */
+    public function getCartProd()
+    {
+        return $this->cartProd;
+    }
+
+    /**
+     * @param mixed $cartProd
+     */
+    public function setCartProd($cartProd): void
+    {
+        $this->cartProd = $cartProd;
+    }
+
 }
