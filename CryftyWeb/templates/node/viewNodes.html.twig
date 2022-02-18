@@ -1,0 +1,56 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Admin - View Nodes{% endblock %}
+
+{% block body %}
+
+        <section id="main-content">
+            <section class="wrapper site-min-height">
+                <h3><i class="fa fa-angle-right"></i> Nodes list : </h3>
+                <div class="row mt">
+                    <div class="col-lg-12">
+                        <section id="unseen">
+
+                            <style>
+                                td {
+                                    text-align: center;
+                                }
+                            </style>
+                            <a class="btn btn-info" href="{{ path('create-node') }}">Add New Node</a>
+                            <table class="table table-bordered table-striped table-condensed ">
+                                <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th class="numeric">N° Blocks</th>
+                                    <th class="numeric">Mining Reward</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for node in nodes %}
+                                <tr>
+                                    <td>{{ node.id }}</td>
+                                    <td><strong>{{ node.nodeLabel }}</strong></td>
+                                    <td class="numeric">{{ node.blocks | length }}</td>
+                                    <td class="numeric">6.25</td>
+                                    <td class="numeric"><a href="{{ path('update-node',{'nodeId':node.id}) }}" class="btn btn-theme btn-sm">Update</a></td>
+                                    <td class="numeric"><a href="{{ path('delete-node',{'nodeId':node.id}) }}" class="btn btn-theme04 btn-sm">Delete</a></td>
+                                    <td class="numeric"><a href="{{ path('view-node-info',{'nodeId':node.id}) }}" class="btn btn-theme01 btn-sm">
+                                            <i class="fa fa-arrow-circle-o-right" style="font-size: large"/></a></td>
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+                </div>
+            </section>
+            <!-- /wrapper -->
+        </section>
+        <!-- /MAIN CONTENT -->
+        <!--main content end-->
+
+{% endblock %}
+

@@ -3,6 +3,7 @@
 namespace App\Entity\Users;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -19,7 +20,7 @@ abstract class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -36,6 +37,25 @@ abstract class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+
+     * @param $Groups
+     */
+    public function __construct()
+    {
+        $this->Groups = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * @param $Groups
+     */
+
+
+     * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="user")
+     */
+    private $comments;
+
 
     public function getId(): ?int
     {
@@ -112,4 +132,123 @@ abstract class User implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+    /*******************************************/
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Chat\GroupChat")
+     */
+    private $Groups;
+
+
+    /**
+     * @return mixed
+     */
+    public function getGroups()
+    {
+        return $this->Groups;
+    }
+
+    /**
+     * @param mixed $Groups
+     */
+    public function setGroups($Groups): void
+    {
+        $this->Groups = $Groups;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroup()
+    {
+        return $this->Group;
+    }
+
+    /**
+     * @param mixed $Group
+     */
+    public function setGroup($Group): void
+    {
+        $this->Group = $Group;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMessage()
+    {
+        return $this->Message;
+    }
+
+    /**
+     * @param mixed $Message
+     */
+    public function setMessage($Message): void
+    {
+        $this->Message = $Message;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrivateChatSender()
+    {
+        return $this->privateChatSender;
+    }
+
+    /**
+     * @param mixed $privateChatSender
+     */
+    public function setPrivateChatSender($privateChatSender): void
+    {
+        $this->privateChatSender = $privateChatSender;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrivateChatReceived()
+    {
+        return $this->privateChatReceived;
+    }
+
+    /**
+     * @param mixed $privateChatReceived
+     */
+    public function setPrivateChatReceived($privateChatReceived): void
+    {
+        $this->privateChatReceived = $privateChatReceived;
+    }
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Chat\GroupChat", mappedBy="Owner")
+     */
+    private $Group;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Chat\Message", mappedBy="Sender")
+     */
+    private $Message;
+
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="sender")
+     */
+    private $privateChatSender;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="Received")
+     */
+    private $privateChatReceived;
+
+
+
+
+    /*******************************************/
+
 }

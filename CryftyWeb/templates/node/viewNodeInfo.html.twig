@@ -1,0 +1,125 @@
+{% extends 'baseAdmin.html.twig' %}
+
+
+
+
+{% block title %}Admin - Node Info{% endblock %}
+
+{% block body %}
+    {# Data Handling #}
+    {% set orphanedBlocks = 0 %}
+    {% for block in node.blocks %}
+        {% if block.wallet is null%}
+            {% set orphanedBlocks = orphanedBlocks + 1 %}
+        {% endif %}
+    {% endfor %}
+
+
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper site-min-height">
+            <h3><i class="fa fa-angle-right"></i> Details :   </h3>
+            <div class="row mt ">
+
+                <div class="col-lg-8">
+                    <div class="row mt ">
+                        <!-- SERVER STATUS PANELS -->
+                        <div class="col-md-4 col-sm-4 mb">
+                            <div class="grey-panel pn donut-chart">
+                                <div class="grey-header">
+                                    <h5>ORPHANED BLOCKS</h5>
+                                </div>
+                                <canvas id="serverstatus01" style="width: 100px; height: 80px;" width="100" height="100"></canvas>
+                                <script>
+                                    var doughnutData = [{
+                                        value: {{ orphanedBlocks }},
+                                        color: "#FF6B6B"
+                                    },
+                                        {
+                                            value: {{ node.blocks | length }},
+                                            color: "#fdfdfd"
+                                        }
+                                    ];
+                                    var myDoughnut = new Chart(document.getElementById("serverstatus01").getContext("2d")).Doughnut(doughnutData);
+                                </script>
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-6 goleft">
+                                        <p>ORPHANED <br> BLOCKS :</p>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6">
+                                        <h2 style="font-size: x-large">{{ orphanedBlocks }} /{{ node.blocks | length }} </h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /grey-panel -->
+                        </div>
+                        <!-- SERVER STATUS PANELS -->
+                        <div class="col-md-4 col-sm-4 mb">
+                            <div class="grey-panel pn donut-chart">
+                                <div class="grey-header">
+                                    <h5>NODE INFO</h5>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-6 goleft">
+                                        <p class="fa fa-id-card">  Node Code</p>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6">
+                                        <h2 class="text-danger" style="font-weight: bolder;font-size: xx-large">{{ node.id }}</h2>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-6 goleft">
+                                        <p class="fa fa-sticky-note">      Node Label</p>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6">
+                                        <h2 class="text-danger"  style="font-weight: bolder;font-size: 1.7vw">{{ node.nodeLabel }}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 mb"><div class="">
+                                <h4><i class="fa fa-angle-right"></i> Actions</h4>
+                                <a href="{{ path('update-node',{'nodeId':node.id}) }}" class="btn btn-default btn-lg btn-block">Update Node</a>
+                                <a href="{{ path('delete-node',{'nodeId':node.id}) }}" class="btn btn-theme04 btn-lg btn-block">Delete Node</a>
+                                <small class="text-danger">All the blocks will be deleted</small>
+                            </div></div>
+                    </div>
+                </div>
+
+            </div>
+            <h3><i class="fa fa-angle-right"></i> Blocks Related To This Node   </h3>
+            <table class="table table-bordered table-striped table-condensed ">
+                <thead>
+                <tr>
+                    <th>Block Id </th>
+                    <th>Block hash</th>
+                    <th class="numeric">Block Previous Hash</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for block in node.blocks %}
+                    <tr>
+                        <td>{{ block.id }}</td>
+                        <td><strong>{{ block.hash }}</strong></td>
+                        <td>{{ block.previousHash}}</td>
+
+
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </section>
+        <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+
+{% endblock %}
+
