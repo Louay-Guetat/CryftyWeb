@@ -1,0 +1,40 @@
+{% extends'base.html.twig' %}
+{% block title 'Gerer les utilisateur' %}
+{% block body %}
+    <div class="container mt-4 "style="background: white">
+        <h1>Gerer les clients</h1>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <a href="{{ path('moderatorlist') }}" class="btn btn-primary">Moderator</a>
+        <a href="{{ path('contactlist') }}" class="btn btn-primary">Contact</a>
+
+        <div class="text-right">
+            <a href="{{ path('registration') }}" class="btn btn-primary">Creer un nouveau client</a>
+        </div>
+        <table class="table table-striped" width="1000" border="2">
+            <thead>
+            <tr>
+                <th scope="col"> Username</th>
+                <th scope="col"> Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for c in client %}
+                <tr>
+                    <form method="post">
+
+                        <td>{{ c.username }}</td>
+                        <td><a href="{{ path('updateclient',{'id': c.id }) }}">Update</a> </td>
+                        <td><a href="{{ path('delete_client',{'id': c.id }) }}">Delete</a> </td>
+                    </form>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}

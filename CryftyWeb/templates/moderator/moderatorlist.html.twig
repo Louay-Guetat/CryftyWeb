@@ -1,0 +1,40 @@
+{% extends'base.html.twig' %}
+{% block title 'Gerer les utilisateur' %}
+{% block body %}
+    <div class="container mt-4 "style="background: white">
+        <h1>Gerer les moderator</h1>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <a href="{{ path('Clientlist') }}" class="btn btn-primary">Client</a>
+        <a href="{{ path('contactlist') }}" class="btn btn-primary">Contact</a>
+
+        <div class="text-right">
+            <a href="{{ path('registermoderator') }}" class="btn btn-primary">Creer un nouveau modelator</a>
+        </div>
+        <table class="table table-striped" width="1000" border="2">
+            <thead>
+            <tr>
+                <th scope="col"> Username</th>
+                <th scope="col"> Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for m in moderator %}
+                <tr>
+                    <form method="post">
+
+                        <td>{{ m.username }}</td>
+                        <td><a href="{{ path('updatemoderator',{'id': m.id }) }}">Update</a> </td>
+                        <td><a href="{{ path('delete_moderator',{'id': m.id }) }}">Delete</a> </td>
+                    </form>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}
