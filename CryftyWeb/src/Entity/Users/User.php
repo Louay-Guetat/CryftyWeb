@@ -37,6 +37,11 @@ abstract class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="user")
+     */
+    private $comments;
+
     public function getId(): ?int
     {
         return $this->id;

@@ -19,6 +19,11 @@ class Cart
      */
     private $id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\entity\NFT\Nft",inversedBy="cartProd")
+     */
+    private $nftProd;
+
     public function getId(): ?int
     {
         return $this->id;
