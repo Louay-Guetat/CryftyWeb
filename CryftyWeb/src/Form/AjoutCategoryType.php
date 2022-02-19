@@ -16,7 +16,7 @@ class AjoutCategoryType extends AbstractType
         $builder
             ->add('name',TextType::class,['label'=>"Category name"
                 ,'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__input']
+                ,'attr'=>['class'=>'sign__input','class'=>'form-control']
                 ,'constraints'=>array(new NotBlank(['message'=>'ok'])
                 , new Length(['min'=>3,'max'=>20]))
             ])

@@ -36,6 +36,11 @@ class Category
     private $nbrNft;
 
     /**
+     * @ORM\Column (type="integer")
+     */
+    private $nbrSubCategory;
+
+    /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="category")
      */
     private $nfts;
@@ -128,6 +133,22 @@ class Category
     public function setNbrNft($nbrNft): void
     {
         $this->nbrNft = $nbrNft;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNbrSubCategory()
+    {
+        return $this->nbrSubCategory;
+    }
+
+    /**
+     * @param mixed $nbrSubCategory
+     */
+    public function setNbrSubCategory($nbrSubCategory): void
+    {
+        $this->nbrSubCategory = $nbrSubCategory;
     }
 
 

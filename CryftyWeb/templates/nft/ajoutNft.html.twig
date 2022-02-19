@@ -47,20 +47,6 @@
 
                 <div class="col-12 col-xl-9">
                     <!-- title -->
-                    <div class="header__menu">
-                        <ul class="header__nav">
-                            <li class="header__nav-item">
-                                <a class="header__nav-link" href={{ path ('AjoutNft') }} role="button">Create NFT</a>
-                            </li>
-                            <li class="header__nav-item">
-                                <a class="header__nav-link" href={{ path ('AjoutCategory') }} role="button">Create Category</a>
-                            </li>
-                            <li class="header__nav-item">
-                                <a class="header__nav-link" href={{ path ('AjoutSubCategory') }} role="button">Create SubCategory</a>
-                            </li>
-
-                        </ul>
-                    </div>
                     <div class="main__title main__title--create">
                         <h2>Create collectible item</h2>
                     </div>
@@ -71,17 +57,18 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="author__text">
-                                    {{ form_start(formAjoutNft) }}
-                                    <div class="col-12">
-                                        <div class="sign__file">
-                                                {{ form_row(formAjoutNft.image) }}
+                                        {{ form_start(formAjoutNft) }}
+                                        <div class="col-12">
+                                            <div class="sign__file">
+                                                 {{ form_row(formAjoutNft.image) }}
+                                            </div>
+
+                                            {{ form_widget(formAjoutNft) }}
+                                            {{ form_errors(formAjoutNft) }}
+                                            <br>
+                                            <center><button type="submit" class='author__follow'>Ajouter</button></center>
+                                            {{ form_end(formAjoutNft) }}
                                         </div>
-                                    </div>
-                                         {{ form_widget(formAjoutNft) }}
-                                         {{  form_row(formAjoutNft) }}
-                                         {{ form_errors(formAjoutNft) }}
-                                         <center><button type="submit" class='author__follow'>Ajouter</button></center>
-                                    {{ form_end(formAjoutNft) }}
                     <!-- end create form -->
                                 </div>
                             </div>

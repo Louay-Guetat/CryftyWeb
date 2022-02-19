@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\NFT\Category;
 use App\Entity\NFT\Nft;
 use App\Entity\NFT\SubCategory;
+use App\Entity\Users\Client;
 use App\Form\AjoutNftType;
 use App\Form\ModifierNftType;
 use App\Repository\NftRepository;
@@ -49,6 +50,7 @@ class NFTController extends AbstractController
      */
     public function ajoutNft(Request $request){
         $nft = new Nft();
+        $Client = new Client();
         $category = new Category();
         $subCategory = new SubCategory();
         $nft->setCreationDate(new \DateTime('now'));

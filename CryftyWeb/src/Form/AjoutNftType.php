@@ -35,26 +35,25 @@ class AjoutNftType extends AbstractType
                     ]
                 ,'attr'=>['class'=>'custom-file-input','name'=>'filename','id'=>'customFile']
             ])
-            ->add('title',TextType::class,['label'=>"TITLE"
-            ,'label_attr'=>['class'=>'sign__label']
-            ,'attr'=>['class'=>'sign__input']
+            ->add('title',TextType::class,[
+                'label_attr'=>['class'=>'sign__label']
+                ,'attr'=>['class'=>'sign__input','placeholder' => 'Title']
                 ,'constraints'=>array(new NotBlank(['message'=>'Ce champ ne doit pas etre vide'])
                 , new Length(['min'=>3,'max'=>20]))
             ])
-            ->add('description',TextareaType::class,['label'=>"DESCRIPTION"
-                ,'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__input','cols' => '5', 'rows' => '5']
+            ->add('description',TextareaType::class,[
+                'label_attr'=>['class'=>'sign__label']
+                ,'attr'=>['class'=>'sign__input','cols' => '5', 'rows' => '5','placeholder' => 'Description']
                 ,'constraints'=>array(new NotBlank(['message'=>'Ce champ ne doit pas etre vide'])
                 , new Length(['min'=>6,'max'=>255]))
             ])
-            ->add('price',MoneyType::class,['label'=>"PRICE"
-                ,'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__input']
+            ->add('price',MoneyType::class,[
+                'label_attr'=>['class'=>'sign__label']
+                ,'attr'=>['class'=>'sign__input','placeholder' => 'Price']
                 ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas etre vide']))
             ])
             ->add('category',EntityType::class,[
                 'required' => false,
-                'label' => 'Category',
                 'class' => Category::class,
                 'multiple' => false,
                 'expanded' => false,
@@ -64,7 +63,6 @@ class AjoutNftType extends AbstractType
             ])
             ->add('subcategory',EntityType::class,[
                 'required' => false,
-                'label' => 'SubCategory',
                 'class' => SubCategory::class,
                 'multiple' => false,
                 'expanded' => false,
