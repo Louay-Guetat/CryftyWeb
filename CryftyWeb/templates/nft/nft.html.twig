@@ -28,7 +28,7 @@
             <!-- content -->
             <div class="col-12 col-xl-8">
                 <div class="asset__item">
-                    <a class="asset__img" href="#"><img src="{{ asset('NFTS/'~ nftItem.image) }}" width="520" height="520" alt=""></a>
+                    <a class="asset__img" href="{{ asset('NFTS/'~ nftItem.image) }}"><img src="{{ asset('NFTS/'~ nftItem.image) }}" width="520" height="520" alt=""></a>
 
                     <!-- share -->
                     <div class="share share--asset">
@@ -44,12 +44,8 @@
                         <span>{{ nftItem.likes }}</span>
                     </button>
                     <!-- end likes -->
+                </div>
 
-                </div>
-                <div class="asset__btns">
-                    <td><a class="asset__btn asset__btn--clr" href="{{ path ('modifierNft',{'id':nftItem.id}) }}">Update</a></td>
-                    <td><a class="asset__btn asset__btn--clr" href="{{ path ('deleteNft',{'id':nftItem.id}) }}">Delete</a></td>
-                </div>
             </div>
             <!-- end content -->
 
@@ -106,12 +102,12 @@
                                     {% else %}
                                         {% for c in nftComment %}
                                             <div class="asset__action ">
-                                                <p> {{ c.user.username }} : </p>
-                                                <p> {{ c.comment }} </p>
+                                                <p> {{ c.user.username }} : {{ c.comment }} </p>
                                             </div>
                                         {% endfor %}
                                     {% endif %}
                             </div>
+                            <br>
                             {{ form_start(CommentForm) }}
                             {{ form_widget(CommentForm) }}
                             <button class="asset__btn" type="submit">Comment</button>
@@ -163,6 +159,10 @@
                     </div>
                     <!-- end actions -->
                 </div>
+            </div>
+            <div class="asset__btns">
+                <a class="asset__btn asset__btn--clr" href="{{ path ('modifierNft',{'id':nftItem.id}) }}">Update</a>
+                <a class="asset__btn asset__btn--clr" href="{{ path ('deleteNft',{'id':nftItem.id}) }}">Delete</a>
             </div>
         </div>
     </div>

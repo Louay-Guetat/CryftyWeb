@@ -45,7 +45,7 @@ class NFTController extends AbstractController
      */
     function AfficheNft($id, NftRepository $nftRepository, NftCommentRepository $Commentrepository, Request $request){
         $nft =$nftRepository->find($id);
-        $comments =$Commentrepository->findAll();
+        $comments =$Commentrepository->findAllByNft($nft->getId());
         $comment = new NftComment();
         $ajoutComment = $this->createForm(CommentType::class,$comment);
         $ajoutComment->handleRequest($request);
@@ -58,7 +58,7 @@ class NFTController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
-            return $this->redirectToRoute('nft');
+            return $this->redirectToRoute('nftItem',['id'=>$nft->getId()]);
         }
         return $this->render('nft/nft.html.twig',['nftItem'=>$nft,'nftComment'=>$comments,
             'CommentForm'=>$ajoutComment->createView()]);
