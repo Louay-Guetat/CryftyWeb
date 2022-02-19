@@ -4,10 +4,14 @@ namespace App\Controller;
 
 use App\Entity\NFT\Category;
 use App\Entity\NFT\Nft;
+use App\Entity\NFT\NftComment;
 use App\Entity\NFT\SubCategory;
 use App\Entity\Users\Client;
 use App\Form\AjoutNftType;
+use App\Form\CommentType;
 use App\Form\ModifierNftType;
+use App\Repository\CategoryRepository;
+use App\Repository\NftCommentRepository;
 use App\Repository\NftRepository;
 use PhpParser\Node\Scalar\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,17 +34,34 @@ class NFTController extends AbstractController
     /**
      * @Route("/AfficheNft", name="AfficheNft")
      */
-    function Affiche(NftRepository $repository ){
+    function Affiche(NftRepository $repository, CategoryRepository $CatRepository){
         $nft = $repository->findAll();
-        return $this->render('nft/afficheNft.html.twig',['nft'=>$nft]);
+        $category = $CatRepository->findAll();
+        return $this->render('nft/afficheNft.html.twig',['nft'=>$nft,'category'=>$category]);
     }
 
     /**
      * @Route("/AfficheItem/{id}", name="nftItem")
      */
-    function AfficheNft($id, NftRepository $repository){
-        $nft =$repository->find($id);
-        return $this->render('nft/nft.html.twig',['nftItem'=>$nft]);
+    function AfficheNft($id, NftRepository $nftRepository, NftCommentRepository $Commentrepository, Request $request){
+        $nft =$nftRepository->find($id);
+        $comments =$Commentrepository->findAll();
+        $comment = new NftComment();
+        $ajoutComment = $this->createForm(CommentType::class,$comment);
+        $ajoutComment->handleRequest($request);
+        if(($ajoutComment->isSubmitted()) && $ajoutComment->isValid()) {
+            $comment->setUser($this->getUser());
+            $comment->setNft($nft);
+            $comment->setPostDate(new \DateTime('now'));
+            $comment->setLikes(0);
+            $comment->setDislikes(0);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+            return $this->redirectToRoute('nft');
+        }
+        return $this->render('nft/nft.html.twig',['nftItem'=>$nft,'nftComment'=>$comments,
+            'CommentForm'=>$ajoutComment->createView()]);
     }
 
 
@@ -50,17 +71,17 @@ class NFTController extends AbstractController
      */
     public function ajoutNft(Request $request){
         $nft = new Nft();
-        $Client = new Client();
         $category = new Category();
         $subCategory = new SubCategory();
-        $nft->setCreationDate(new \DateTime('now'));
-        $nft->setLikes(0);
         $formNft = $this->createForm(AjoutNftType::class,$nft);
         $formNft->handleRequest($request);
         if(($formNft->isSubmitted()) && $formNft->isValid()) {
             $category->setNbrNft($category->getNbrNft()+1);
             $subCategory->setNbrNft($subCategory->getNbrNft()+1);
+            $nft->setCreationDate(new \DateTime('now'));
+            $nft->setLikes(0);
             $file= $nft->getImage();
+            $nft->setOwner($this->getUser());
             $fileName= md5(uniqid()).'.'.$file->guessExtension();
             try{
                 $file->move($this->getParameter('images_directory'),$fileName);

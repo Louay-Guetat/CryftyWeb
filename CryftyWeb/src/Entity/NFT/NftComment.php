@@ -19,6 +19,11 @@ class NftComment
     private $id;
 
     /**
+     * @ORM\Column (type="string")
+     */
+    private $comment;
+
+    /**
      * @Assert\DateTime()
      * @ORM\Column(type="datetime")
      */
@@ -98,6 +103,70 @@ class NftComment
     public function setClient($client): void
     {
         $this->client = $client;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param mixed $comment
+     */
+    public function setComment($comment): void
+    {
+        $this->comment = $comment;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param mixed $likes
+     */
+    public function setLikes($likes): void
+    {
+        $this->likes = $likes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDislikes()
+    {
+        return $this->dislikes;
+    }
+
+    /**
+     * @param mixed $dislikes
+     */
+    public function setDislikes($dislikes): void
+    {
+        $this->dislikes = $dislikes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
     }
 
 }
