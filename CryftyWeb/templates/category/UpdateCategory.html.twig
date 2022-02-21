@@ -1,0 +1,37 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block body %}
+    <!-- main content -->
+    <div class="row mt">
+        <section id="main-content">
+            <section class="wrapper">
+                <h3><i class="fa fa-angle-right"></i> Category and SubCategory Form</h3>
+                <!-- BASIC FORM VALIDATION -->
+                <div class="row mt">
+                    <div class="col-lg-12">
+                        <h4><i class="fa fa-angle-right"></i> Modification</h4>
+                        <div class="form-panel">
+                            {{ form_start(formModifierCategory) }}
+                            {{ form_widget(formModifierCategory) }}
+                            {{ form_errors(formModifierCategory) }}
+                            <br>
+                            <div class="col-lg-offset-2">
+                                <button class="btn btn-theme" type="submit">Save</button>
+                                <button class="btn btn-theme04" type="reset">Cancel</button>
+                            </div>
+                            {{ form_end(formModifierCategory) }}
+                        </div>
+                        <!-- /form-panel -->
+                    </div>
+                    <!-- /col-lg-12 -->
+                </div>
+                <!-- /row -->
+                <!-- FORM VALIDATION -->
+            </section>
+            <!-- /wrapper -->
+        </section>
+    </div>
+    <!-- end main content -->
+
+{% endblock %}
+

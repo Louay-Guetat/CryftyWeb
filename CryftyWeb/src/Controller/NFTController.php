@@ -13,6 +13,8 @@ use App\Form\ModifierNftType;
 use App\Repository\CategoryRepository;
 use App\Repository\NftCommentRepository;
 use App\Repository\NftRepository;
+use App\Repository\SubCategoryRepository;
+use phpDocumentor\Reflection\Types\Integer;
 use PhpParser\Node\Scalar\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -69,15 +71,11 @@ class NFTController extends AbstractController
      * @param Request $request
      * @Route("/AjoutNft", name="AjoutNft")
      */
-    public function ajoutNft(Request $request){
+    public function ajoutNft(Request $request,CategoryRepository $catRepo,SubCategoryRepository $subCatRepo){
         $nft = new Nft();
-        $category = new Category();
-        $subCategory = new SubCategory();
         $formNft = $this->createForm(AjoutNftType::class,$nft);
         $formNft->handleRequest($request);
         if(($formNft->isSubmitted()) && $formNft->isValid()) {
-            $category->setNbrNft($category->getNbrNft()+1);
-            $subCategory->setNbrNft($subCategory->getNbrNft()+1);
             $nft->setCreationDate(new \DateTime('now'));
             $nft->setLikes(0);
             $file= $nft->getImage();
@@ -92,6 +90,10 @@ class NFTController extends AbstractController
             $nft->setImage($fileName);
             $em->persist($nft);
             $em->flush();
+            $category = $catRepo->find($nft->getCategory());
+            $category->setNbrNft($category->getNbrNft()+1);
+            $subCategory= $subCatRepo->find($nft->getSubCategory());
+            $subCategory->setNbrNft($subCategory->getNbrNft()+1);
             return $this->redirectToRoute('nft');
         }
         return $this->render('nft/ajoutNft.html.twig',['formAjoutNft'=>$formNft->createView()]);
@@ -123,6 +125,22 @@ class NFTController extends AbstractController
         return($this->redirectToRoute('nft'));
     }
 
+    /**
+     * @Route("/searchNft", name="searchNft")
+     */
+    function Search(NftRepository $repository,CategoryRepository $CatRepository,Request $request){
+        $category = $CatRepository->findAll();
+        $donnes = $request->get('search');
+        $nfts =$repository->findBy(['title'=>$donnes]);
+        return $this->render('nft/afficheNft.html.twig',['nft'=>$nfts,'category'=>$category]);
+    }
 
-
+    /**
+     * @Route("/FiltreByCat/{id}", name="filtreByCat")
+     */
+    function FiltreByCat($id,NftRepository $repository,CategoryRepository $CatRepository,Request $request){
+        $category = $CatRepository->findAll();
+        $nfts =$repository->findBy(['category'=>$id]);
+        return $this->render('nft/afficheNft.html.twig',['nft'=>$nfts,'category'=>$category]);
+    }
 }

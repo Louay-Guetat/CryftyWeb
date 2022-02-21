@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Crypto\Node;
 use App\Entity\NFT\Category;
 use App\Entity\NFT\SubCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -29,7 +30,7 @@ class ModifierNftType extends AbstractType
             ])
             ->add('description',TextareaType::class,[
                 'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__input','cols' => '5', 'rows' => '5','placeholder' => 'Description']
+                ,'attr'=>['class'=>'sign__textarea','cols' => '5', 'rows' => '5','placeholder' => 'Description']
                 ,'constraints'=>array(new NotBlank(['message'=>'Ce champ ne doit pas etre vide'])
                 , new Length(['min'=>6,'max'=>255]))
             ])
@@ -38,6 +39,18 @@ class ModifierNftType extends AbstractType
                 ,'attr'=>['class'=>'sign__input','placeholder' => 'Price']
                 ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas etre vide']))
             ])
+            ->add('currency',EntityType::class,
+                [
+                    'required' => false,
+                    'label' => 'Currency',
+                    'class' => Node::class,
+                    'multiple' => false,
+                    'expanded' => false,
+                    'choice_label' => 'NodeLabel'
+                    ,'label_attr'=>['class'=>'sign__label']
+                    ,'attr'=>['class'=>'sign__select']
+
+                ])
             ->add('category',EntityType::class,[
                 'required' => false,
                 'class' => Category::class,
@@ -45,7 +58,7 @@ class ModifierNftType extends AbstractType
                 'expanded' => false,
                 'choice_label' => 'name'
                 ,'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__input']
+                ,'attr'=>['class'=>'sign__select']
             ])
             ->add('subcategory',EntityType::class,[
                 'required' => false,
@@ -54,7 +67,7 @@ class ModifierNftType extends AbstractType
                 'expanded' => false,
                 'choice_label' => 'name'
                 ,'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__input']
+                ,'attr'=>['class'=>'sign__select']
             ]);
         ;
     }

@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Payment\Cart;
 use App\Entity\Users\Client;
 use App\Form\RegistrationClientType;
 use App\Repository\ClientRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,21 +28,24 @@ class RegistrationController extends AbstractController
     public function index(Request $request)
     {
         $user = new Client();
-
         $form = $this->createForm(RegistrationClientType::class, $user);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Encode the new users password
             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
-
             // Set their role
             $user->setRoles(['ROLE_USER']);
-
             // Save
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
+            $em->flush();
+            $cart = new Cart();
+            $cart->setClientId($user);
+            $cart->setTotal(0);
+            $cart->setQuantite(0);
+            $cart->setDateCreation('test');
+            $em->persist($cart);
             $em->flush();
 
             return $this->redirectToRoute('app_login');

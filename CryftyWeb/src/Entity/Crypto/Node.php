@@ -34,6 +34,11 @@ class Node
      */
     private $Blocks;
 
+    /**
+     * @ORM\OneToMany  (targetEntity="App\Entity\NFT\Nft", mappedBy="currency")
+     */
+    private $nfts;
+
     public function __construct()
     {
         $this->Blocks = new ArrayCollection();

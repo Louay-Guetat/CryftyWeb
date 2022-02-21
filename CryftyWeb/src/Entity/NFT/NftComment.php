@@ -20,12 +20,14 @@ class NftComment
 
     /**
      * @ORM\Column (type="string")
+     * @Assert\NotNull
      */
     private $comment;
 
     /**
      * @Assert\DateTime()
      * @ORM\Column(type="datetime")
+     * @Assert\NotNull
      */
     private $postDate;
 
@@ -42,11 +44,13 @@ class NftComment
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\NFT\Nft", inversedBy="comments")
+     * @Assert\NotNull
      */
     private $nft;
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Users\Client", inversedBy="comments")
+     * @Assert\NotNull
      */
     private $user;
 

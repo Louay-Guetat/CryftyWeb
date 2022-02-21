@@ -20,7 +20,6 @@ class Nft
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotNull
      */
     private $title;
 
@@ -31,9 +30,13 @@ class Nft
 
     /**
      * @ORM\Column(type="float")
-     * @Assert\NotNull
      */
     private $price;
+
+    /**
+     * @ORM\ManyToOne (targetEntity="App\Entity\Crypto\Node", inversedBy="nfts")
+     */
+    private $currency;
 
     /**
      * @Assert\DateTime()
@@ -44,7 +47,6 @@ class Nft
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank(message="Ajouter une image jpg")
-     * @Assert\NotNull
      */
     private $image;
 
@@ -60,13 +62,11 @@ class Nft
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\NFT\Category", inversedBy="nfts")
-     * @Assert\NotNull
      */
     private $category;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\NFT\SubCategory", inversedBy="nfts")
-     * @Assert\NotNull
      */
     private $subCategory;
 
@@ -266,5 +266,22 @@ class Nft
     {
         $this->likes = $likes;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param mixed $currency
+     */
+    public function setCurrency($currency): void
+    {
+        $this->currency = $currency;
+    }
+
 
 }

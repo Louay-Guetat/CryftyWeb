@@ -36,7 +36,7 @@ class SubCategory
     private $nbrNft;
 
     /**
-     * @ORM\ManyToOne (targetEntity="App\Entity\Nft\Category", inversedBy="subCategories")
+     * @ORM\ManyToOne (targetEntity="App\Entity\NFT\Category", inversedBy="subCategories")
      */
     private $category;
 
