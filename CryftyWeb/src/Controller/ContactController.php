@@ -50,7 +50,6 @@ class ContactController extends AbstractController
     function Update(SupportTicketRepository $repository,$id,Request $request){
         $SupportTicket=$repository->find($id);
         $form=$this->createForm(ContactFormType::class,$SupportTicket);
-        $form->add('Update',SubmitType::class);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
             $em=$this->getDoctrine()->getManager();

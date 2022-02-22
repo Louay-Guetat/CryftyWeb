@@ -59,7 +59,7 @@ class ModeratorController extends AbstractController
     public function updateClient(Request $request,ModeratorRepository $repository,$id)
     {
         $moderator=$repository->find($id);
-        $form = $this->createForm(RegistrationClientType::class, $moderator);
+        $form = $this->createForm(RegistrationModeratorType::class, $moderator);
 
         $form->handleRequest($request);
 
