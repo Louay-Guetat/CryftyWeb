@@ -47,4 +47,31 @@ class CartRepository extends ServiceEntityRepository
         ;
     }
     */
+    /*public function findOneBySomeField($value): ?Cart
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }*/
+    public function compareId($id): ?Cart
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.clientId = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    public function findByClient($id){
+        return $this->createQueryBuilder('C')
+            ->where('C.clientId = :id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

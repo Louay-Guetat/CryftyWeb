@@ -69,18 +69,16 @@
 
                                 <tr>
                                     <td class="home__text"></td>
-                                    <th class="home__text">Client</th>
-                                    <th class="home__text">Email</th>
                                     <th class="home__text">Montant</th>
+                                    <th class="home__text">Date Transaction</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for trans in t %}
                                 <tr>
                                     <td class="home__text">{{ trans.id }}</td>
-                                    <td class="home__text">{{ trans.client }}</td>
-                                    <td class="home__text">{{ trans.email }}</td>
                                     <td class="home__text">{{ trans.montant }}</td>
+                                    <td class="home__text">{{ trans.datetransaction|date }}</td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>

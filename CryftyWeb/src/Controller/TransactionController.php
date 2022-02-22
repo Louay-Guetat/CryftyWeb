@@ -29,7 +29,7 @@ class TransactionController extends AbstractController
      * @param $request
      * @Route ("transactionWallet/",name="TransactionWallet")
      */
-    function Ajout(Request $request)
+    function AjouterTransaction(Request $request)
     {
         $transaction=new Transaction();
         $form=$this->createForm(TransactionType::class,$transaction);
@@ -48,9 +48,9 @@ class TransactionController extends AbstractController
      * @return Response
      * @Route("afficheTransaction/",name="AfficheT")
      */
-    function Affiche(TransactionRepository $repository){
+    function AfficherTransaction(TransactionRepository $repository){
         $transaction=$repository->findAll();
-        return $this->render('transaction/affiche.html.twig',['t'=>$transaction]);
+        return $this->render('transaction/adminTransaction.html.twig',['t'=>$transaction]);
     }
 
 }

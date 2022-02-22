@@ -61,41 +61,58 @@
 
     <main class="main">
         <!-- home -->
-        <div>
+
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="home__content">
-                            <h1 class="home__title">Panier</h1>
+                            <h1 class="home__title">Votre Panier</h1>
 
                             <table border="3" style="size: 150px">
-                                <thead>
+                                    <thead>
                                 <tr>
-                                    <th class="home__text">Article</th>
+                                    <th class="home__text">Title NFT</th>
                                     <th class="home__text">Description</th>
-                                    <th class="home__text">Quantité</th>
+                                    <th class="home__text">Image</th>
                                     <th class="home__text">Prix</th>
+                                    <th class="home__text">Actions</th>
                                 </tr>
+                                    {% set total=0 %}
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>12.5</td>
-                                    <td>5</td>
-                                    <td>5 DT</td>
-                                </tr>
+                                {% for element in dataPanier %}
+                                    <tbody>
+                                    <tr>
+                                        <td>{{ element.produit.title }}</td>
+                                        <td class="text-end">{{ element.produit.description }} €</td>
+                                        <td><img src="{{asset('NFTS/'~ element.produit.image) }}"></td>
+                                        <td>{{ element.produit.price }} €</td>
+                                        <td>
+                                           <a href="{{path('delete_panier', {id: element.produit.id})}}" class="btn btn-warning">
+                                               <button class="asset__btn" type="submit">
+                                                   <span class="iconify" data-icon="bi:cart-plus-fill" style="color: yellow;align-content: center"></span>
+                                                   Supprimer </button></a>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text-center">Votre panier est vide</td>
+                                    </tr>
                                 </tbody>
+                                {% endfor %}
                                 <tfoot>
+                                {% set tab=0 %}
+                                {% for element in dataPanier %}
+                                {% set tab=tab+element.produit.price %}
+                                {% endfor %}
                                 <tr>
                                     <td colspan="3" class="home__title">Total : </td>
-                                    <td></td>
+                                    <td>{{ tab }}</td>
                                     <td></td>
                                 </tr>
-
-
-
                                 </tfoot>
                             </table>
+                            {{ dump() }}
                             <div class="sign__form"  style="margin-left: 700px;size: 150px">
                                 <span class="home__text" style="margin-right: 290px">Total :</span>
                             <script src="https://js.stripe.com/v3/"></script>
@@ -105,12 +122,13 @@
                         </div>
 
 
+
                         </div>
 
                     </div>
                 </div>
             </div>
-        </div>
+
         <!-- end home -->
     </main>
 

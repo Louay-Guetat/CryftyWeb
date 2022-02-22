@@ -71,20 +71,14 @@
 
                 <!-- registration form -->
                 <div class="sign__form--create">
-                    <div class="row">
-                        <div class="col-12" style="margin-left: 350px">
-                            <div class="sign__form--create">
-                                {# {{ form_start(f,{'attr': {'novalidate': 'novalidate','class':'sign__form'}} ) }} #}
-                                {{ form_start(f,{'attr': {'class':'sign__form'}}) }}
-                                {{ form_row(f) }}
-                                <div>
-                                    <label style="float: left">adresse wallet</label>
-                                    <input type="text"  name="wallet"  minlength="34" placeholder="N° Wallet">
-                                   <h1><i class="fa fa-user fa-lg fa-fw" aria-hidden="true" style="color: white"></i></h1>
-                                </div>
-                                <button class="author__follow" type="submit">Payer</button>
+                    <div class="sign">
+                        <div class="sign__content" style="margin-left: 250px">
+                            <div class="sign__form">
+                                {{ form_start(f) }}
+                                {{ form_row(f.montant) }}
+                                {{ form_row(f.wallets) }}
+                                {{ form_row(f.Payer) }}
                                 {{ form_end(f) }}
-                                <!-- end create form -->
                             </div>
                         </div>
                     </div>

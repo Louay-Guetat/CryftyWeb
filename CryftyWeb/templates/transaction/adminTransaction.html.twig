@@ -1,0 +1,45 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block title %}Hello CartController!{% endblock %}
+
+{% block body %}
+<section id="main-content">
+    <section class="wrapper site-min-height">
+        <h3><i class="fa fa-angle-right"></i> Transaction : </h3>
+        <div class="row mt">
+            <div class="col-lg-12">
+                <section id="unseen">
+
+                    <style>
+                        td {
+                            text-align: center;
+                        }
+                    </style>
+
+
+            <table border="3" style="size: 150px"class="table table-bordered table-striped table-condensed " >
+                <thead>
+
+                <tr>
+                    <td class="home__text"></td>
+                    <th class="home__text">Montant</th>
+                    <th class="home__text">Date Transaction</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for trans in t %}
+                    <tr>
+                        <td class="home__text">{{ trans.id }}</td>
+                        <td class="home__text">{{ trans.montant }}</td>
+                        <td class="home__text">{{ trans.datetransaction|date }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+                </section>
+            </div>
+        </div>
+    </section>
+    <!-- /wrapper -->
+</section>
+{% endblock %}
