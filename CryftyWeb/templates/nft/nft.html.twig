@@ -108,10 +108,13 @@
                                     {% endif %}
                             </div>
                             <br>
+                            {% if user is null %}
+                            {% else %}
                             {{ form_start(CommentForm) }}
                             {{ form_widget(CommentForm) }}
                             <button class="asset__btn" type="submit">Comment</button>
                             {{ form_end(CommentForm) }}
+                            {% endif %}
                         </div>
                         <!-- end comment section -->
 
@@ -154,17 +157,19 @@
                     <!-- end tabs -->
                     <!-- actions -->
                     <div class="asset__btns">
-                        <button class="asset__btn asset__btn--clr" type="button">Buy - {{ nftItem.price }} {{ nftItem.currency }}</button>
+                        <button class="asset__btn asset__btn--clr" type="button">Buy - {{ nftItem.price }} {{ nftItem.currency.NodeLabel }}</button>
                         <a href="#modal-bid" class="asset__btn open-modal">Place a bid</a>
                     </div>
                     <!-- end actions -->
                 </div>
             </div>
-            <div class="asset__btns">
-                <a class="asset__btn asset__btn--clr" href="{{ path ('modifierNft',{'id':nftItem.id}) }}">Update</a>
-                <a class="asset__btn asset__btn--clr" href="{{ path ('deleteNft',{'id':nftItem.id}) }}">Delete</a>
-            </div>
-        </div>
+                <div class="asset__btns center-block">
+                    {% if user is null %}
+                    {% else %}
+                    <a class="home__btn home__btn" href="{{ path ('modifierNft',{'id':nftItem.id}) }}">Update</a>
+                    <a class="home__btn home__btn" href="{{ path ('deleteNft',{'id':nftItem.id}) }}">Delete</a>
+                    {% endif %}
+                </div>
     </div>
     </main>
             <!-- end sidebar -->

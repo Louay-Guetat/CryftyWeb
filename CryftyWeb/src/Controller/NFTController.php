@@ -30,7 +30,7 @@ class NFTController extends AbstractController
      */
     public function index(NftRepository $repository ) {
         $nft = $repository->findAll();
-        return $this->render('nft/index.html.twig', ['nft' => $nft]);
+        return $this->render('nft/index.html.twig', ['nft' => $nft,'user'=>$this->getUser()]);
     }
 
     /**
@@ -63,7 +63,7 @@ class NFTController extends AbstractController
             return $this->redirectToRoute('nftItem',['id'=>$nft->getId()]);
         }
         return $this->render('nft/nft.html.twig',['nftItem'=>$nft,'nftComment'=>$comments,
-            'CommentForm'=>$ajoutComment->createView()]);
+            'CommentForm'=>$ajoutComment->createView(),'user'=>$this->getUser()]);
     }
 
 
@@ -75,26 +75,28 @@ class NFTController extends AbstractController
         $nft = new Nft();
         $formNft = $this->createForm(AjoutNftType::class,$nft);
         $formNft->handleRequest($request);
-        if(($formNft->isSubmitted()) && $formNft->isValid()) {
-            $nft->setCreationDate(new \DateTime('now'));
-            $nft->setLikes(0);
-            $file= $nft->getImage();
-            $nft->setOwner($this->getUser());
-            $fileName= md5(uniqid()).'.'.$file->guessExtension();
-            try{
-                $file->move($this->getParameter('images_directory'),$fileName);
-            }catch(FileException $e) {
-                $e->getMessage();
+        if($this->getUser() != null) {
+            if ($formNft->isSubmitted() && $formNft->isValid()) {
+                $nft->setCreationDate(new \DateTime('now'));
+                $nft->setLikes(0);
+                $file = $nft->getImage();
+                $nft->setOwner($this->getUser());
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                try {
+                    $file->move($this->getParameter('images_directory'), $fileName);
+                } catch (FileException $e) {
+                    $e->getMessage();
+                }
+                $nft->setImage($fileName);
+                $category = $catRepo->find($nft->getCategory());
+                $category->setNbrNft($category->getNbrNft() + 1);
+                $subCategory = $subCatRepo->find($nft->getSubCategory());
+                $subCategory->setNbrNft($subCategory->getNbrNft() + 1);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($nft);
+                $em->flush();
+                return $this->redirectToRoute('nft');
             }
-            $em = $this->getDoctrine()->getManager();
-            $nft->setImage($fileName);
-            $em->persist($nft);
-            $em->flush();
-            $category = $catRepo->find($nft->getCategory());
-            $category->setNbrNft($category->getNbrNft()+1);
-            $subCategory= $subCatRepo->find($nft->getSubCategory());
-            $subCategory->setNbrNft($subCategory->getNbrNft()+1);
-            return $this->redirectToRoute('nft');
         }
         return $this->render('nft/ajoutNft.html.twig',['formAjoutNft'=>$formNft->createView()]);
     }
@@ -142,5 +144,12 @@ class NFTController extends AbstractController
         $category = $CatRepository->findAll();
         $nfts =$repository->findBy(['category'=>$id]);
         return $this->render('nft/afficheNft.html.twig',['nft'=>$nfts,'category'=>$category]);
+    }
+
+    /**
+     * @Route ("/error" , name="error")
+     */
+    function Error(){
+        return $this->render();
     }
 }

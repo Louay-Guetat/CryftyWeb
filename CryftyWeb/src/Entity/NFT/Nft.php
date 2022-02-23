@@ -76,7 +76,7 @@ class Nft
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payment\Cart", mappedBy="nftProd")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Payment\Cart", mappedBy="nftProd")
      */
     private $cartProd;
 

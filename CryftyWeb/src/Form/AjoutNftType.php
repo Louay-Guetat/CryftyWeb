@@ -45,13 +45,11 @@ class AjoutNftType extends AbstractType
             ->add('description',TextareaType::class,['label'=>"DESCRIPTION"
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__textarea','cols' => '5', 'rows' => '5']
-                ,'constraints'=>array(new NotBlank(['message'=>'Ce champ ne doit pas etre vide'])
-                , new Length(['min'=>6,'max'=>255]))
             ])
             ->add('price',MoneyType::class,['label'=>"PRICE"
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input']
-                ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas etre vide']))
+                ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas être vide']))
             ])
             ->add('currency',EntityType::class,
                 [

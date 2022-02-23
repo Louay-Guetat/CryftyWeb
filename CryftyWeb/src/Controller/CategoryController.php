@@ -48,7 +48,7 @@ class CategoryController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
-            return $this->redirectToRoute('showCat');
+            return $this->redirectToRoute('AjoutCategory');
         }
         $subCategory = new SubCategory();
         $subCategory->setCreationDate(new \DateTime('now'));
@@ -61,7 +61,7 @@ class CategoryController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($subCategory);
             $em->flush();
-            return $this->redirectToRoute('showCat');
+            return $this->redirectToRoute('AjoutCategory');
         }
         return $this->render('category/AjoutCategory.html.twig',['formAjoutCategory'=>$formCat->createView()
         ,'formAjoutSubCategory'=>$formSubCat->createView()]);
@@ -107,15 +107,27 @@ class CategoryController extends AbstractController
     /**
      * @Route("/ModifierSubCat/{id}", name="ModifSubCat")
      */
-    function ModifierSubCategory(Request $request, $id, SubCategoryRepository $SubCategoryrepo){
+    function ModifierSubCategory(Request $request, $id, SubCategoryRepository $SubCategoryrepo,CategoryRepository $categoryRepo){
         $Subcategory =$SubCategoryrepo->find($id);
+        $oldCat = $categoryRepo->find($Subcategory->getCategory());
         $SubcategoryForm = $this->createForm(AjoutSubCategoryType::class,$Subcategory);
         $SubcategoryForm->handleRequest($request);
-        if(($SubcategoryForm->isSubmitted()) && $SubcategoryForm->isValid()){
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-            return $this->redirectToRoute('showCat');
-        }
+            if (($SubcategoryForm->isSubmitted()) && $SubcategoryForm->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+                $Subcategory =$SubCategoryrepo->find($id);
+                if($oldCat == $Subcategory->getCategory()) {
+                    return $this->redirectToRoute('showCat');
+                }
+                else{
+                    $oldCat->setNbrSubCategory($oldCat->getNbrSubCategory()-1);
+                    $newCategory = $categoryRepo->find($Subcategory->getCategory());
+                    $newCategory->setNbrSubCategory($newCategory->getNbrSubCategory()+1);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->flush();
+                    return $this->redirectToRoute('showCat');
+                }
+            }
         return $this->render('category/UpdateCategory.html.twig',['formModifierCategory'=>$SubcategoryForm->createView()]);
     }
 

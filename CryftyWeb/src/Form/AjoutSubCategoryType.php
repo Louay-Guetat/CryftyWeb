@@ -30,7 +30,7 @@ class AjoutSubCategoryType extends AbstractType
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input','class'=>'form-control']
                 ,'constraints'=>array(new NotBlank(['message'=>'Ce champ ne doit pas etre vide'])
-                , new Length(['min'=>3,'max'=>20]))
+                , new Length(['min'=>2,'max'=>20]))
             ])
 
         ;
