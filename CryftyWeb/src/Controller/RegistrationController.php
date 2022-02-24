@@ -40,13 +40,6 @@ class RegistrationController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            $cart = new Cart();
-            $cart->setClientId($user);
-            $cart->setTotal(0);
-            $cart->setQuantite(0);
-            $cart->setDateCreation('test');
-            $em->persist($cart);
-            $em->flush();
 
             return $this->redirectToRoute('app_login');
         }

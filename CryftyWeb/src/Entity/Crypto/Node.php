@@ -30,6 +30,43 @@ class Node
     private $NodeLabel;
 
     /**
+     * @return mixed
+     */
+    public function getAbrv()
+    {
+        return $this->abrv;
+    }
+
+    /**
+     * @param mixed $abrv
+     */
+    public function setAbrv($abrv): void
+    {
+        $this->abrv = $abrv;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNfts()
+    {
+        return $this->nfts;
+    }
+
+    /**
+     * @param mixed $nfts
+     */
+    public function setNfts($nfts): void
+    {
+        $this->nfts = $nfts;
+    }
+
+    /**
+     * @ORM\Column (type="string", length=255)
+     */
+    private $abrv;
+
+    /**
      * @ORM\OneToMany(targetEntity=Block::class, mappedBy="node", orphanRemoval=true)
      */
     private $Blocks;

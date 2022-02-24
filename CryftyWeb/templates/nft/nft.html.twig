@@ -97,12 +97,20 @@
 
                                     {% if nftComment is empty %}
                                         <div class="asset__action">
-                                            <p>no comments here! we'll be honored to hear you :) </p>
+                                            <p>no comments here! we'll be honored to know your opinion :) </p>
                                         </div>
                                     {% else %}
                                         {% for c in nftComment %}
                                             <div class="asset__action ">
-                                                <p> {{ c.user.username }} : {{ c.comment }} </p>
+                                                <span class="home__text"> {{ c.user.username }} : {{ c.comment }} </span>
+                                                {% if c.user.id == app.user.id %}
+                                                    <div style="float: right">
+                                                        <a href="{{ path('delComment',{'id': c.id}) }}" >
+                                                            delete
+                                                        </a>
+                                                    </div>
+
+                                                {% endif %}
                                             </div>
                                         {% endfor %}
                                     {% endif %}
@@ -157,19 +165,19 @@
                     <!-- end tabs -->
                     <!-- actions -->
                     <div class="asset__btns">
-                        <button class="asset__btn asset__btn--clr" type="button">Buy - {{ nftItem.price }} {{ nftItem.currency.NodeLabel }}</button>
+                        <button class="asset__btn asset__btn--clr" type="button">Buy - {{ nftItem.price }} {{ nftItem.currency.abrv}} </button>
                         <a href="#modal-bid" class="asset__btn open-modal">Place a bid</a>
                     </div>
                     <!-- end actions -->
                 </div>
             </div>
                 <div class="asset__btns center-block">
-                    {% if user is null %}
-                    {% else %}
+                    {% if nftItem.owner == user %}
                     <a class="home__btn home__btn" href="{{ path ('modifierNft',{'id':nftItem.id}) }}">Update</a>
                     <a class="home__btn home__btn" href="{{ path ('deleteNft',{'id':nftItem.id}) }}">Delete</a>
                     {% endif %}
                 </div>
+        </div>
     </div>
     </main>
             <!-- end sidebar -->

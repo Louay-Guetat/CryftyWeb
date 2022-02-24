@@ -57,13 +57,13 @@
                                         <h3 class="card__title"><a href="{{ path('nftItem',{'id': f.id }) }}">{{ f.title }}</a></h3>
                                         <div class="card__author">
                                             <img src="img/avatars/avatar.jpg" alt="">
-                                            <a href="author.html">{{f.owner.username}}</a>
+                                            <a href="{{ path('profil',{'id':f.owner.id}) }}">{{f.owner.username}}</a>
                                         </div>
                                         <div class="card__info">
                                             <div class="card__price">
                                                 <div>
                                                 <span>Price</span>
-                                                <span>{{ f.price }}</span>
+                                                <span>{{ f.price }} {{ f.currency.abrv }}</span>
                                                 </div>
                                                 <div>
                                                 <span>Creation date</span>

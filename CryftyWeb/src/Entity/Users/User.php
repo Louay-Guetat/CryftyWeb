@@ -192,21 +192,6 @@ abstract class User implements UserInterface
         $this->Message = $Message;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPrivateChatSender()
-    {
-        return $this->privateChatSender;
-    }
-
-    /**
-     * @param mixed $privateChatSender
-     */
-    public function setPrivateChatSender($privateChatSender): void
-    {
-        $this->privateChatSender = $privateChatSender;
-    }
 
     /**
      * @return mixed
@@ -238,10 +223,6 @@ abstract class User implements UserInterface
 
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="sender")
-     */
-    private $privateChatSender;
 
 
     /**

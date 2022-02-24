@@ -46,7 +46,7 @@ class Nft
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="Ajouter une image jpg")
+     * @Assert\NotBlank(message="Ajouter un média")
      */
     private $image;
 

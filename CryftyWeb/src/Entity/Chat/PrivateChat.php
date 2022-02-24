@@ -19,7 +19,7 @@ class PrivateChat extends Conversation
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users\User", inversedBy="privateChatSender")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users\User")
      */
     private $Sender;
 
