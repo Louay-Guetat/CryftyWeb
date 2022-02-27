@@ -11,10 +11,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity("username")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"admin"="Admin", "moderator"="Moderator", "client"="Client"})
- * @UniqueEntity("username")
  */
 abstract class User implements UserInterface
 {
@@ -26,7 +26,7 @@ abstract class User implements UserInterface
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(name="username",type="string", length=180, unique=true)
      */
     private $username;
 
@@ -42,7 +42,6 @@ abstract class User implements UserInterface
     private $password;
 
     /**
-
      * @param $Groups
      */
     public function __construct()

@@ -40,7 +40,7 @@ class ContactController extends AbstractController
             $em->persist($SupportTicket);
             $em->flush();
             $this->addFlash('success','Bien cree avec succes');
-            return $this->redirectToRoute('contactlist');
+            return $this->redirectToRoute('registration');
         }
         return $this->render('contact/Add.html.twig',['form'=>$SupportTicket,'form'=>$form->createView()]);
     }
@@ -80,6 +80,18 @@ class ContactController extends AbstractController
     public function Listclient(SupportTicketRepository $repository){
         $SupportTicket=$repository->findAll();
         return $this->render('contact/contactlist.html.twig',['form'=>$SupportTicket ]);
+    }
+
+    /**
+     * @Route("/Contact/{id}", name="show_contact")
+     */
+    public function ShowContact(int $id,SupportTicketRepository $repository)
+    {
+        $Ticket =$repository->find($id);
+
+        return $this->render("contact/showcontact.html.twig", [
+            "T" => $Ticket,
+        ]);
     }
 
 }

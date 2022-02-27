@@ -6,6 +6,7 @@ use App\Entity\Users\Client;
 use App\Entity\Users\Moderator;
 use App\Form\RegistrationClientType;
 use App\Form\RegistrationModeratorType;
+use App\Form\UpdateModeratorType;
 use App\Repository\ModeratorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,7 +60,7 @@ class ModeratorController extends AbstractController
     public function updateClient(Request $request,ModeratorRepository $repository,$id)
     {
         $moderator=$repository->find($id);
-        $form = $this->createForm(RegistrationModeratorType::class, $moderator);
+        $form = $this->createForm(UpdateModeratorType::class, $moderator);
 
         $form->handleRequest($request);
 
@@ -73,7 +74,7 @@ class ModeratorController extends AbstractController
 
             $em->flush();
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('Clientlist');
         }
 
         return $this->render('moderator/update.html.twig', [
@@ -101,5 +102,17 @@ class ModeratorController extends AbstractController
     public function Listclient(ModeratorRepository $repository){
         $moderator=$repository->findAll();
         return $this->render('moderator/moderatorlist.html.twig',['moderator'=>$moderator ]);
+    }
+
+    /**
+     * @Route("/Moderator/{id}", name="show_moderator")
+     */
+    public function ShowModerator(int $id,ModeratorRepository $repository)
+    {
+        $Moderator =$repository->find($id);
+
+        return $this->render("moderator/showmoderator.html.twig", [
+            "m" => $Moderator,
+        ]);
     }
 }

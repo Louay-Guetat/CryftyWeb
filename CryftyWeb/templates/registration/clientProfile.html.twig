@@ -887,7 +887,7 @@
 
                             <!-- password form -->
                             <div class="col-12 col-lg-6">
-                                <form action="#" class="sign__form sign__form--profile">
+                                <form action="{{ path("reset-password") }}" method="post" class="sign__form sign__form--profile">
                                     <div class="row">
                                         <div class="col-12">
                                             <h4 class="sign__title">Change password</h4>
@@ -896,38 +896,19 @@
                                         <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                             <div class="sign__group">
                                                 <label class="sign__label" for="oldpass">Old password</label>
-                                                <input id="oldpass" type="password" name="oldpass" class="sign__input">
+                                                <input id="oldpass" type="password" name="oldPassword" class="sign__input">
                                             </div>
                                         </div>
 
                                         <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                             <div class="sign__group">
                                                 <label class="sign__label" for="newpass">New password</label>
-                                                <input id="newpass" type="password" name="newpass" class="sign__input">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                            <div class="sign__group">
-                                                <label class="sign__label" for="confirmpass">Confirm new password</label>
-                                                <input id="confirmpass" type="password" name="confirmpass" class="sign__input">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                            <div class="sign__group">
-                                                <label class="sign__label" for="select">Select</label>
-                                                <select name="select" id="select" class="sign__select">
-                                                    <option value="0">Option</option>
-                                                    <option value="1">Option 2</option>
-                                                    <option value="2">Option 3</option>
-                                                    <option value="3">Option 4</option>
-                                                </select>
+                                                <input id="newpass" type="password" name="password" class="sign__input">
                                             </div>
                                         </div>
 
                                         <div class="col-12">
-                                            <button class="sign__btn" type="button">Change</button>
+                                            <button class="sign__btn" type="submit">Change</button>
                                         </div>
                                     </div>
                                 </form>

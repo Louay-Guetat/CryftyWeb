@@ -26,25 +26,27 @@ class Client extends User
 
 
     /**
-     * @Assert\Length(min=10,max=255)
+     * @Assert\Length(min=3,max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $firstName;
 
     /**
-     * @Assert\Length(min=5,max=255)
+     * @Assert\Length(min=3,max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Email is required")
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Regex("/^[0-9]{9}$/")
+     * @Assert\Regex("/^[0-9]{8}$/")
      */
     private $phoneNumber;
 
@@ -55,7 +57,7 @@ class Client extends User
     private $age;
 
     /**
-     * @Assert\Length(min=5,max=255)
+     * @Assert\Length(min=3,max=255)
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;

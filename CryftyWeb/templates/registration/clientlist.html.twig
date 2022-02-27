@@ -28,14 +28,14 @@
 
                             {% for c in client %}
                                 <tr>
-                                    <form method="post">
+
                                         <td>{{ c.username }}</td>
                                         <td><strong>{{ c.email }}</strong></td>
-                                        <td class="numeric"><a href="{{ path('updateclient',{'id': c.id }) }}" class="btn btn-theme btn-sm">Update</a></td>
-                                        <td class="numeric"><a href="{{ path('delete_client',{'id': c.id }) }}" class="btn btn-theme04 btn-sm">Delete</a></td>
-                                        <td class="numeric"><a href="#" class="btn btn-theme01 btn-sm">
+                                        <td class="numeric"><a href="{{ path('client-profil') }}" class="btn btn-theme btn-sm">Update</a></td>
+                                        <td class="numeric"><a href="{{ path('delete_client',{'id': c.id }) }}" class="btn btn-theme04 btn-sm  " >Delete</a></td>
+                                        <td class="numeric"><a href="{{ path('show_client',{'id': c.id }) }}" class="btn btn-theme01 btn-sm">
                                                 <i class="fa fa-arrow-circle-o-right" style="font-size: large"/></a></td>
-                                    </form>
+                                    
                                 </tr>
                             {% endfor %}
 

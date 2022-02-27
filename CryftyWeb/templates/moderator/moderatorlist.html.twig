@@ -33,7 +33,7 @@
                                         <td><strong>{{ m.firstname }}</strong></td>
                                         <td class="numeric"><a href="{{ path('updatemoderator',{'id': m.id }) }}" class="btn btn-theme btn-sm">Update</a></td>
                                         <td class="numeric"><a href="{{ path('delete_moderator',{'id': m.id }) }}" class="btn btn-theme04 btn-sm">Delete</a></td>
-                                        <td class="numeric"><a href="#" class="btn btn-theme01 btn-sm">
+                                        <td class="numeric"><a href="{{ path('show_moderator',{'id': m.id }) }}" class="btn btn-theme01 btn-sm">
                                                 <i class="fa fa-arrow-circle-o-right" style="font-size: large"/></a></td>
                                     </form>
                                 </tr>

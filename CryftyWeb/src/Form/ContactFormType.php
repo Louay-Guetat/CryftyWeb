@@ -26,7 +26,7 @@ class ContactFormType extends AbstractType
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input']
             ])
-            ->add('message',TextType::class,['label'=>"message"
+            ->add('message',TextType::class,['label'=>"Message"
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input']
             ])
