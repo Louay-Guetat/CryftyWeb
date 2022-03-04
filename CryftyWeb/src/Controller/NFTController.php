@@ -23,6 +23,13 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class NFTController extends AbstractController
 {
@@ -68,7 +75,6 @@ class NFTController extends AbstractController
         return $this->render('nft/nft.html.twig',['nftItem'=>$nft,'nftComment'=>$comments,
             'CommentForm'=>$ajoutComment->createView(),'user'=>$this->getUser()]);
     }
-
 
     /**
      * @param Request $request
@@ -167,10 +173,82 @@ class NFTController extends AbstractController
         $nfts = $nftRepository->findBy(['owner'=>$id]);
         return $this->render('/nft/profile.html.twig',['nfts'=>$nfts]);
     }
+
     /**
      * @Route ("nft/error" , name="error")
      */
     function Error(){
         return $this->render();
     }
+
+    /* Api Mobile */
+
+    /**
+     * @Route("/nft/AjoutNftJson", name="AjoutNftJson")
+     * @Method=("POST")
+     */
+    public function AjoutNftJson(Request $request,SerializerInterface $serializer)
+    {
+        $nft = new Nft();
+        $title = $request->query->get("title");
+        $description = $request->query->get("description");
+        $price = $request->query->get("price");
+        $creationDate = $request->query->get("creationDate");
+        $image = $request->query->get("image");
+        $likes = $request->query->get("likes");
+
+        $em = $this->getDoctrine()->getManager();
+        $nft->setTitle($title);
+        $nft->setDescription($description);
+        $nft->setPrice($price);
+        $file = $nft->getImage();
+        $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+        try {
+            $file->move($this->getParameter('images_directory'), $fileName);
+        } catch (FileException $e) {
+            $e->getMessage();
+        }
+        $nft->setImage($fileName);
+        $nft->setLikes($likes);
+        $nft->setCreationDate(new \DateTime('now'));
+        $em->persist($nft);
+        $em->flush();
+
+        $formatted = $serializer->normalize($nft);
+
+        return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Route("nft/AfficheItemJson/{id}", name="nftItemJson", methods={"GET"})
+     */
+    function AfficheNftJson($id, NftRepository $nftRepository){
+        $nft =$nftRepository->find($id);
+        return $this->json($nft,200,[],['groups'=>['Category:read','subCategory:read','owner:read','currency:read']]);
+    }
+
+    /**
+     * @Route("nft/AfficheCommentsJson/{id}", name="nftCommentsJson", methods={"GET"})
+     */
+    function AfficheCommentsJson($id, NftCommentRepository $Commentrepository){
+        $comments =$Commentrepository->findAllByNft($id);
+        return $this->json($comments,200,[],['groups'=>['user:read','comments:read']]);
+    }
+
+    /**
+     * @Route("nft/AfficheProfileJson/{id}", name="profilJson")
+     */
+    function afficheProfilJson($id,NftRepository $nftRepository){
+        $nfts = $nftRepository->findBy(['owner'=>$id]);
+        return $this->json($nfts,200,[],['groups'=>['Category:read','subCategory:read','owner:read','currency:read']]);
+    }
+
+    /**
+     * @Route("nft/AfficheNftJson", name="AfficheNftJson",methods={"GET"})
+     */
+    function AfficheJson(NftRepository $repository){
+        $nft = $repository->findAll();
+        return $this->json($nft,200,[],['groups'=>['Category:read','subCategory:read','owner:read','currency:read']]);
+    }
+
 }

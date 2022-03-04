@@ -5,6 +5,7 @@ namespace App\Entity\NFT;
 use App\Repository\NftCommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=NftCommentRepository::class)
@@ -15,27 +16,37 @@ class NftComment
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ("comments:read")
+     * @Groups ("user:read")
      */
     private $id;
 
     /**
      * @ORM\Column (type="string")
+     * @Groups ("comments:read")
+     * @Groups ("user:read")
      */
     private $comment;
 
     /**
      * @Assert\DateTime()
      * @ORM\Column(type="datetime")
+     * @Groups ("comments:read")
+     * @Groups ("user:read")
      */
     private $postDate;
 
     /**
      * @ORM\Column (type="integer")
+     * @Groups ("comments:read")
+     * @Groups ("user:read")
      */
     private $likes;
 
     /**
      * @ORM\Column (type="integer")
+     * @Groups ("comments:read")
+     * @Groups ("user:read")
      */
     private $dislikes;
 
@@ -47,6 +58,7 @@ class NftComment
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Users\Client", inversedBy="comments")
+     * @Groups ("user:read")
      */
     private $user;
 

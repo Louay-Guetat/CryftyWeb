@@ -5,6 +5,7 @@ namespace App\Entity\NFT;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
@@ -21,6 +22,7 @@ class Category
     /**
      * @ORM\Column(type="string")
      * @Assert\NotNull
+     * @Groups ("Category:read")
      */
     private $name;
 

@@ -5,6 +5,7 @@ namespace App\Entity\NFT;
 use App\Repository\NftRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=NftRepository::class)
@@ -15,68 +16,116 @@ class Nft
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ("Category:read")
+     * @Groups ("subCategory:read")
+     * @Groups ("currency:read")
+     * @Groups ("comments:read")
+     * @Groups ("CartProd:read")
+     * @Groups ("owner:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups ("Category:read")
+     * @Groups ("subCategory:read")
+     * @Groups ("currency:read")
+     * @Groups ("comments:read")
+     * @Groups ("CartProd:read")
+     * @Groups ("owner:read")
      */
     private $title;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups ("Category:read")
+     * @Groups ("subCategory:read")
+     * @Groups ("currency:read")
+     * @Groups ("comments:read")
+     * @Groups ("CartProd:read")
+     * @Groups ("owner:read")
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups ("Category:read")
+     * @Groups ("subCategory:read")
+     * @Groups ("currency:read")
+     * @Groups ("comments:read")
+     * @Groups ("CartProd:read")
+     * @Groups ("owner:read")
      */
     private $price;
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Crypto\Node", inversedBy="nfts")
+     * @Groups ("currency:read")
      */
     private $currency;
 
     /**
      * @Assert\DateTime()
      * @ORM\Column(type="datetime")
+     * @Groups ("Category:read")
+     * @Groups ("subCategory:read")
+     * @Groups ("currency:read")
+     * @Groups ("comments:read")
+     * @Groups ("CartProd:read")
+     * @Groups ("owner:read")
      */
     private $creationDate;
 
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank(message="Ajouter un média")
+     * @Groups ("Category:read")
+     * @Groups ("subCategory:read")
+     * @Groups ("currency:read")
+     * @Groups ("comments:read")
+     * @Groups ("CartProd:read")
+     * @Groups ("owner:read")
      */
     private $image;
 
     /**
      * @ORM\Column (type="integer")
+     * @Groups ("Category:read")
+     * @Groups ("subCategory:read")
+     * @Groups ("currency:read")
+     * @Groups ("comments:read")
+     * @Groups ("CartProd:read")
+     * @Groups ("owner:read")
      */
     private $likes;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users\Client", inversedBy="nfts")
+     * @Groups ("owner:read")
      */
     private $owner;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\NFT\Category", inversedBy="nfts")
+     * @Groups ("Category:read")
      */
     private $category;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\NFT\SubCategory", inversedBy="nfts")
+     * @Groups ("subCategory:read")
      */
     private $subCategory;
 
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="nft")
+     * @Groups ("comments:read")
      */
     private $comments;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Payment\Cart", mappedBy="nftProd")
+     * @Groups ("CartProd:read")
      */
     private $cartProd;
 
@@ -202,21 +251,6 @@ class Nft
         $this->subCategory = $subCategory;
     }
 
-    /**
-     * @return array
-     */
-    public function getComments(): array
-    {
-        return $this->comments;
-    }
-
-    /**
-     * @param array $comments
-     */
-    public function setComments(array $comments): void
-    {
-        $this->comments = $comments;
-    }
 
     /**
      * @return mixed
