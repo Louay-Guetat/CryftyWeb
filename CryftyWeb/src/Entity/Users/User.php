@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"admin"="Admin", "moderator"="Moderator", "client"="Client"})
+ * @UniqueEntity("username")
  */
 abstract class User implements UserInterface
 {
@@ -79,6 +80,11 @@ abstract class User implements UserInterface
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="user")
      */
     private $comments;
+    /**
+     * @ORM\OneToMany (targetEntity="App\Entity\Blog\BlogComment", mappedBy="user")
+     * @Groups("post:read")
+     */
+    private $commentsb;
 
 
     public function getId()
@@ -261,16 +267,15 @@ abstract class User implements UserInterface
 
 
 
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="Sender")
      */
     private $privateChatSender;
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="Received")
-     */
-    private $privateChatReceived;
+
 
 
 }
+
