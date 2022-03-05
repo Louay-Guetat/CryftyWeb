@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Users\SupportTicket;
 use App\Entity\Users\Client;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -77,8 +78,14 @@ class ContactController extends AbstractController
      * @return Response
      * @Route ("/contactlist/",name="contactlist")
      */
-    public function Listclient(SupportTicketRepository $repository){
-        $SupportTicket=$repository->findAll();
+    public function Listclient(SupportTicketRepository $repository,Request $request,PaginatorInterface $paginator){
+        $donnees=$repository->findAll();
+        $SupportTicket= $paginator->paginate(
+            $donnees, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            4 // Nombre de résultats par page
+        );
+
         return $this->render('contact/contactlist.html.twig',['form'=>$SupportTicket ]);
     }
 

@@ -172,7 +172,6 @@
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/recursion-context" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/object-reflector" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/object-enumerator" />
-
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/lines-of-code" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/global-state" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/exporter" />
@@ -185,9 +184,7 @@
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/cli-parser" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/doctrine/sql-formatter" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/doctrine/persistence" />
-
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/doctrine/orm" />
-
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/global-state" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/exporter" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/webmozart/assert" />
@@ -256,7 +253,8 @@
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/twig/extra-bundle" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/flex" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/polyfill-php72" />
-
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/knplabs/knp-components" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/knplabs/knp-paginator-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

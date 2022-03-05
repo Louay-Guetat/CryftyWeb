@@ -32,7 +32,7 @@
                                         <td>{{ m.name }}</td>
                                         <td><strong>{{ m.email }}</strong></td>
                                         <td class="numeric"><a href="{{ path('contact_update',{'id': m.id }) }}" class="btn btn-theme btn-sm">Update</a></td>
-                                        <td class="numeric"><a href="{{ path('delete_contact',{'id': m.id }) }}" class="btn btn-theme04 btn-sm">Delete</a></td>
+                                        <td class="numeric"><a href="{{ path('delete_contact',{'id': m.id }) }}" class="btn btn-theme04 btn-sm"onclick="return confirm('are u sure?')"s>Delete</a></td>
                                         <td class="numeric"><a href="{{ path('show_contact',{'id': m.id }) }}" class="btn btn-theme01 btn-sm">
                                                 <i class="fa fa-arrow-circle-o-right" style="font-size: large"/></a></td>
                                     </form>
@@ -44,6 +44,7 @@
                     </section>
                 </div>
             </div>
+            {{ knp_pagination_render(form) }}
         </section>
         <!-- /wrapper -->
     </section>

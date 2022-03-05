@@ -10,6 +10,7 @@ use App\Form\UpdateProfilType;
 use App\Repository\ClientRepository;
 use App\Repository\UserRepository;
 use Exception;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -81,9 +82,14 @@ class RegistrationController extends AbstractController
      * @return Response
      * @Route ("/Clientlist/",name="Clientlist")
      */
-    public function Listclient(ClientRepository $repository): Response
+    public function Listclient(ClientRepository $repository,Request $request,PaginatorInterface $paginator): Response
     {
-        $client=$repository->findAll();
+        $donnees=$repository->findAll();
+        $client = $paginator->paginate(
+            $donnees, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            4 // Nombre de résultats par page
+        );
         return $this->render('registration/clientlist.html.twig',['client'=>$client ]);
     }
 

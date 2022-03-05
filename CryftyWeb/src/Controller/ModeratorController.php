@@ -8,6 +8,7 @@ use App\Form\RegistrationClientType;
 use App\Form\RegistrationModeratorType;
 use App\Form\UpdateModeratorType;
 use App\Repository\ModeratorRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -99,8 +100,13 @@ class ModeratorController extends AbstractController
      * @return Response
      * @Route ("/Moderatorlist",name="moderatorlist")
      */
-    public function Listclient(ModeratorRepository $repository){
-        $moderator=$repository->findAll();
+    public function Listclient(ModeratorRepository $repository,Request $request,PaginatorInterface $paginator){
+        $donnees=$repository->findAll();
+        $moderator = $paginator->paginate(
+            $donnees, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            4 // Nombre de résultats par page
+        );
         return $this->render('moderator/moderatorlist.html.twig',['moderator'=>$moderator ]);
     }
 
