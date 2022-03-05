@@ -1,45 +1,70 @@
 {% extends "base.html.twig" %}
+{% block title %}Cryfty | Your Wallets {% endblock %}
 
 {% block body %}
     <main class="main container">
     <section class="row row--grid">
         <!-- title -->
-        <div class="col-12">
+        <div class="col-12 mb-5">
             <div class="main__title main__title--border-top">
                 <h2><a href="explore.html">Your Wallets</a></h2>
+                <div class="col-3">
+                <a class="sign__btn" href="{{ path("create-wallet") }}">Add Wallet</a>
+                </div>
             </div>
         </div>
         <!-- end title -->
-
         <!-- carousel -->
         <div class="col-12">
             <div class="main__carousel-wrap">
                 <div class="main__carousel main__carousel--explore owl-carousel" id="explore">
     {% for wallet in wallets %}
+        {% if wallet.isActive %}
                     <div class="card">
-                        <a href="item.html" class="card__cover">
-                            <img src="{{ asset("img/cover/cover1.jpg") }}" alt="">
+                        <a href="{{ path('view-wallet-info',{'walletId':wallet.id}) }}" class="card__cover">
+                            <img width="260" height="300" src="{{ asset("uploads/walletImages/"~ wallet.walletImageFileName) }}" alt="">
                         </a>
                         <h3 class="card__title">
                             <a href="{{ path('view-wallet-info',{'walletId':wallet.id}) }}">
                                 {{ wallet.walletLabel}}</a>
                         </h3>
                         <div class="card__author">
-                            <a href="author.html" style="font-size: small">{{ wallet.walletAddress }}</a>
+                            <a href="{{ path('view-wallet-info',{'walletId':wallet.id}) }}" style="font-size: small">{{ wallet.walletAddress }}</a>
                         </div>
                         <div class="card__info">
                             <div class="card__price">
                                 <span>Balance</span>
                                 <span> {% if wallet.nodeId is null %}
-                                        <small style="color: red!important;">Not Attached to a node</small>
+                                        <small class="text-danger">Not Attached to a node</small>
                                 {% else %}
-                                        {{ wallet.balance }}
+                                        {{ wallet.balance }} {{ wallet.nodeId.coinCode }}
                                     {% endif %}</span>
                             </div>
 
 
                         </div>
                     </div>
+            {% else %}
+                <div class="card">
+                    <a href="" class="card__cover">
+                        <img width="260" height="300" src="{{ asset("uploads/walletImages/"~ wallet.walletImageFileName) }}" alt="">
+                    </a>
+                    <h3 class="card__title">
+                        <a >
+                            {{ wallet.walletLabel}}</a>
+                    </h3>
+                    <div class="card__author text-danger">
+                        <a style="font-size: small"></a>
+                    </div>
+                    <div class="card__info">
+                        <div class="card__price text-danger">
+                           WALLET NOT ACTIVATED <a class="text-primary" style="font-size: x-small" href="{{ path('resend-wallet-email',{'id': wallet.id}) }}">Click here to resend activation email</a>
+                        </div>
+
+
+                    </div>
+                </div>
+        {% endif %}
     {% endfor %}
                 </div>
 

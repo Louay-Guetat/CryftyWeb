@@ -4,12 +4,14 @@ namespace App\Entity\Crypto;
 
 use App\Repository\TransferRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @ORM\Entity(repositoryClass=TransferRepository::class)
  */
 class Transfer
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -23,17 +25,29 @@ class Transfer
     private $amount;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Wallet::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Wallet::class)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL" )
      */
     private $senderId;
 
+
+
     /**
-     * @ORM\ManyToOne(targetEntity=Wallet::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Wallet::class)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL" )
      */
     private $recieverId;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $transferDate;
+
+
+    public function __construct()
+    {
+        $this->transferDate = new \DateTime("now");
+    }
 
 
     public function getId(): ?int
@@ -73,6 +87,18 @@ class Transfer
     public function setRecieverId(Wallet $recieverId): self
     {
         $this->recieverId = $recieverId;
+
+        return $this;
+    }
+
+    public function getTransferDate(): ?\DateTimeInterface
+    {
+        return $this->transferDate;
+    }
+
+    public function setTransferDate(\DateTimeInterface $transferDate): self
+    {
+        $this->transferDate = $transferDate;
 
         return $this;
     }

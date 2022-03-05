@@ -6,10 +6,13 @@
 
         {% block stylesheets %}
             <!-- CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
             <link rel="stylesheet" href={{ asset('css/bootstrap-reboot.min.css') }}>
             <link rel="stylesheet" href={{ asset('css/bootstrap-grid.min.css') }}>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.bootstrap4.min.css" integrity="sha512-MMojOrCQrqLg4Iarid2YMYyZ7pzjPeXKRvhW9nZqLo6kPBBTuvNET9DBVWptAo/Q20Fy11EIHM5ig4WlIrJfQw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
             <link rel="stylesheet" href={{ asset('css/owl.carousel.min.css') }}>
             <link rel="stylesheet" href={{ asset('css/magnific-popup.css') }}>
+            <link href="{{ asset('adminAssets/lib/font-awesome/css/font-awesome.css')}}" rel="stylesheet" />
             <link rel="stylesheet" href={{ asset('css/select2.min.css') }}>
             <link rel="stylesheet" href={{ asset('css/main.css') }}>
 
@@ -24,13 +27,20 @@
     <body>
 
 
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success" style="margin-top: 5rem"> {{ message }} </div>
+        {% endfor %}
+
         {% include 'shared/_header.html.twig' %}
         {% block body %}{% endblock %}
         {% include 'shared/_footer.html.twig' %}
 
+
+
         {% block javascripts %}
             <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
             <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
             <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
             <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
             <script src="{{ asset('js/select2.min.js') }}"></script>
@@ -38,10 +48,42 @@
             <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
             <script src="{{ asset('js/main.js') }}"></script>
             <script>
+
+                $(document).ready(function () {
+                    $('select').selectize({
+                        sortField: 'text'
+                    });
+                });
+                $('#grid-view').hide();
+                $('#list-view').hide();
+                $(document).ready(function (){
+                    let view = localStorage.getItem('view');
+                    if(view == 'list'){
+                        $('#grid-view').hide();
+                        $('#list-view').show();
+                    }else {
+                        $('#grid-view').show();
+                        $('#list-view').hide();
+                    }
+
+                })
+                $('.list-view-button').click(function (){
+                    $('#grid-view').hide();
+                    $('#list-view').show();
+                    localStorage.setItem('view','list');
+                });
+                $('.grid-view-button').click(function (){
+                    $('#grid-view').show();
+                    $('#list-view').hide();
+                    localStorage.setItem('view','grid');
+                });
+
+
                 $(".custom-file-input").on("change", function() {
                     var fileName = $(this).val().split("\\").pop();
                     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
                 });
+
             </script>
         {% endblock %}
 
