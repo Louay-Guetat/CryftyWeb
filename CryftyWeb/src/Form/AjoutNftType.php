@@ -25,9 +25,15 @@ class AjoutNftType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('image', FileType::class,[
-                'label_attr'=>['class'=>'sign__label',
+            ->add('image', FileType::class,['label'=>'e. g. Image, Audio, Video',
+                'label_attr'=>['class'=>'sign__label'
+                    , 'class'=>'custom-file-label'
+                    ,'for'=>'customFile'
+                    ,'mapped'=>false
+                    ,'required'=>true
+                    ,'multiple'=>false
                     ]
+                ,'attr'=>['class'=>'custom-file-input','name'=>'filename','id'=>'customFile']
             ])
             ->add('title',TextType::class,['label'=>"TITLE"
             ,'label_attr'=>['class'=>'sign__label']
@@ -37,9 +43,9 @@ class AjoutNftType extends AbstractType
             ])
             ->add('description',TextareaType::class,['label'=>"DESCRIPTION"
                 ,'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__input']
+                ,'attr'=>['class'=>'sign__input','cols' => '5', 'rows' => '5']
                 ,'constraints'=>array(new NotBlank(['message'=>'Ce champ ne doit pas etre vide'])
-                , new Length(['min'=>10,'max'=>1000]))
+                , new Length(['min'=>6,'max'=>255]))
             ])
             ->add('price',MoneyType::class,['label'=>"PRICE"
                 ,'label_attr'=>['class'=>'sign__label']
