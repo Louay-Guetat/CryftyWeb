@@ -6,6 +6,10 @@
 parameters:
     images_directory: '%kernel.project_dir%/public//NFTS'
 
+
+
+    wallet_image_directory:  '%kernel.project_dir%/public/uploads/walletImages'
+
 services:
     # default configuration for services in *this* file
     _defaults:

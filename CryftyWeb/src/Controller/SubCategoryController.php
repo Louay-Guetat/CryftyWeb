@@ -33,6 +33,8 @@ class SubCategoryController extends AbstractController
         $formSubCat = $this->createForm(AjoutSubCategoryType::class,$subCategory);
         $formSubCat->handleRequest($request);
         if(($formSubCat->isSubmitted()) && $formSubCat->isValid()) {
+            $category->setNbrNft(0);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($subCategory);
             $em->flush();

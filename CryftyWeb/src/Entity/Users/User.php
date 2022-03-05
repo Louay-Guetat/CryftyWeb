@@ -255,7 +255,7 @@ abstract class User implements UserInterface
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="sender")
+     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="Sender")
      */
     private $privateChatSender;
 
@@ -265,9 +265,5 @@ abstract class User implements UserInterface
      */
     private $privateChatReceived;
 
-
-
-
-    /*******************************************/
 
 }
