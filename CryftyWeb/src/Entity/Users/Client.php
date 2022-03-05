@@ -75,6 +75,11 @@ class Client extends User
      */
     private $wallets;
 
+    /**
+     * @ORM\OneToOne (targetEntity="App\Entity\Payment\Cart" , mappedBy="clientId")
+     */
+    private $cartId;
+
     public function __construct()
     {
         $this->wallets = new ArrayCollection();
@@ -151,11 +156,6 @@ class Client extends User
 
         return $this;
     }
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Payment\Cart",mappedBy="clientId")
-     */
-    private $cartId;
 
     /**
      * @return mixed

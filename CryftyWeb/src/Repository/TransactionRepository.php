@@ -47,4 +47,20 @@ class TransactionRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function afficherTransaction($id)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.cartId = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function name($val)
+    {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT c.firstName from App\Entity\Users\Client c join App\Entity\Payment\Cart p join App\Entity\Payment\Transaction t where c.id = p.clientId and p.id = t.cartId and c.firstName =:val')
+        ->setParameter('val',$val);
+        return $query->getResult();
+    }
 }

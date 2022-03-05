@@ -271,6 +271,11 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/psr/http-factory" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/evenement/evenement" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-paginator-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-components" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/stripe/stripe-php" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/swiftmailer/swiftmailer" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/swiftmailer-bundle" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

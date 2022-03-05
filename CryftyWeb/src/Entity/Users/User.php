@@ -53,6 +53,26 @@ abstract class User implements UserInterface
     }
 
 
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
+
+    /**
+     * @param $Groups
+     */
+
 
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="user")
@@ -60,7 +80,7 @@ abstract class User implements UserInterface
     private $comments;
 
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
@@ -70,7 +90,7 @@ abstract class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public function getUsername()
     {
         return (string) $this->username;
     }
