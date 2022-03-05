@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{#<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -32,9 +32,12 @@
     <link rel="apple-touch-icon" href="icon/favicon-32x32.png">
 
 </head>
+
 <body>
+  #}
+{% extends "base.html.twig" %}
 
-
+{% block body %}
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div id="wrapper" class="wrapper-content">
     <div id="sidebar-wrapper">
@@ -44,117 +47,108 @@
                 <aside>
                     <header>
                         <form method="POST">
-                            <input type="text" placeholder="search" name="search">
-                            <h3 href="#modal-bid" class="open-modal  > <button style="background: transparent ;" ><span class="iconify" data-icon="ic:baseline-group-add" ></span></button></h3>
+                           {#  <input type="text" placeholder="search" name="search">#}
+                            <h3 href="#modal-bid" class="open-modal " >Add Group</h3>
                         </form>
                     </header>
 
-                    <ul >  {% for i in user %}
-                         <p >
-                            <li onclick="hhhhhhhh"  >
+                    <ul >
+                        <div> {% for u in users %}
+
+                                <li >
+                                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_02.jpg" alt="">
+                                    <div >
+
+
+                                        <a href="{{path('chat',{'id':u.id}) }}">
+                                            <h2>
+                                                {% if u.Sender.id ==app.user.id %}
+                                                    {{  u.Received.Username }}
+                                                {% else %}
+                                                    {{ u.Sender.Username }}
+                                                    {% endif %}
+                                            </h2></a>
+
+                                        <h3>
+                                            <span class="status green"></span>
+                                            online
+                                        </h3>
+                                    </div>
+                                </li >
+                            {% endfor %}</div>
+
+                        <div> {% for gr in group %}
+                                  {% set Currentuser=app.user.id %}
+                                    {% for user in gr.getParticipants %}
+
+                                {% set us=user.id  %}
+                                {% if us==Currentuser  %}
+                      <li >
                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_02.jpg" alt="">
                         <div >
 
 
-                            <h2>  {{ i.nom }} </h2>
+                            <a href="{{path('chat',{'id':gr.id}) }}">
+                                <h2>
+
+
+
+                                            {{ gr.nom }}
+
+
+
+
+                                </h2></a>
+
                             <h3>
                                 <span class="status green"></span>
                                 online
                             </h3>
                         </div>
-                        </li >
-                        <p   >  {% endfor %}
+                        </li >{% endif %}
+
+
+                            {% endfor %}
+
+                            {% endfor %}</div>
+                        <div>
+                            {% for gr in group %}
+                                {% set Currentuser=app.user.id %}
+
+
+                                    {% if gr.owner.id==app.user.id %}
+                                        <li >
+                                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_02.jpg" alt="">
+                                        <div >
+
+
+                                            <a href="{{path('chat',{'id':gr.id}) }}">
+                                                <h2>
+
+
+
+                                                    {{ gr.nom }}
+
+
+
+
+                                                </h2></a>
+
+                                            <h3>
+                                                <span class="status green"></span>
+                                                online
+                                            </h3>
+                                        </div>
+                                        </li >{% endif %}
+
+
+                                {% endfor %}
+
+                            </div>
                     </ul >
 
                 </aside>
-                <main>
-                    <header>
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="">
-                        <div>
-                            <h2>Chat with Vincent Porter</h2>
-                            <h3>already 1902 messages</h3>
-                        </div>
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">
-                    </header>
 
-
-                    <ul id="chat">
-                        <li class="you">
-                            <div class="entete">
-                                <span class="status green"></span>
-                                <h2>Vincent</h2>
-                                <h3>10:12AM, Today</h3>
-                            </div>
-                            <div class="triangle"></div>
-                            <div class="message">
-                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                            </div>
-                        </li>
-                        <li class="me">
-                            <div class="entete">
-                                <h3>10:12AM, Today</h3>
-                                <h2>Vincent</h2>
-                                <span class="status blue"></span>
-                            </div>
-                            <div class="triangle"></div>
-                            <div class="message">
-
-                            </div>
-                        </li>
-                        <li class="me">
-                            <div class="entete">
-                                <h3>10:12AM, Today</h3>
-                                <h2>Vincent</h2>
-                                <span class="status blue"></span>
-                            </div>
-                            <div class="triangle"></div>
-                            <div class="message">
-                                OK
-                            </div>
-                        </li>
-                        <li class="you">
-                            <div class="entete">
-                                <span class="status green"></span>
-                                <h2>Vincent</h2>
-                                <h3>10:12AM, Today</h3>
-                            </div>
-                            <div class="triangle"></div>
-                            <div class="message">
-                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                            </div>
-                        </li>
-                        <li class="me">
-                            <div class="entete">
-                                <h3>10:12AM, Today</h3>
-                                <h2>Vincent</h2>
-                                <span class="status blue"></span>
-                            </div>
-                            <div class="triangle"></div>
-                            <div class="message">
-                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                            </div>
-                        </li>
-                        <li class="me">
-                            <div class="entete">
-                                <h3>10:12AM, Today</h3>
-                                <h2>Vincent</h2>
-                                <span class="status blue"></span>
-                            </div>
-                            <div class="triangle"></div>
-                            <div class="message">
-                                OK
-                            </div>
-                        </li>
-                    </ul>
-
-
-
-                    <footer>
-                        <textarea placeholder="Type your message" ></textarea>
-
-                        <a href="#">Send</a>
-                    </footer>
-                </main>
             </div>
         </ul>
     </div>
@@ -163,9 +157,7 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button class="btn-menu btn btn-success btn-toggle-menu" type="button">
-                        <i class="fa fa-bars"></i>
-                    </button>
+
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -178,34 +170,38 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Chat</h1>
-                    <p></p>
+
+
+
 
                 </div>
             </div>
         </div>
+
     </div>
+    <button class="btn-menu btn btn-success btn-toggle-menu" style="padding: 55px"type="button">
+        <i class="fa fa-bars"></i>
+    </button>
 </div>
 
 <div id="modal-bid" class="zoom-anim-dialog mfp-hide modal modal--form">
     <button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
 
     <h4 class="sign__title">Add group</h4>
+    <div>
 
     <div class="sign__group sign__group--row">
         <label class="sign__label" for="placebid"></label>
-    {{ form_start(form ) }}
-        {{ form_row(form) }}
-        {{ form_errors(form) }}
+         {{ form_start(form ,{'attr': {'id': 'form_Group_ajout'}}) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.Participants) }}
+        <span id="error"></span>
+        <span class="sign__text sign__text--small"></span>
         <button class="sign__btn" type="submit">CRAETE GROUP</button>
         {{ form_end(form) }}
-
-        <span class="sign__text sign__text--small"></span>
     </div>
-
-
 </div>
-
+</div>
 <style type="text/css">
     body{
         background:#f5f5f5;
@@ -266,7 +262,7 @@
         margin:0;
         list-style-type:none;
         overflow-y:scroll;
-        height:690px;
+        height:548px;
     }
     aside li{
         padding:10px 0;
@@ -275,7 +271,8 @@
         background-color:#5e616a;
     }
     aside header h3 {
-        float: right;
+    {# float: right; #}
+        text-align: center;
         margin-top: 7%;
         color: #D3D3D3;
     }
@@ -412,7 +409,7 @@
         height:155px;
         padding:20px 30px 10px 20px;
     }
-    {#  .Textaria{
+      .Textaria{
         resize:none;
         border:none;
         display:block;
@@ -422,8 +419,8 @@
         padding:20px;
         font-size:13px;
         margin-bottom:13px;
-    }#}
-     main footer textarea {
+    }
+   {#  main footer textarea {
          resize: none;
          border: none;
          display: block;
@@ -433,7 +430,7 @@
          padding: 20px;
          font-size: 13px;
          margin-bottom: 13px;
-     }
+     }#}
     main footer textarea::placeholder{
         color:#ddd;
     }
@@ -442,6 +439,16 @@
         height:30px;
         cursor:pointer;
     }
+    .btnSend{
+        text-decoration:none;
+        text-transform:uppercase;
+        font-weight:bold;
+        color:#6fbced;
+        vertical-align:top;
+        margin-left:333px;
+        margin-top:5px;
+        display:inline-block;
+    }{#
     main footer a{
         text-decoration:none;
         text-transform:uppercase;
@@ -451,7 +458,7 @@
         margin-left:333px;
         margin-top:5px;
         display:inline-block;
-    }
+    }#}
     #wrapper {
         padding-right: 0;
         -webkit-transition: all 0.5s ease;
@@ -467,7 +474,7 @@
     #sidebar-wrapper {
         z-index: 1000;
         position: fixed;
-        right: 250px;
+        right: -250px;
         width: 0px;
         height: 100%;
         margin-right: -250px;
@@ -546,7 +553,7 @@
 
     @media(min-width:768px) {
         #wrapper {
-            padding-right: 250px;
+            padding-right: 500px;
         }
 
         #wrapper.toggled {
@@ -614,9 +621,31 @@
         float: left;
     }
 </style>
-
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/select2.min.js"></script>
+    <script src="js/smooth-scrollbar.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        let myForm = document.getElementById('form_Group_ajout');
+        myForm.addEventListener('submit',function(e)
+        {
+            let myInput=document.getElementById('nom');
+            if(myInput.value.trim=="")
+            {
+                let myError=document.getElementById('error');
+                myError.innerHTML="is required";
+                myError.style.color='white';
+                e.preventDefault()
+            }
+        });
+        </script>
 <script type="text/javascript">
-
 
 
 
@@ -627,5 +656,4 @@
         });
     })
 </script>
-</body>
-</html>
+    {% endblock %}

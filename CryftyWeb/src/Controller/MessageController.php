@@ -6,8 +6,10 @@ use App\Entity\Chat\GroupChat;
 use App\Entity\Chat\Message;
 use App\Form\GroupType;
 use App\Form\MessageType;
+use App\Repository\ConversationRepository;
 use App\Repository\GroupChatRepository;
 use App\Repository\MessageRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,28 +27,15 @@ class MessageController extends AbstractController
             'controller_name' => 'MessageController',
         ]);
     }
-    /*CREATE GROUPE*/
+
     /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     * @Route ("/affiche2",name="a2")
+     * @Route("/afficheGroup/", name="m")
      */
+    public function groupe(MessageRepository $repository)
+    {
+        $groups = $repository-> AfficheMessages(2);
 
-    function Ajouter(Request $request,MessageRepository $repository){
-        $Msg=new Message();
-        $form=$this->createForm(MessageType::class,$Msg);
-        $form->add('Sender',SubmitType::class);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-
-            $em=$this->getDoctrine()->getManager();
-            $em->persist($Msg);
-            $em->flush();
-            return $this->redirectToRoute('Msg');
-        }
-
-        return $this->render('message/index.html.twig',
-            ['Msg'=>$form->createView()]);
-
+        return $this->render('chat/index.html.twig',
+            [ 'msgs' => $groups]);
     }
 }

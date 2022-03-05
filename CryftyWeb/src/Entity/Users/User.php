@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -22,6 +23,8 @@ abstract class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("owner:read")
+     * @Groups("post:read")
      */
     protected $id;
 
@@ -41,6 +44,7 @@ abstract class User implements UserInterface
      */
     private $password;
 
+
     /**
      * @param $Groups
      */
@@ -49,9 +53,27 @@ abstract class User implements UserInterface
         $this->Groups = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
+
     /**
      * @param $Groups
      */
+
 
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="user")
@@ -59,7 +81,7 @@ abstract class User implements UserInterface
     private $comments;
 
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
@@ -69,7 +91,7 @@ abstract class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public function getUsername()
     {
         return (string) $this->username;
     }
@@ -139,6 +161,7 @@ abstract class User implements UserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Chat\GroupChat")
+
      */
     private $Groups;
 
@@ -226,6 +249,7 @@ abstract class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Chat\GroupChat", mappedBy="Owner")
+
      */
     private $Group;
 
@@ -238,7 +262,7 @@ abstract class User implements UserInterface
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="sender")
+     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="Sender")
      */
     private $privateChatSender;
 
@@ -248,9 +272,5 @@ abstract class User implements UserInterface
      */
     private $privateChatReceived;
 
-
-
-
-    /*******************************************/
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Payment\Cart;
 use App\Entity\Users\Client;
 use App\Entity\Users\User;
 use App\Form\RegistrationClientType;
@@ -35,7 +36,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/registration", name="registration")
      */
-    public function index(Request $request)
+    public function index(Request $request,UserRepository $repository)
     {
         $user = new Client();
 
@@ -54,10 +55,12 @@ class RegistrationController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
+            $cart=new Cart();
+            $cart->setClientId($user);
+            $em->persist($cart);
+            $em->flush();
             return $this->redirectToRoute('app_login');
         }
-
         return $this->render('registration/client.html.twig', [
             'form' => $form->createView(),
         ]);

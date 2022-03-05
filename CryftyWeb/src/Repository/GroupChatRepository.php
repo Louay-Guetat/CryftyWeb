@@ -47,4 +47,11 @@ class GroupChatRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findusersParGroup($id)
+    {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT g FROM App\Entity\Chat\GroupChat g where g.id=:id')
+            ->setParameter('id',$id);
+        return $query->getResult();
+    }
 }

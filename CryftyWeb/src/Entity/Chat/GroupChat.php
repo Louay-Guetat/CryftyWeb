@@ -5,6 +5,7 @@ namespace App\Entity\Chat;
 use App\Repository\GroupChatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GroupChatRepository::class)
@@ -15,17 +16,20 @@ class GroupChat extends Conversation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
+     * @Groups("owner:read")
      */
     protected $id;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Users\User")
-
+     * @Groups("post:read")
      */
     private $participants;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users\User", inversedBy="Group")
+     * @Groups("owner:read")
      */
     private $Owner;
 
