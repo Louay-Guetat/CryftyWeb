@@ -40,8 +40,8 @@ class Wallet
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
      * @Assert\Length(min=5,max=50,
-     *                minMessage="Your label should longer than {{ limit }} ",
-     *                maxMessage="Your address should be less than {{ limit }} ")
+     *                minMessage="Your label should longer than {{ limit }} characters ",
+     *                maxMessage="Your address should be less than {{ limit }} characters")
      */
     private $walletLabel;
 
@@ -65,6 +65,16 @@ class Wallet
      * @ORM\OneToOne(targetEntity="App\Entity\Payment\Cart",mappedBy="wallets")
      */
     private $cartwallet;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $walletImageFileName;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
 
     /**
      * @return mixed
@@ -156,6 +166,30 @@ class Wallet
     public function setClient(?Client $client): self
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getWalletImageFileName(): ?string
+    {
+        return $this->walletImageFileName;
+    }
+
+    public function setWalletImageFileName(?string $walletImageFileName): self
+    {
+        $this->walletImageFileName = $walletImageFileName;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

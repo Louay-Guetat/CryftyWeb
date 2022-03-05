@@ -1,18 +1,36 @@
 {% extends "base.html.twig" %}
+{% block title %}Cryfty | New Wallet {% endblock %}
+
+
 {% block body %}
     <main class="main container">
         <div class="main__title main__title--create">
             <h2>Create A New Wallet ! </h2>
         </div>
         {{ form_start(wallet_creation_form,{'attr':{'class': 'sign__form sign__form--create'}}) }}
+
+
+        <div class="col-12 col-xl-6 row">
+            <div class="col-sm-6">
+            <small class="text-info ml-3">(Max Size : 5Mb / Extensions : PNG or JPEG)</small>
+            <small class="text-danger ml-3"> {{ form_errors(wallet_creation_form.image) }} </small>
+            <div class="sign__file">
+                {{ form_row(wallet_creation_form.image,{'attr':{'onChange':'readURL(this)'}}) }}
+            </div>
+            </div>
+            <div class="col-sm-6"><img id="wallet-image" class="rounded-3" src="{{ asset("uploads/walletImages/defaultImage.png") }}"
+                                      width="150" /></div>
+        </div>
         <div class="col-12 col-xl-3">
+            <small class="text-danger ml-3"> {{ form_errors(wallet_creation_form.walletLabel) }} </small>
             <div class="sign__group">
-               {{ form_row(wallet_creation_form.walletLabel) }}
+               {{ form_widget(wallet_creation_form.walletLabel) }}
             </div>
         </div>
         <div class="col-12 col-xl-3">
+            <small class="text-danger ml-3"> {{ form_errors(wallet_creation_form.nodeId) }} </small>
             <div class="sign__group">
-                {{ form_row(wallet_creation_form.nodeId) }}
+                {{ form_widget(wallet_creation_form.nodeId) }}
             </div>
         </div>
         <div class="col-12 col-xl-3">
@@ -20,4 +38,20 @@
         </div>
         {{ form_end(wallet_creation_form) }}
     </main>
+
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#wallet-image')
+                        .attr('src', e.target.result)
+                        .width(150)
+
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 {% endblock %}
+

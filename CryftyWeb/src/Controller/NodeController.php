@@ -23,7 +23,7 @@ class NodeController extends AbstractController
     }
 
     /**
-     * @Route("/createNode", name="create-node")
+     * @Route("/admin/createNode", name="create-node")
      * @param Request $request
      * @return Response
      */
@@ -38,6 +38,8 @@ class NodeController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($node);
             $em->flush();
+
+            $this->addFlash('success','Node Created ! Good job');
             return $this->redirectToRoute('view-nodes');
         }
 
@@ -48,7 +50,7 @@ class NodeController extends AbstractController
     }
 
     /**
-     * @Route("/viewNodes",name="view-nodes")
+     * @Route("/admin/viewNodes",name="view-nodes")
      * @param NodeRepository $nodeRepository
      * @return Response
      */
@@ -61,7 +63,7 @@ class NodeController extends AbstractController
     }
 
     /**
-     * @Route("/viewNodeInfo/{nodeId}",name="view-node-info")
+     * @Route("/admin/viewNodeInfo/{nodeId}",name="view-node-info")
      * @param int $nodeId
      * @param NodeRepository $nodeRepository
      * @return Response
@@ -75,7 +77,7 @@ class NodeController extends AbstractController
     }
 
     /**
-     * @Route("/deleteNode/{{nodeId}}",name="delete-node")
+     * @Route("/admin/deleteNode/{{nodeId}}",name="delete-node")
      * @param int $nodeId
      * @param NodeRepository $nodeRepository
      * @return Response
@@ -91,7 +93,7 @@ class NodeController extends AbstractController
     }
 
     /**
-     * @Route("updateNode/{{nodeId}}", name="update-node")
+     * @Route("/admin/updateNode/{{nodeId}}", name="update-node")
      * @param Request $request
      * @param int $nodeId
      * @param NodeRepository $nodeRepository
