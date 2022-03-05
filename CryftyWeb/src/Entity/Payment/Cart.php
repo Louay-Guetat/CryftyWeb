@@ -6,7 +6,7 @@ use App\Repository\CartRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CartRepository::class)
@@ -17,6 +17,7 @@ class Cart
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ("cartId:read")
      */
     private $id;
 
@@ -41,6 +42,8 @@ class Cart
     * @Assert\DateTime
     * @ORM\Column(type="datetime")
     * @var string A "Y-m-d H:i:s" formatted value
+     * @Groups ("cartId:read")
+
      */
     private $date_creation;
 
@@ -60,6 +63,28 @@ class Cart
      * @ORM\OneToOne(targetEntity="App\Entity\Users\Client",inversedBy="cartId",cascade={"persist", "remove"})
      */
     private $clientId;
+
+    /**
+     * @ORM\Column (type="float")
+     */
+    private $total;
+
+
+    /**
+     * @return mixed
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * @param mixed $total
+     */
+    public function setTotal($total): void
+    {
+        $this->total = $total;
+    }
     
     /**
      * @return mixed

@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class TransactionType extends AbstractType
 {
@@ -24,14 +25,15 @@ class TransactionType extends AbstractType
                 'label'=>"Montant"
             ,'label_attr'=>['class'=>'sign__label']
             ,'attr'=>['class'=>'sign__input']
-            ])
+            ,'constraints'=>array(new NotNull(['message'=>'ce champs est obligatoire']))])
             ->add('wallets',EntityType::class,[
                 'class'=>Wallet::class,
+                'required' => false,
                 'choice_label'=>'walletAddress',
                 'label'=>"wallets"
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input']
-                ,
+                ,'constraints'=>array(new NotNull(['message'=>'ce champs est obligatoire']))
             ])
             ->add('Payer', SubmitType::class, ['label'=>"Payer",
                 'attr' => ['class' => 'sign__btn'],

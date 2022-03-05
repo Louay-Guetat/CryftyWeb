@@ -6,6 +6,7 @@ use App\Entity\Users\Client;
 use App\Repository\WalletRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=WalletRepository::class)
@@ -16,11 +17,13 @@ class Wallet
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ("wallets:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups ("wallets:read")
      */
     private $walletAddress;
 

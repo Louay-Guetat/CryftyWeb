@@ -5,7 +5,7 @@ namespace App\Entity\Payment;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TransactionRepository::class)
@@ -16,6 +16,8 @@ class Transaction
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ("wallets:read")
+     * @Groups ("cartId:read")
      */
     private $id;
 
@@ -29,6 +31,8 @@ class Transaction
 
     /**
      * @ORM\Column(type="float")
+     * @Groups ("cartId:read")
+     * @Groups ("wallets:read")
      */
     private $montant;
 
@@ -36,17 +40,21 @@ class Transaction
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups ("cartId:read")
+     * @Groups ("wallets:read")
      */
     private $datetransaction;
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Payment\Cart",inversedBy="cartTransaction")
+     * @Groups ("cartId:read")
      */
     private $cartId;
 
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Crypto\Wallet",inversedBy="walletTransaction")
+     * @Groups ("wallets:read")
      */
     private $wallets;
 

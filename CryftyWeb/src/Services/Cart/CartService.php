@@ -44,7 +44,6 @@ class CartService {
         $total=0;
 
         foreach($this->getFullCart() as $item){
-            $totalItem=
             $total+=$item['product']->getPrix() * $item['quantity'];
         }
         return $total;

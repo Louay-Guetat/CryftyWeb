@@ -17,6 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\NFT\Nft;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 class CartController extends AbstractController
@@ -31,7 +33,7 @@ class CartController extends AbstractController
         // On "fabrique" les données
         $dataPanier = [];
         $total = 0;
-
+        $nft=null;
         foreach($panier as $id => $quantite){
             $nft = $repository->find($id);
             $dataPanier[] = [
@@ -42,43 +44,62 @@ class CartController extends AbstractController
         $user= $this->getUser();
         $thisClient = $client->find($user);
         $cart = $cartRepository->find($thisClient->getCartId());
-        $nft->setCartProd([$cart]);
-        $tab=[];
+        if($nft != null)
+        {
+            $nft->setCartProd([$cart]);
+        }
         foreach ($dataPanier as $item){
             $total=$total+$item["produit"]->getPrice();
+            //$total=0;
         }
+        $tab=[];
         for($i=0;$i<count($dataPanier);$i++)
         {
             $tab[$i]=$item["produit"];
         }
         $cart->setNftProd($tab);
-
+        $cart->setTotal($total);
         $em=$this->getDoctrine()->getManager();
         $em->flush();
-        //dd($total);
-        return $this->render('cart/index.html.twig',['dataPanier'=>$dataPanier]);
+        return $this->render('cart/index.html.twig',['dataPanier'=>$dataPanier,'cart'=>$cart]);
         }
 
     /**
      * @Route("/delete/{id}", name="delete_panier")
      */
-    public function SupprimerDuPanier(Nft $nft, SessionInterface $session,$id,NftRepository $nftRepository)
+    public function SupprimerDuPanier(Nft $nft,ClientRepository $client, $id,SessionInterface $session,NftRepository $nftRepository,CartRepository $cartRepository)
     {
-        // On récupère le panier actuel
+
         $panier = $session->get("panier", []);
-        $id = $nft->getId();
+        $user = $this->getUser();
+        $nftc = $nftRepository->SuppNft($user);
+        $user= $this->getUser();
+        $thisClient = $client->find($user);
+        $cart = $cartRepository->find($thisClient->getCartId());
 
-        if(!empty($panier[$id])){
-            unset($panier[$id]);
+        for($i=0;$i<count($nftc);$i++)
+        {
+            if($nftc[$i]->getId()==$id)
+            {
+                if(!empty($panier[$id])) {
+                    unset($panier[$id]);
+                    $session->set("panier", $panier);
+                    $nftc[$i]->setCartProd(null);
+                    $em=$this->getDoctrine()->getManager();
+                    $em->flush();
+                    return $this->redirectToRoute('cart_index');
+                }
+                else {
+                    return $this->redirectToRoute('nft');
+
+                }
+
+
+            }
         }
+        return $this->render('cart/index.html.twig',['dataPanier'=>$panier,'cart'=>$cart]);
 
-        // On sauvegarde dans la session
-        $session->set("panier", $panier);
-        $nft=$nftRepository->find($id);
-        $em=$this->getDoctrine()->getManager();
-        $em->remove($nft);
-        $em->flush();
-        return $this->redirectToRoute("cart_index");
+
     }
 
 
@@ -99,4 +120,17 @@ class CartController extends AbstractController
         $session->set("panier", $panier);
         return $this->redirectToRoute('cart_index');
     }
+
+    /**
+     * @Route("/stripe", name="stripe")
+     */
+    public function stripe(): Response
+    {
+        \Stripe\Stripe::setApiKey('sk_test_51IyEiPKXO6zoy45XnSBJfUeShcjGESS1F0uIZoZH3XQjKcJrBVsctduUrUqjabgjdHZVALOU1OFe4lefVdlriKJg00dp6rwSy2');
+
+        return $this->render('cart/Stripe.html.twig', [
+            'controller_name' => 'CartController',
+        ]);
+    }
+
 }
