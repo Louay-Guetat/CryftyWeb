@@ -3,6 +3,7 @@
 namespace App\Entity\NFT;
 
 use App\Repository\NftRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -76,16 +77,22 @@ class Nft
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payment\Cart", mappedBy="nftProd")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Payment\Cart",cascade={"persist"})
      */
     private $cartProd;
+
+    /**
+     * @param $cartProd
+     */
+    public function __construct()
+    {
+        $this->cartProd =new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
-
 
 
 
@@ -248,7 +255,7 @@ class Nft
     /**
      * @param mixed $cartProd
      */
-    public function setCartProd($cartProd): void
+    public function setCartProd($cartProd)
     {
         $this->cartProd = $cartProd;
     }

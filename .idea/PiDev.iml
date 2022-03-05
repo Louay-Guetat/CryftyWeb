@@ -257,10 +257,35 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/twig/extra-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/flex" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/polyfill-php72" />
+
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-paginator-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-components" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/imagine/imagine" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/liip/imagine-bundle" />
+
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-components" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-paginator-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/react/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/guzzlehttp/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/react/event-loop" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/react/dns" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/react/promise-timer" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/react/promise" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/react/stream" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/react/socket" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/ratchet/rfc6455" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/cboden/ratchet" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/ralouphie/getallheaders" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/psr/http-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/evenement/evenement" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-paginator-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-components" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/stripe/stripe-php" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/swiftmailer/swiftmailer" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/swiftmailer-bundle" />
+
+
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -7,52 +7,64 @@ use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
 
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
+ * @UniqueEntity("email")
  */
 class Client extends User
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity="App\Entity\Users\SupportTicket", mappedBy="Client")
      */
-    protected $id;
+
+    private $supportticket;
+
 
     /**
+     * @Assert\Length(min=3,max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $firstName;
 
     /**
+     * @Assert\Length(min=3,max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Email is required")
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Regex("/^[0-9]{8}$/")
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *@Assert\Range(min=10,max=90)
      */
     private $age;
 
     /**
+     * @Assert\Length(min=3,max=255)
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
 
+
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="owner")
-     * @ORM\Column (type="integer")
      */
     private $nfts;
 
@@ -65,15 +77,14 @@ class Client extends User
      */
     private $wallets;
 
+    /**
+     * @ORM\OneToOne (targetEntity="App\Entity\Payment\Cart" , mappedBy="clientId")
+     */
+    private $cartId;
+
     public function __construct()
     {
         $this->wallets = new ArrayCollection();
-    }
-
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getFirstName(): ?string
@@ -147,11 +158,6 @@ class Client extends User
 
         return $this;
     }
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Payment\Cart",mappedBy="clientId")
-     */
-    private $cartId;
 
     /**
      * @return mixed

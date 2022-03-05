@@ -1,6 +1,6 @@
 <?php
 namespace App\Services\Cart;
-/*use Symfony\Component\HttpFoundation\Session\SessionInterface;*/
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Repository\NftRepository;
 
 class CartService {
@@ -11,7 +11,8 @@ class CartService {
         $this->NftRepository=$NftRepository;
     }
     public function add(int $id) {
-        $panier=$this->session->get('panier', []);
+        $cartTab=new cart();
+        $panier=$this->session->get('panier', $cartTab);
         if(!empty($panier[$id])){
             $panier[$id]++;
         }else {
@@ -43,7 +44,6 @@ class CartService {
         $total=0;
 
         foreach($this->getFullCart() as $item){
-            $totalItem=
             $total+=$item['product']->getPrix() * $item['quantity'];
         }
         return $total;

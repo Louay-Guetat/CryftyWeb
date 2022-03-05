@@ -47,4 +47,11 @@ class MessageRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function AfficheMessages($idConversation)
+    {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT m FROM App\Entity\Chat\Message m join m.conversation c where c.id=:idConversation')
+        ->setParameter('idConversation',$idConversation);
+        return $query->getResult();
+    }
 }

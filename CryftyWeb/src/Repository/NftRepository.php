@@ -47,4 +47,13 @@ class NftRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function SuppNft($id)
+    {
+        $query=$this->createQueryBuilder('n')
+            ->join('n.cartProd','c')
+            ->where('c.id=:id')
+            ->setParameter('id',$id)
+            ->getQuery();
+        return $query->getResult();
+    }
 }
