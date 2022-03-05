@@ -52,6 +52,7 @@ class NFTController extends AbstractController
         $category = new Category();
         $subCategory = new SubCategory();
         $nft->setCreationDate(new \DateTime('now'));
+        $nft->setOwner($this->getUser());
         $nft->setLikes(0);
         $formNft = $this->createForm(AjoutNftType::class,$nft);
         $formNft->handleRequest($request);

@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -22,11 +23,15 @@ abstract class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("owner:read")
+     * @Groups("post:read")
      */
     protected $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups("post:read")
+     * @Groups("owner:read")
      */
     private $username;
 
@@ -41,18 +46,13 @@ abstract class User implements UserInterface
      */
     private $password;
 
-    /**
 
-     * @param $Groups
-     */
     public function __construct()
     {
         $this->Groups = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * @param $Groups
-     */
+
 
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="user")
@@ -140,6 +140,7 @@ abstract class User implements UserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Chat\GroupChat")
+
      */
     private $Groups;
 
@@ -227,6 +228,7 @@ abstract class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Chat\GroupChat", mappedBy="Owner")
+
      */
     private $Group;
 

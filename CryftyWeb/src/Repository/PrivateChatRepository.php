@@ -47,4 +47,36 @@ class PrivateChatRepository extends ServiceEntityRepository
         ;
     }
     */
+  public function Privatechat($id1,$id2)
+    {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT m FROM App\Entity\Chat\PrivateChat m 
+          where m.Sender=:id1 and m.Received=:id2 or m.Sender=:id2 and m.Received=:id1')
+            ->setParameter('id1',$id1)
+            ->setParameter('id2',$id2);
+        return $query->getResult();
+    }
+
+
+    public function nomPrivatChat($id)
+    {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT m FROM App\Entity\Chat\PrivateChat m 
+          where m.id=:id')
+            ->setParameter('id',$id);
+
+        return $query->getResult();
+    }
+
+
+    public function UsersContacter($id)
+    {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT m FROM App\Entity\Chat\PrivateChat m 
+          where  m.Sender=:id or m.Received=:id')
+            ->setParameter('id',$id);
+
+        return $query->getResult();
+    }
+
 }
