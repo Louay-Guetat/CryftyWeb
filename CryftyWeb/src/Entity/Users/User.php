@@ -12,10 +12,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity("username")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"admin"="Admin", "moderator"="Moderator", "client"="Client"})
- * @UniqueEntity("username")
  */
 abstract class User implements UserInterface
 {
@@ -29,9 +29,7 @@ abstract class User implements UserInterface
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups("post:read")
-     * @Groups("owner:read")
+     * @ORM\Column(name="username",type="string", length=180, unique=true)
      */
     private $username;
 
@@ -47,6 +45,9 @@ abstract class User implements UserInterface
     private $password;
 
 
+    /**
+     * @param $Groups
+     */
     public function __construct()
     {
         $this->Groups = new \Doctrine\Common\Collections\ArrayCollection();

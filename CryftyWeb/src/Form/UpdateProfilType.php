@@ -2,19 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Users\SupportTicket;
+use App\Entity\Users\Client;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
-class ContactFormType extends AbstractType
+class UpdateProfilType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name',TextType::class,['label'=>"Username"
+            ->add('username',TextType::class,['label'=>"Username"
+                ,'label_attr'=>['class'=>'sign__label']
+                ,'attr'=>['class'=>'sign__input']
+            ])
+            ->add('firstName',TextType::class,['label'=>"firstName"
+                ,'label_attr'=>['class'=>'sign__label']
+                ,'attr'=>['class'=>'sign__input']
+            ])
+            ->add('lastName',TextType::class,['label'=>"LastName"
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input']
             ])
@@ -22,15 +29,19 @@ class ContactFormType extends AbstractType
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input']
             ])
-            ->add('subject',TextType::class,['label'=>"Subject"
+            ->add('phoneNumber',TextType::class,['label'=>"phoneNumber"
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input']
             ])
-            ->add('message',TextType::class,['label'=>"Message"
+            ->add('age',TextType::class,['label'=>"age"
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input']
             ])
-            ->add('save', SubmitType::class, ['label'=>"Envoyer",
+            ->add('address',TextType::class,['label'=>"address"
+                ,'label_attr'=>['class'=>'sign__label']
+                ,'attr'=>['class'=>'sign__input']
+            ])
+            ->add('save', SubmitType::class, ['label'=>"Cree",
                 'attr' => ['class' => 'sign__btn'],
             ]);
         ;
@@ -39,7 +50,7 @@ class ContactFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SupportTicket::class,
+            'data_class' => Client::class,
         ]);
     }
 }

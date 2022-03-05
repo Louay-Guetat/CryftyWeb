@@ -93,6 +93,7 @@
     },
     "guzzlehttp/psr7": {
         "version": "2.1.0"
+     },
     "knplabs/knp-components": {
         "version": "v3.4.0"
     },
