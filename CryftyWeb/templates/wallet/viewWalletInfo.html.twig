@@ -1,17 +1,23 @@
 {% extends 'base.html.twig' %}
+{% block title %}Cryfty | Your Wallet: {{ wallet.walletLabel }} {% endblock %}
 {% block body %}
     <main class="main container">
+
+
 
         <section class="row row--grid">
             <!-- title -->
             <div class="col-12">
-                <div class="main__title main__title--border-top">
+                <div class="main__title main__title--border-top col-sm-2">
+                    <a class="sign__btn" href="{{ path("view-wallets") }}">
+                        <i class="fa fa-angle-double-left mx-2"></i> Go Back</a>
                     <h2><a href="explore.html">Wallet Info</a></h2>
+
                 </div>
             </div>
             <div class="activity">
                 <div class="activity__cover">
-                    <img src="{{ asset("img/cover/cover1.jpg") }}">
+                    <img height="150" width="250" src="{{ asset("uploads/walletImages/"~ wallet.walletImageFileName) }}">
                 </div>
                 <div class="activity__content">
                     <h3 class="activity__title">Wallet Label : </h3>
@@ -31,7 +37,7 @@
                             {% if wallet.nodeId is null %}
                                 <small style="color: red!important;">Not Attached to a node</small>
                                 {% else %}
-                                {{ wallet.balance }}
+                                {{ wallet.balance }} {{ wallet.nodeId.coinCode }}
                             {% endif %}
                         </p>
                 </div>
@@ -68,7 +74,69 @@
                 </div>
 
             </div>
+
         </section>
+        <style>
+            table{
+                width:100%;
+                table-layout: fixed;
+                overflow-wrap: break-word;
+            }
+        </style>
+
+        <div class="row mt-3">
+        <div class="col-sm-6 ">
+            <h2 class="activity__title">Sent :  </h2>
+            {% if inTransfers is not empty %}
+            <table class="table  table-responsive text-center ">
+                <thead class="">
+                <tr class="bg-dark text-primary ">
+                    <th >DATE  <i class="fa fa-calendar-o"></i></th>
+                    <th  >SENT BY <i class="fa fa-long-arrow-left"></i></th>
+                    <th  >AMOUNT <i class="fa fa-bitcoin"></i></th>
+                </tr>
+                </thead>
+                {% for transfer in inTransfers %}
+                <tr class="text-light">
+                    <td>{{ transfer.transferDate |date }}</td>
+                    <td>{% if transfer.senderId is not null %}
+                            {{ transfer.senderId.walletAddress }}
+                        {% else %}
+                            <small class="text-danger">This Wallet Was Deleted</small>
+                        {% endif %}</td>
+                    <td class="text-success">{{ transfer.amount }} <i class="fa fa-angle-double-up"></i></td>
+                </tr>
+
+                {% endfor %}
+            </table>
+            {% endif %}
+        </div>
+        <div class="col-sm-6 ">
+            <h2 class="activity__title">Received :  </h2>
+            {% if outTransfers is not empty %}
+            <table class="table  table-responsive text-center">
+                <thead class="">
+                <tr class="bg-dark text-primary ">
+                    <th >DATE  <i class="fa fa-calendar-o"></i></th>
+                    <th  >SENT TO <i class="fa fa-long-arrow-right"></i></th>
+                    <th  >AMOUNT <i class="fa fa-bitcoin"></i></th>
+                </tr>
+                </thead>
+                {% for transfer in outTransfers %}
+                    <tr class="text-light">
+                        <td>{{ transfer.transferDate |date }}</td>
+                        <td>{% if transfer.recieverId is not null %}
+                            {{ transfer.recieverId.walletAddress }}
+                        {% else %}
+                            <small class="text-danger">This Wallet Was Deleted</small>
+                            {% endif %}</td>
+                        <td class="text-danger">{{ transfer.amount }} <i class="fa fa-angle-double-down"></i></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+        </div>
+        </div>
     </main>
 
     <div id="modal-bid" class="zoom-anim-dialog modal modal--form mfp-hide">

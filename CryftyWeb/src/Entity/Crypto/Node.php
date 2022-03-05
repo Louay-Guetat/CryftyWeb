@@ -34,6 +34,21 @@ class Node
      */
     private $Blocks;
 
+    /**
+     * @ORM\Column(type="string", length=5)
+     * @Assert\NotBlank
+     * @Assert\NotNull
+     * @Assert\Length(min="3",max=5,minMessage="Code must be >= {{ limit }} Cahracters",
+     *     maxMessage="Code must be <= {{ limit }} Cahracters")
+     */
+    private $coinCode;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Assert\Positive
+     */
+    private $nodeReward;
+
     public function __construct()
     {
         $this->Blocks = new ArrayCollection();
@@ -82,6 +97,30 @@ class Node
                 $block->setNode(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCoinCode(): ?string
+    {
+        return $this->coinCode;
+    }
+
+    public function setCoinCode(string $coinCode): self
+    {
+        $this->coinCode = $coinCode;
+
+        return $this;
+    }
+
+    public function getNodeReward(): ?float
+    {
+        return $this->nodeReward;
+    }
+
+    public function setNodeReward(float $nodeReward): self
+    {
+        $this->nodeReward = $nodeReward;
 
         return $this;
     }

@@ -29,7 +29,7 @@ class ChatController extends AbstractController
     }
 
     /**
-     * @Route("/affiche", name="a1")
+     * @Route("/Affiche", name="a1")
      */
     public function AffichUser(ConversationRepository $repository,Request $request)
     {
