@@ -47,4 +47,55 @@ class CartRepository extends ServiceEntityRepository
         ;
     }
     */
+    /*public function findOneBySomeField($value): ?Cart
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }*/
+    public function compareId($id): ?Cart
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.clientId = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    public function findByClient($id){
+        return $this->createQueryBuilder('C')
+            ->where('C.clientId = :id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function AfficherCart($id)
+    {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT c from APP\Entity\Payment\Cart c where c.id =: id')
+            ->setParameter('id',$id);
+        return $query->getOneOrNullResult();
+    }
+
+    public function SuppNft($id)
+    {
+        //$em=$this->getEntityManager();
+        /*$query=$em->createQuery('SELECT c from App\Entity\Payment\Cart c  join App\Entity\NFT\Nft n where c.id = n.cartProd and n.id =: id1')
+            ->setParameter('id1',$id);
+        return $query->getResult();*/
+
+        $query=$this->createQueryBuilder('c')
+            ->join('c.nftProd','p')
+            ->where('p.id=:id')
+            ->setParameter('id',$id)
+            ->getQuery();
+            return $query->getResult();
+    }
+
+
 }

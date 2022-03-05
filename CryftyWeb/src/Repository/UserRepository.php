@@ -64,4 +64,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+    public function findLast(): ?User
+    {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery(
+            'SELECT id 
+        from app\Entity\Users\User 
+        order by (id) desc' );
+        return $query->getFirstResult();
+    }
+
 }

@@ -42,7 +42,6 @@ class NFTController extends AbstractController
         return $this->render('nft/nft.html.twig',['nftItem'=>$nft]);
     }
 
-
     /**
      * @param Request $request
      * @Route("/AjoutNft", name="AjoutNft")
