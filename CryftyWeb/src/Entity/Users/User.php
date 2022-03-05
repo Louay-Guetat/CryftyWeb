@@ -6,12 +6,16 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"admin"="Admin", "moderator"="Moderator", "client"="Client"})
+ * @UniqueEntity("username")
  */
 abstract class User implements UserInterface
 {
@@ -51,10 +55,15 @@ abstract class User implements UserInterface
      * @param $Groups
      */
 
-
+    /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="user")
      */
     private $comments;
+    /**
+     * @ORM\OneToMany (targetEntity="App\Entity\Blog\BlogComment", mappedBy="user")
+     * @Groups("post:read")
+     */
+    private $commentsb;
 
 
     public function getId(): ?int
@@ -101,7 +110,7 @@ abstract class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -235,16 +244,7 @@ abstract class User implements UserInterface
 
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="sender")
-     */
-    private $privateChatSender;
 
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="Received")
-     */
-    private $privateChatReceived;
 
 
 
@@ -252,3 +252,4 @@ abstract class User implements UserInterface
     /*******************************************/
 
 }
+

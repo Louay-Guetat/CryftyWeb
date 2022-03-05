@@ -94,10 +94,7 @@ class Cart
     }
     
     
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NFT\Nft",inversedBy="cartProd")
-     */
-    private $nftProd;
+
 
     /**
      * @return mixed
