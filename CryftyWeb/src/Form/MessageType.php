@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class MessageType extends AbstractType
 {
@@ -20,10 +22,14 @@ class MessageType extends AbstractType
         $builder
             ->add('contenu',TextareaType::class,
 
-                ['constraints'=>array( new Length(['min'=>3]))])
+                ['label' => 'Message',
+                    'attr'=>['class'=>"Textaria",'placeholder'=>"Write your message here "]
+                    , 'constraints'=>array(
+                    new Length(['min'=>3]))])
 
+                ->add('Send',SubmitType::class,
+                ['attr'=>['class'=>"sign__btn"]]);
 
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

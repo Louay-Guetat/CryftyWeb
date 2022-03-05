@@ -74,4 +74,5 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $query->getFirstResult();
     }
 
+
 }
