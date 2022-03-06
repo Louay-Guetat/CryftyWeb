@@ -11,6 +11,7 @@ use App\Form\AjoutNftType;
 use App\Form\CommentType;
 use App\Form\ModifierNftType;
 use App\Repository\CategoryRepository;
+use App\Repository\ClientRepository;
 use App\Repository\NftCommentRepository;
 use App\Repository\NftRepository;
 use App\Repository\SubCategoryRepository;
@@ -172,6 +173,29 @@ class NFTController extends AbstractController
     function afficheProfil($id,NftRepository $nftRepository){
         $nfts = $nftRepository->findBy(['owner'=>$id]);
         return $this->render('/nft/profile.html.twig',['nfts'=>$nfts]);
+    }
+
+    /**
+     * @Route ("nft/liked/{id}", name="like")
+     */
+    function like($id, NftRepository $nftRepo,ClientRepository $clientRepo){
+        $nft = $nftRepo->find($id);
+        $client = $clientRepo->find($this->getUser());
+        $likedBy = $nft->getLikedBy();
+        $situation =0;
+        for($i=0;$i<count($likedBy);$i++){
+            if($client == $likedBy[$i])
+                $situation =1;
+        }
+
+        if ($situation == 0) {
+            $client->setLikes($nft);
+            $nft->setLikedBy($client);
+            $nft->setLikes($nft->getLikes() + 1);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $this->redirectToRoute('nft');
+        }
     }
 
     /**

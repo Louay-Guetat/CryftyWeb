@@ -129,11 +129,17 @@ class Nft
      */
     private $cartProd;
 
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Users\Client" , mappedBy="likes")
+     *
+     */
+    private $likedBy = [];
+
     public function getId(): ?int
     {
         return $this->id;
     }
-
 
     /**
      * @return mixed
@@ -316,6 +322,40 @@ class Nft
     {
         $this->currency = $currency;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLikedBy()
+    {
+        return $this->likedBy;
+    }
+
+    /**
+     * @param mixed $likedBy
+     */
+    public function setLikedBy($client): void
+    {
+        $this->likedBy[count($this->likedBy)] = $client;
+    }
+
+
 
 
 }
