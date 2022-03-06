@@ -48,6 +48,11 @@ class SupportTicket
      */
     private $message;
 
+    /**
+     * @ORM\Column (type="string")
+     */
+    private $etat;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -100,4 +105,37 @@ class SupportTicket
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getClient()
+    {
+        return $this->Client;
+    }
+
+    /**
+     * @param mixed $Client
+     */
+    public function setClient($Client): void
+    {
+        $this->Client = $Client;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * @param mixed $etat
+     */
+    public function setEtat($etat): void
+    {
+        $this->etat = $etat;
+    }
+
 }

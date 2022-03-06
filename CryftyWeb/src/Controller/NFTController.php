@@ -203,6 +203,14 @@ class NFTController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('nft');
         }
+        else{
+            $client->removeLike($nft);
+            $nft->removeLikedBy($client);
+            $nft->setLikes($nft->getLikes()-1);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $this->redirectToRoute('nft');
+        }
     }
 
     /**

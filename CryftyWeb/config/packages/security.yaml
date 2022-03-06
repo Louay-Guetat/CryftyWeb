@@ -36,7 +36,7 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: nft
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -48,12 +48,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-
-
+         - { path: ^/category, roles: ROLE_ADMIN }
          - { path: ^/blog, roles: ROLE_USER }
-
          - { path: ^/wallet, roles: ROLE_USER }
-
-
          - { path: ^/nft, roles: ROLE_USER }
 

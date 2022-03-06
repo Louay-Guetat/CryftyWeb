@@ -40,6 +40,7 @@ class Node
 
     /**
      * @ORM\Column(type="string", length=5)
+     * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="currency")
      * @Assert\NotBlank
      * @Assert\NotNull
      * @Assert\Length(min="3",max=5,minMessage="Code must be >= {{ limit }} Cahracters",

@@ -129,7 +129,7 @@ class ChatController extends AbstractController
     }
 
     /**
-     * @Route("/affiche", name="a")
+     * @Route("/listeUsers", name="listUser")
      */
     public function AffichUser(GroupChatRepository  $repository,PrivateChatRepository $PrivateChatRepository,
                                Request $request,UserRepository $UserRepository)
@@ -162,7 +162,7 @@ class ChatController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($GoupChat);
             $em->flush();
-            return $this->redirectToRoute('a');
+            return $this->redirectToRoute('listUser');
         }
 
         return $this->render('chat/chat.html.twig',
@@ -265,7 +265,7 @@ class ChatController extends AbstractController
     /**
      * @param $id1
      * @param MessageRepository $rep
-     * @Route ("/Delete/{id1}/{id}", name="d")
+     * @Route ("/Delete/{id1}/{id}", name="deleteMessage")
      */
     function Delete( ConversationRepository $repositoryConversation,$id1,$id,MessageRepository $rep){
 

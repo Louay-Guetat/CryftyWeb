@@ -60,7 +60,7 @@ class Nft
     private $price;
 
     /**
-     * @ORM\ManyToOne (targetEntity="App\Entity\Crypto\Node", inversedBy="nfts")
+     * @ORM\ManyToOne (targetEntity="App\Entity\Crypto\Node", inversedBy="coinCode")
      * @Groups ("currency:read")
      */
     private $currency;
@@ -130,11 +130,18 @@ class Nft
     private $cartProd;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Users\Client")
+     *
+     */
+    private $likedBy;
+
+    /**
      * @param $cartProd
      */
     public function __construct()
     {
         $this->cartProd =new ArrayCollection();
+        $this->likedBy = new ArrayCollection();
     }
 
 
@@ -357,6 +364,15 @@ class Nft
     public function setLikedBy($client): void
     {
         $this->likedBy[count($this->likedBy)] = $client;
+    }
+
+    public function removeLikedBy($client): void
+    {
+        for($i=0;$i<count($this->likedBy);$i++){
+            if($client == $this->likedBy[$i]){
+                unset($this->likedBy[$i]);
+            }
+        }
     }
 
 
