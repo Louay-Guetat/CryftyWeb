@@ -28,7 +28,7 @@
             <!-- content -->
             <div class="col-12 col-xl-8">
                 <div class="asset__item">
-                    <a class="asset__img" href="#"><img src="{{ asset('NFTS/'~ nftItem.image) }}" width="520" height="520" alt=""></a>
+                    <a class="asset__img" href="{{ asset('NFTS/'~ nftItem.image) }}"><img src="{{ asset('NFTS/'~ nftItem.image) }}" width="520" height="520" alt=""></a>
 
                     <!-- share -->
                     <div class="share share--asset">
@@ -44,12 +44,8 @@
                         <span>{{ nftItem.likes }}</span>
                     </button>
                     <!-- end likes -->
+                </div>
 
-                </div>
-                <div class="asset__btns">
-                    <td><a class="asset__btn asset__btn--clr" href="{{ path ('modifierNft',{'id':nftItem.id}) }}">Update</a></td>
-                    <td><a class="asset__btn asset__btn--clr" href="{{ path ('deleteNft',{'id':nftItem.id}) }}">Delete</a></td>
-                </div>
             </div>
             <!-- end content -->
 
@@ -66,14 +62,14 @@
                             <span>Creator</span>
                             <div class="asset__author asset__author--verified">
                                 <img src="img/avatars/avatar5.jpg" alt="">
-                                <a href="author.html">@midinh</a>
+                                <a href="author.html">{{ nftItem.owner.username }}</a>
                             </div>
                         </li>
                         <li>
-                            <span>Collection</span>
+                            <span>Category</span>
                             <div class="asset__author ">
                                 <img src="img/avatars/avatar9.jpg" alt="">
-                                <a href="collection.html">The Meta Key</a>
+                                <a href="collection.html">{{ nftItem.category.name }}</a>
                             </div>
                         </li>
                     </ul>
@@ -81,48 +77,54 @@
                     <!-- s -->
                     <ul class="nav nav-tabs asset__tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">History</a>
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Comments</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Details</a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Bids</a>
                         </li>
 
-
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Details</a>
-                        </li>
                     </ul>
 
                     <div class="tab-content">
+                        <!-- Comment section -->
                         <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
                             <div class="asset__actions asset__actions--scroll" id="asset__actions--scroll">
-                                <div class="asset__action asset__action--verified">
-                                    <img src="img/avatars/avatar10.jpg" alt="">
-                                    <p>Bid placed for <b>11.00 ETH</b> 4 hours ago <br>by <a href="author.html">@erikkk</a></p>
-                                </div>
 
-                                <div class="asset__action asset__action--verified">
-                                    <img src="img/avatars/avatar4.jpg" alt="">
-                                    <p>Bid placed for <b>10.00 ETH</b> 5 hours ago <br>by <a href="author.html">@johndoe</a></p>
-                                </div>
+                                    {% if nftComment is empty %}
+                                        <div class="asset__action">
+                                            <p>no comments here! we'll be honored to know your opinion :) </p>
+                                        </div>
+                                    {% else %}
+                                        {% for c in nftComment %}
+                                            <div class="asset__action ">
+                                                <span class="home__text"> {{ c.user.username }} : {{ c.comment }} </span>
+                                                {% if c.user.id == app.user.id %}
+                                                    <div style="float: right">
+                                                        <a href="{{ path('delComment',{'id': c.id}) }}" >
+                                                            delete
+                                                        </a>
+                                                    </div>
 
-                                <div class="asset__action asset__action--verified">
-                                    <img src="img/avatars/avatar6.jpg" alt="">
-                                    <p>Bid placed for <b>2.508 ETH</b> 5 hours ago <br>by <a href="author.html">@n1ckname</a></p>
-                                </div>
-
-                                <div class="asset__action asset__action--verified">
-                                    <img src="img/avatars/avatar4.jpg" alt="">
-                                    <p>Bid placed for <b>2.2799 ETH</b> 6 hours ago <br>by <a href="author.html">@johndoe</a></p>
-                                </div>
-
-                                <div class="asset__action asset__action--verified">
-                                    <img src="img/avatars/avatar5.jpg" alt="">
-                                    <p>Put on sale for <b>0.55 ETH</b> 1 days ago <br>by <a href="author.html">@midinh</a></p>
-                                </div>
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
                             </div>
+                            <br>
+                            {% if user is null %}
+                            {% else %}
+                            {{ form_start(CommentForm) }}
+                            {{ form_widget(CommentForm) }}
+                            <button class="asset__btn" type="submit">Comment</button>
+                            {{ form_end(CommentForm) }}
+                            {% endif %}
                         </div>
+                        <!-- end comment section -->
 
                         <div class="tab-pane fade" id="tab-2" role="tabpanel">
                             <div class="asset__actions">
@@ -149,7 +151,7 @@
                                     <span>Owner</span>
                                     <div class="asset__author asset__author--verified">
                                         <img src="img/avatars/avatar5.jpg" alt="">
-                                        <a href="author.html">@midinh</a>
+                                        <a href="author.html"> {{ nftItem.owner.username }} </a>
                                     </div>
                                 </li>
                                 <li>
@@ -159,17 +161,24 @@
                             </ul>
                         </div>
                     </div>
+
                     <!-- end tabs -->
                     <!-- actions -->
                     <div class="asset__btns">
-                        <button class="asset__btn asset__btn--clr" type="button">Buy - {{ nftItem.price }} ETH</button>
-
+                        <button class="asset__btn asset__btn--clr" type="button">Buy - {{ nftItem.price }} {{ nftItem.currency.abrv}} </button>
                         <a href="#modal-bid" class="asset__btn open-modal">Place a bid</a>
                     </div>
                     <!-- end actions -->
                 </div>
             </div>
+                <div class="asset__btns center-block">
+                    {% if nftItem.owner == user %}
+                    <a class="home__btn home__btn" href="{{ path ('modifierNft',{'id':nftItem.id}) }}">Update</a>
+                    <a class="home__btn home__btn" href="{{ path ('deleteNft',{'id':nftItem.id}) }}">Delete</a>
+                    {% endif %}
+                </div>
         </div>
     </div>
+    </main>
             <!-- end sidebar -->
 {% endblock %}

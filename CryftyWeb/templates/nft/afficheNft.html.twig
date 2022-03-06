@@ -8,7 +8,7 @@
                 <!-- breadcrumb -->
                 <div class="col-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb__item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb__item"><a href="{{ path('nft') }}">Home</a></li>
                         <li class="breadcrumb__item breadcrumb__item--active">Explore</li>
                     </ul>
                 </div>
@@ -24,22 +24,22 @@
 
                 <!-- tabs nav -->
                 <div class="col-12">
+                    <br>
+                    <form method="post"  action="{{ path('searchNft') }}">
+                        <!--    <input type="text" name="sear" placeholder="Search...">-->
+                        <input type="text" class="sign__input" name="search" placeholder="Search NFT "><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/>
+                    </form>
                     <ul class="nav nav-tabs main__tabs" id="main__tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">All</a>
+                            <a class="nav-link active" href="{{ path('AfficheNft') }}" role="tab" aria-controls="tab-1" aria-selected="true">All</a>
                         </li>
 
+                        {% for cat in category %}
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Art</a>
+                            <a class="nav-link" href="{{ path('filtreByCat',{'id':cat.id}) }}">{{ cat.name }}</a>
                         </li>
+                        {% endfor %}
 
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Photography</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">Memes</a>
-                        </li>
                     </ul>
                 </div>
                 <!-- end tabs nav -->
@@ -64,12 +64,12 @@
                                 <h3 class="card__title"><a href="{{ path('nftItem',{'id': f.id }) }}">{{ f.title }}</a></h3>
                                 <div class="card__author">
                                     <img src="img/avatars/avatar.jpg" alt="">
-                                    {# <a href="author.html">{{f.owner_id.name}}</a>  #}
+                                    <a href="{{ path('profil',{'id':f.owner.id})}}">{{ f.owner.username }}</a>
                                 </div>
                               <div class="card__info">
                                     <div class="card__price">
                                         <span>Price</span>
-                                        <span>{{ f.price }}</span>
+                                        <span>{{ f.price }} {{ f.currency.abrv }}</span>
                                     </div>
 
                                     <button class="card__likes" type="button">

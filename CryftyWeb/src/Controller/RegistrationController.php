@@ -10,8 +10,10 @@ use App\Form\UpdatePasswClType;
 use App\Form\UpdateProfilType;
 use App\Repository\ClientRepository;
 use App\Repository\UserRepository;
+
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,18 +41,14 @@ class RegistrationController extends AbstractController
     public function index(Request $request,UserRepository $repository)
     {
         $user = new Client();
-
         $form = $this->createForm(RegistrationClientType::class, $user);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Encode the new users password
             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
-
             // Set their role
             $user->setRoles(['ROLE_USER']);
-
             // Save
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);

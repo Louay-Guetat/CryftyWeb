@@ -16,20 +16,23 @@ class AjoutSubCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name',TextType::class,['label'=>"SubCategory name"
-                ,'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__input']
-                ,'constraints'=>array(new NotBlank(['message'=>'Ce champ ne doit pas etre vide'])
-                , new Length(['min'=>3,'max'=>20]))
-            ])
             ->add('Category',EntityType::class,[
                 'required' => false,
-                'label' => 'Category Id',
+                'label' => 'Category Name',
                 'class' => Category::class,
                 'multiple' => false,
                 'expanded' => false,
                 'choice_label' => 'name'
+                ,'attr'=>['class'=>'sign__input','class'=>'form-control']
             ])
+
+            ->add('name',TextType::class,['label'=>"SubCategory name"
+                ,'label_attr'=>['class'=>'sign__label']
+                ,'attr'=>['class'=>'sign__input','class'=>'form-control']
+                ,'constraints'=>array(new NotBlank(['message'=>'Ce champ ne doit pas etre vide'])
+                , new Length(['min'=>2,'max'=>20]))
+            ])
+
         ;
     }
 

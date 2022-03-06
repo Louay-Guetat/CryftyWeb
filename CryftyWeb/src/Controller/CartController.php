@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Payment\Cart;
 use App\Entity\Users\Client;
 use App\Entity\Users\User;
@@ -12,6 +13,7 @@ use App\Repository\UserRepository;
 use App\Services\Cart\CartService;
 use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -131,6 +133,32 @@ class CartController extends AbstractController
         return $this->render('cart/Stripe.html.twig', [
             'controller_name' => 'CartController',
         ]);
+    }
+
+
+    /**
+     * @Route("/addPanier/{id}",name="ajoutAuPanier")
+     */
+    function AjoutAuPanier($id,CartRepository $cartRep, NftRepository $nftRepo,ClientRepository $clientRepo){
+        $client = $clientRepo->find($this->getUser());
+        $cart = $cartRep->find($client->getCartId());
+        $nft = $nftRepo->find($id);
+        $cart->setNftProd([$nft]);
+        $nft->setCartProd([$cart]);
+        $em =$this->getDoctrine()->getManager();
+        $em->flush();
+        return $this->render('nft/affiche.html.twig',['id'=>$cart->getNftProd()]);
+    }
+
+    /**
+     * @Route("/test/{id}" ,name="test")
+     */
+    function ajouterUnProduit(Request $request, $id){
+        $session = $request->getSession();
+        $panier = $session->get('panier',[]);
+        $panier[$id]=1;
+        $session->set('panier',$panier);
+        return $this->render('/nft/affiche.html.twig',['id'=>$session]);
     }
 
 }

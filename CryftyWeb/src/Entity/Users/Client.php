@@ -82,6 +82,11 @@ class Client extends User
      */
     private $cartId;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\NFT\Nft", inversedBy="likedBy")
+     */
+    private $likes=[];
+
     public function __construct()
     {
         $this->wallets = new ArrayCollection();
@@ -183,6 +188,70 @@ class Client extends User
     public function getWallets(): Collection
     {
         return $this->wallets;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSupportticket()
+    {
+        return $this->supportticket;
+    }
+
+    /**
+     * @param mixed $supportticket
+     */
+    public function setSupportticket($supportticket): void
+    {
+        $this->supportticket = $supportticket;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNfts()
+    {
+        return $this->nfts;
+    }
+
+    /**
+     * @param mixed $nfts
+     */
+    public function setNfts($nfts): void
+    {
+        $this->nfts = $nfts;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param mixed $likes
+     */
+    public function setLikes($nft): void
+    {
+        $this->likes[count($this->likes)] = $nft;
     }
 
     public function addWallet(Wallet $wallet): self

@@ -3,7 +3,6 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-
     <!-- main content -->
     <main class="main">
         <div class="container">
@@ -32,8 +31,8 @@
                                         You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
                                     </div>
                                 {% endif %}
-                                <a href="index.html" class="sign__logo">
-                                    <img src="img/logo.svg" alt="">
+                                <a href="{{ path ('nft') }}" class="sign__logo">
+                                    <img src="{{ asset('img/logoNoText.png') }}" width="50" height="50" alt="">
                                 </a>
 
                                 <div class="sign__group">
