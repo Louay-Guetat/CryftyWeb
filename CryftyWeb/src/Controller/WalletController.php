@@ -3,6 +3,10 @@
 namespace App\Controller;
 
 use App\Services\Mailer\MailerService;
+use Knp\Bundle\SnappyBundle\DependencyInjection\KnpSnappyExtension;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Bundle\SnappyBundle\Snappy\Response\SnappyResponse;
+use Knp\Snappy\Pdf;
 use \Symfony\Component\Form\Exception\InvalidArgumentException;
 use App\Entity\Crypto\Block;
 use App\Entity\Crypto\Transfer;
@@ -34,18 +38,37 @@ class WalletController extends AbstractController
 {
     private $security;
     private $mailerService;
-    public function __construct(Security $security,MailerService $mailerService){
+    private $snappyResponse;
+    public function __construct(Security $security,MailerService $mailerService, Pdf $snappyResponse){
         $this->security = $security;
         $this->mailerService = $mailerService;
-         }
+        $this->snappyResponse = $snappyResponse;
+    }
+
     /**
-     * @Route("/wallet", name="wallet")
+     * @Route("/wallet/pdfGen/{walletId}", name="wallet-pdf")
+     * @param Pdf $knpSnappyPdf
+     * @param int $walletId
+     * @param WalletRepository $walletRepository
+     * @param TransferRepository $transferRepository
+     * @return PdfResponse
      */
-    public function index(): Response
+    public function index(Pdf $knpSnappyPdf,int $walletId, WalletRepository $walletRepository,TransferRepository $transferRepository): PdfResponse
     {
-        return $this->render('wallet/index.html.twig', [
-            'controller_name' => 'WalletController',
+        $wallet = $walletRepository->find($walletId);
+
+        $transferOutArray = $transferRepository->findBy(array('senderId'=>$walletId));
+        $transferInArray = $transferRepository->findBy(array('recieverId'=>$walletId));
+        $html = $this->renderView('pdf.html.twig', [
+            'wallet' => $wallet,
+            'outTransfers'=>$transferOutArray,
+            'inTransfers'=>$transferInArray
         ]);
+
+        return new PdfResponse(
+            $knpSnappyPdf->getOutputFromHtml($html),
+            'file.pdf'
+        );
     }
 
     /**
@@ -91,8 +114,9 @@ class WalletController extends AbstractController
             $wallet->setIsActive(false);
             $em->persist($wallet);
             $em->flush();
+            $emailClient = $client->getEmail();
             $this->mailerService->sendWalletVerificationEmail(
-               $client->getEmail(),array('walletLabel' => $wallet->getWalletLabel(),
+                $emailClient,array('walletLabel' => $wallet->getWalletLabel(),
                    'walletId' => $wallet->getId(),
                    'username' => $client->getUsername()
                )

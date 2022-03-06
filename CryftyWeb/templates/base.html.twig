@@ -27,7 +27,7 @@
     <body>
 
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success" style="margin-top: 5rem"> {{ message }} </div>
+            <div class="alert alert-success " style="margin-top: 5rem"> {{ message }} </div>
         {% endfor %}
         {% include 'shared/_header.html.twig' %}
         {% block body %}{% endblock %}
@@ -46,8 +46,11 @@
             <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
             <script src="{{ asset('js/main.js') }}"></script>
             <script>
+                var title = $(document).find("title").text();
+                console.log(title);
+
                 $(document).ready(function () {
-                    $('select').selectize({
+                    $('#select-state').selectize({
                         sortField: 'text'
                     });
                 });
