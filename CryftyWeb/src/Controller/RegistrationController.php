@@ -55,6 +55,7 @@ class RegistrationController extends AbstractController
             $em->flush();
             $cart=new Cart();
             $cart->setClientId($user);
+            $cart->setTotal(0);
             $em->persist($cart);
             $em->flush();
             return $this->redirectToRoute('app_login');

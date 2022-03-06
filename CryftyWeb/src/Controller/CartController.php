@@ -16,7 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\NFT\Nft;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -45,6 +44,7 @@ class CartController extends AbstractController
         }
         $user= $this->getUser();
         $thisClient = $client->find($user);
+
         $cart = $cartRepository->find($thisClient->getCartId());
         if($nft != null)
         {
