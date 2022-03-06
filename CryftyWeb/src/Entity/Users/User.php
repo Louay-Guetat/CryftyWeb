@@ -237,21 +237,9 @@ abstract class User implements UserInterface
     }
 
     /**
-     * @return mixed
+     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="Received")
      */
-    public function getPrivateChatReceived()
-    {
-        return $this->privateChatReceived;
-    }
-
-    /**
-     * @param mixed $privateChatReceived
-     */
-    public function setPrivateChatReceived($privateChatReceived): void
-    {
-        $this->privateChatReceived = $privateChatReceived;
-    }
-
+    private $privateChatReceived;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Chat\GroupChat", mappedBy="Owner")
@@ -273,9 +261,58 @@ abstract class User implements UserInterface
      */
     private $privateChatSender;
 
+    /**
+     * @ORM\Column (type="boolean")
+     */
+    private $isActive;
 
+    /**
+     * @return mixed
+     */
+    public function getCommentsb()
+    {
+        return $this->commentsb;
+    }
 
+    /**
+     * @param mixed $commentsb
+     */
+    public function setCommentsb($commentsb): void
+    {
+        $this->commentsb = $commentsb;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getPrivateChatReceived()
+    {
+        return $this->privateChatReceived;
+    }
+
+    /**
+     * @param mixed $privateChatReceived
+     */
+    public function setPrivateChatReceived($privateChatReceived): void
+    {
+        $this->privateChatReceived = $privateChatReceived;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param mixed $isActive
+     */
+    public function setIsActive($isActive): void
+    {
+        $this->isActive = $isActive;
+    }
 
 }
 

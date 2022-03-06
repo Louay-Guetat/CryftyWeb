@@ -62,7 +62,7 @@ class AjoutNftType extends AbstractType
                     'class' => Node::class,
                     'multiple' => false,
                     'expanded' => false,
-                    'choice_label' => 'abrv'
+                    'choice_label' => 'coinCode'
                     ,'label_attr'=>['class'=>'sign__label']
                     ,'attr'=>['class'=>'sign__select']
                     ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas être vide']))
@@ -76,7 +76,7 @@ class AjoutNftType extends AbstractType
                 'expanded' => false,
                 'choice_label' => 'name'
                 ,'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__select','name'=>'category12']
+                ,'attr'=>['class'=>'sign__select']
                 ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas être vide']))
 
             ])

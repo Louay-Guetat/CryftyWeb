@@ -56,11 +56,11 @@ class TransactionController extends AbstractController
     }
    /**
      * @return Response
-     * @Route("afficheAdminTransaction/",name="AfficheTA")
+     * @Route("admin/afficheAdminTransaction/",name="AfficheTA")
      */
     function AfficherTransactionAdmin(PaginatorInterface $paginator,Request $request,TransactionRepository $repository,CartRepository $cartRepository){
         $donnees=$repository->findAll();
-        $transaction = $paginator->paginate($donnees, $request->query->getInt('page', 1), 6);
+        $transaction = $paginator->paginate($donnees, $request->query->getInt('page', 1),3);
         return $this->render('transaction/adminTransaction.html.twig',['t'=>$transaction]);
     }
 

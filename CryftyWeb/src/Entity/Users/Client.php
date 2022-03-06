@@ -83,13 +83,14 @@ class Client extends User
     private $cartId;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\NFT\Nft", inversedBy="likedBy")
+     * @ORM\ManyToMany(targetEntity="App\Entity\NFT\Nft")
      */
-    private $likes=[];
+    private $likes;
 
     public function __construct()
     {
         $this->wallets = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getFirstName(): ?string
@@ -252,6 +253,15 @@ class Client extends User
     public function setLikes($nft): void
     {
         $this->likes[count($this->likes)] = $nft;
+    }
+
+    public function removeLike($nft): void
+    {
+        for($i=0;$i<count($this->likes);$i++){
+            if($nft == $this->likes[$i]){
+                unset($this->likes[$i]);
+            }
+        }
     }
 
     public function addWallet(Wallet $wallet): self

@@ -10,6 +10,7 @@ use App\Form\CommentbType;
 use App\Repository\BlogArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,7 +92,7 @@ class BlogArticleController extends AbstractController
     /**
      * @param $id
      * @param BlogArticleRepository $rep
-     * @Route ("blog/Delete/{id}", name="d")
+     * @Route ("blog/Delete/{id}", name="dArticle")
      */
     function Delete($id,BlogArticleRepository $rep){
         $BlogArticle=$rep->find($id);
@@ -124,7 +125,15 @@ class BlogArticleController extends AbstractController
         $form=$this->createForm(BlogArticleType::class,$BlogArticle);
         $form->handleRequest($request);
         //$form->add('Add',SubmitType::class);
+        $file = $BlogArticle->getImage();
         if($form->isSubmitted() && $form->isValid()){
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            try {
+                $file->move($this->getParameter('blog_directory'), $fileName);
+            } catch (FileException $e) {
+                $e->getMessage();
+            }
+            $BlogArticle->setImage($fileName);
             $em=$this->getDoctrine()->getManager();
             $em->persist($BlogArticle);
             $em->flush();

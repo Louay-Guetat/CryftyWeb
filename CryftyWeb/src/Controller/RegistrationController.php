@@ -9,6 +9,7 @@ use App\Form\RegistrationClientType;
 use App\Form\UpdatePasswClType;
 use App\Form\UpdateProfilType;
 use App\Repository\ClientRepository;
+use App\Repository\NftRepository;
 use App\Repository\UserRepository;
 
 use Exception;
@@ -55,6 +56,7 @@ class RegistrationController extends AbstractController
             $em->flush();
             $cart=new Cart();
             $cart->setClientId($user);
+            $cart->setTotal(0);
             $em->persist($cart);
             $em->flush();
             return $this->redirectToRoute('app_login');
@@ -145,10 +147,10 @@ class RegistrationController extends AbstractController
         }
 
     /**
-     * @Route("/profile",name="client-profil")
+     * @Route("/profile/{id?}",name="client-profil")
      * @return Response
      */
-    public function profileInfo(ClientRepository $clientRepository,Request $request):Response{
+    public function profileInfo(ClientRepository $clientRepository,Request $request,$id,NftRepository $nftRepository):Response{
 
         /** @var User $user */
         $loggedUser = $this->security->getUser();
@@ -161,9 +163,8 @@ class RegistrationController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->flush();
         }
-
-        return $this->render('registration/clientProfile.html.twig',[
-            'form' => $updateForm->createView()
+        $nfts = $nftRepository->findBy(['owner'=>$id]);
+        return $this->render('registration/clientProfile.html.twig',['form' => $updateForm->createView(),'nfts'=>$nfts
         ]);
         }
 

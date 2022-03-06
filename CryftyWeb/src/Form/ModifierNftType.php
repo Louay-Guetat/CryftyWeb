@@ -22,22 +22,20 @@ class ModifierNftType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title',TextType::class,[
-            'label_attr'=>['class'=>'sign__label']
-            ,'attr'=>['class'=>'sign__input','placeholder' => 'Title']
-            ,'constraints'=>array(new NotBlank(['message'=>'Ce champ ne doit pas etre vide'])
-            , new Length(['min'=>3,'max'=>20]))
-            ])
-            ->add('description',TextareaType::class,[
-                'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__textarea','cols' => '5', 'rows' => '5','placeholder' => 'Description']
+            ->add('title',TextType::class,['label'=>"TITLE"
+                ,'label_attr'=>['class'=>'sign__label']
+                ,'attr'=>['class'=>'sign__input']
                 ,'constraints'=>array(new NotBlank(['message'=>'Ce champ ne doit pas etre vide'])
-                , new Length(['min'=>6,'max'=>255]))
+                , new Length(['min'=>3,'max'=>20]))
             ])
-            ->add('price',MoneyType::class,[
-                'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__input','placeholder' => 'Price']
-                ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas etre vide']))
+            ->add('description',TextareaType::class,['label'=>"DESCRIPTION"
+                ,'label_attr'=>['class'=>'sign__label']
+                ,'attr'=>['class'=>'sign__textarea','cols' => '5', 'rows' => '5']
+            ])
+            ->add('price',MoneyType::class,['label'=>"PRICE"
+                ,'label_attr'=>['class'=>'sign__label']
+                ,'attr'=>['class'=>'sign__input']
+                ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas être vide']))
             ])
             ->add('currency',EntityType::class,
                 [
@@ -46,28 +44,39 @@ class ModifierNftType extends AbstractType
                     'class' => Node::class,
                     'multiple' => false,
                     'expanded' => false,
-                    'choice_label' => 'NodeLabel'
+                    'choice_label' => 'coinCode'
                     ,'label_attr'=>['class'=>'sign__label']
                     ,'attr'=>['class'=>'sign__select']
+                    ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas être vide']))
 
                 ])
             ->add('category',EntityType::class,[
                 'required' => false,
+                'label' => 'Category',
                 'class' => Category::class,
                 'multiple' => false,
                 'expanded' => false,
                 'choice_label' => 'name'
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__select']
+                ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas être vide']))
+
             ])
             ->add('subcategory',EntityType::class,[
                 'required' => false,
+                'label' => 'SubCategory',
                 'class' => SubCategory::class,
                 'multiple' => false,
                 'expanded' => false,
                 'choice_label' => 'name'
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__select']
+                ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas être vide']))
+                /*,'query_builder'=>function (SubCategoryRepository $subCat){
+                    return $subCat->createQueryBuilder('c')
+                        ->where('c.category =:cat')
+                        ->setParameter('cat');
+                }*/
             ]);
         ;
     }

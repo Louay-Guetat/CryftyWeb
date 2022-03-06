@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     /**
-     * @Route("/category", name="category")
+     * @Route("/category/index", name="category")
      */
     public function index(): Response
     {
@@ -26,7 +26,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/AfficheCat",name="showCat")
+     * @Route("/category/AfficheCat",name="showCat")
      */
     function afficheCategory(CategoryRepository $categoryRepository, SubCategoryRepository  $subCategoryRepository){
         $category = $categoryRepository->findAll();
@@ -35,7 +35,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/AddCat", name="AjoutCategory")
+     * @Route("/category/AddCat", name="AjoutCategory")
      */
     public function AjoutCategory(Request $request, CategoryRepository $CatRepo, SubCategoryRepository $subCatRepo){
         $category = new Category();
@@ -68,7 +68,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/deleteCategory/{id}" , name="DeleteCat")
+     * @Route("/category/deleteCategory/{id}" , name="DeleteCat")
      */
     function DeleteCategory($id , CategoryRepository $categoryRepo){
         $category =$categoryRepo->find($id);
@@ -79,7 +79,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/deleteSubCategory/{id}" , name="DeleteSubCat")
+     * @Route("/category/deleteSubCategory/{id}" , name="DeleteSubCat")
      */
     function DeleteSubCategory($id , SubCategoryRepository $SubcategoryRepo){
         $Subcategory =$SubcategoryRepo->find($id);
@@ -90,7 +90,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/ModifierCat/{id}", name="ModifCat")
+     * @Route("/category/ModifierCat/{id}", name="ModifCat")
      */
     function ModifierCategory(Request $request, $id, CategoryRepository $Categoryrepo){
         $category =$Categoryrepo->find($id);
@@ -105,7 +105,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/ModifierSubCat/{id}", name="ModifSubCat")
+     * @Route("/category/ModifierSubCat/{id}", name="ModifSubCat")
      */
     function ModifierSubCategory(Request $request, $id, SubCategoryRepository $SubCategoryrepo,CategoryRepository $categoryRepo){
         $Subcategory =$SubCategoryrepo->find($id);
@@ -132,7 +132,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/searchCategory", name="searchCat")
+     * @Route("/category/searchCategory", name="searchCat")
      */
     function SearchCat(CategoryRepository $repository,SubCategoryRepository  $subCategoryRepository,Request $request){
         $donnes = $request->get('searchCat');
@@ -142,7 +142,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/searchSubCategory", name="searchSubCat")
+     * @Route("/category/searchSubCategory", name="searchSubCat")
      */
     function SearchSubCat(CategoryRepository $CategoryRepository,SubCategoryRepository $subCategoryRepository,Request $request){
         $donnes = $request->get('searchSubCat');

@@ -48,8 +48,6 @@ Primary use:	Unitok HTML Template
 /*==============================
 	Common styles
 ==============================*/
-
-
 html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -4608,7 +4606,7 @@ body::-webkit-scrollbar-thumb {
 }
 .footer__logo img {
   width: auto;
-  height: 200px;
+  height: 40px;
   display: block;
 }
 .footer__tagline {

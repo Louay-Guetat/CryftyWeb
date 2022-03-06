@@ -12,7 +12,7 @@
                         <div class="home__content">
                             <h1 class="home__title">Votre Panier</h1>
                             {% if dataPanier | length >0 %}
-                            <table border="3" style="size: 150px">
+                            <table class="table table-bordered" style="size: 150px">
                                     <thead>
                                 <tr>
                                     <th class="home__text">Title NFT</th>
@@ -30,10 +30,9 @@
                                         <td><img src="{{asset('NFTS/'~ element.produit.image) }}"></td>
                                         <td>{{ element.produit.price }} €</td>
                                         <td>
-                                           <a href="{{path('delete_panier', {id: element.produit.id})}}" class="btn btn-warning">
+                                           <a href="{{path('delete_panier', {id: element.produit.id})}}">
                                                <button class="asset__btn" type="submit">
-                                                   <span class="iconify" data-icon="bi:cart-plus-fill" style="color: yellow;align-content: center"></span>
-                                                   Supprimer </button></a>
+                                                   <i class="fa fa-trash"></i> </button></a>
                                             </a>
                                         </td>
                                     </tr>

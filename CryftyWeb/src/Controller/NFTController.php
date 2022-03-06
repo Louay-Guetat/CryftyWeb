@@ -35,7 +35,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class NFTController extends AbstractController
 {
     /**
-     * @Route("nft/index", name="nft")
+     * @Route("/index", name="nft")
      */
     public function index(NftRepository $repository ) {
         $nft = $repository->findAll();
@@ -199,6 +199,14 @@ class NFTController extends AbstractController
             $client->setLikes($nft);
             $nft->setLikedBy($client);
             $nft->setLikes($nft->getLikes() + 1);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $this->redirectToRoute('nft');
+        }
+        else{
+            $client->removeLike($nft);
+            $nft->removeLikedBy($client);
+            $nft->setLikes($nft->getLikes()-1);
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('nft');

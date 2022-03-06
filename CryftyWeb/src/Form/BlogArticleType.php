@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\Image;
 
 //use Symfony\Component\Validator\Constraints\DateTime;
 
@@ -23,7 +25,6 @@ class BlogArticleType extends AbstractType
     {
         $builder
 
-            //->add('title',TextType::class)
             ->add('title',TextType::class,[
                 'label'=>'title Article',
                 'attr'=>[
@@ -61,12 +62,16 @@ class BlogArticleType extends AbstractType
 
                 'widget' =>'single_text',
             ])
-            ->add('image',TextType::class,[
-                'label'=>'path',
-                'attr' => [
-                    'placeholder'=> 'img/posts/imgname.jpg'
+            ->add('image', FileType::class,['label'=>'e. g. Image',
+                'label_attr'=>['class'=>'sign__label'
+                    , 'class'=>'custom-file-label'
+                    ,'for'=>'customFile'
+                    ,'mapped'=>false
+                    ,'required'=>true
+                    ,'multiple'=>false
                 ]
-
+                ,'attr'=>['class'=>'custom-file-input','name'=>'filename','id'=>'customFile','accept' => "image/*"]
+                , 'constraints' => [new Image()]
             ])
         ;
     }

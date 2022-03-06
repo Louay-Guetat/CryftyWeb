@@ -99,7 +99,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $user = $this->security->getUser();
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         if(['ROLE_USER'] == $user->getRoles()) {
-            return new RedirectResponse($this->urlGenerator->generate('client-profil'));
+            return new RedirectResponse($this->urlGenerator->generate('nft'));
         }
         else{
             return new RedirectResponse($this->urlGenerator->generate('Clientlist'));
