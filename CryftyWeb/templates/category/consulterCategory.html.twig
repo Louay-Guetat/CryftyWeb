@@ -1,0 +1,108 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{%  block body %}
+    <section id="main-content">
+        <section class="wrapper">
+    <!-- row -->
+    <div class="row mt">
+        <div class="col-md-12">
+            <div class="content-panel">
+                <div class="input-append">
+                <form method="post"  action="{{ path('searchCat') }}" class="pull-right">
+                    <!--    <input type="text" name="sear" placeholder="Search...">-->
+                    <input type="text" class="form-control" name="searchCat" placeholder="Search Category "><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/>
+                </form>
+                </div>
+                <table class="table table-striped table-advance table-hover">
+                    <h4><i class="fa fa-angle-right"></i> Category Table</h4>
+                    <hr>
+                    <thead>
+                    <tr>
+                        <th><i class="fa fa-id-badge"></i> Category ID</th>
+                        <th class="hidden-phone"><i class="fa fa-file-text"></i> Category Name</th>
+                        <th><i class="fa fa-calendar"></i> Creation Date</th>
+                        <th><i class="fa fa-sort-numeric-asc"></i> Nombre d'NFT associé</th>
+                        <th><i class=" fa fa-sort-numeric-asc"></i> SubCategories associé</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cat in Category %}
+                    <tr>
+                        <td>
+                            <a href="basic_table.html#">{{ cat.id }}</a>
+                        </td>
+                        <td class="hidden-phone">{{ cat.name }}</td>
+                        <td> {{ cat.creationDate | date }} </td>
+                        <td><span class="label label-info label-mini">{{ cat.nbrNft }}</span></td>
+                        <td><span class="label label-info label-mini">{{ cat.nbrSubCategory }}</span></td>
+                        <td>
+                            <a href="{{ path ('ModifCat',{'id':cat.id}) }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                            {% if cat.nbrNft ==0 and cat.nbrSubCategory ==0 %}
+                            <a href="{{ path ('DeleteCat',{'id':cat.id}) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /content-panel -->
+        </div>
+        <!-- /col-md-12 -->
+    </div>
+    <!-- /row -->
+            <!-- row -->
+            <div class="row mt">
+                <div class="col-md-12">
+                    <div class="content-panel">
+                        <div class="input-append">
+                        <form method="post" action="{{ path('searchSubCat') }}" class="pull-right">
+                            <!--    <input type="text" name="sear" placeholder="Search...">-->
+                            <input type="text" class="form-control" name="searchSubCat" placeholder="Search SubCategory"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/>
+                        </form>
+                        </div>
+                        <table class="table table-striped table-advance table-hover">
+                            <h4><i class="fa fa-angle-right"></i> SubCategory Table</h4>
+                            <hr>
+                            <thead>
+                            <tr>
+                                <th><i class="fa fa-id-badge"></i> SubCategory ID</th>
+                                <th class="hidden-phone"><i class="fa fa-file-text"></i> SubCategory Name</th>
+                                <th><i class="fa fa-calendar"></i> Creation Date</th>
+                                <th><i class="fa fa-sort-numeric-asc"></i> Nombre d'NFT associé</th>
+                                <th><i class=" fa fa-sort-numeric-asc"></i> Category</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for subCat in subCategory %}
+                                <tr>
+                                    <td>
+                                        <a href="basic_table.html#">{{ subCat.id }}</a>
+                                    </td>
+                                    <td class="hidden-phone">{{ subCat.name }}</td>
+                                    <td> {{ subCat.creationDate | date }} </td>
+                                    <td><span class="label label-info label-mini">{{ subCat.nbrNft }}</span></td>
+                                    <td><span class="label label-info label-mini">{{ subCat.category.name }}</span></td>
+                                    <td>
+                                        <a href="{{ path ('ModifSubCat',{'id':subCat.id}) }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                        {% if subCat.nbrNft ==0 and subCat.category is empty %}
+                                        <a href="{{ path ('DeleteSubCat',{'id':subCat.id}) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <center><a class="btn btn-theme" href="{{ path('AjoutCategory') }}"> Add </a></center>
+                    <!-- /content-panel -->
+                </div>
+                <!-- /col-md-12 -->
+            </div>
+            <!-- /row -->
+        </section>
+    </section>
+{% endblock %}

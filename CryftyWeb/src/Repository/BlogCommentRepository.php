@@ -47,4 +47,15 @@ class BlogCommentRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllByBA($value)
+    {
+        return $this->createQueryBuilder('C')
+            ->where('C.article = :value')
+            ->setParameter('value',$value)
+            ->orderBy('C.postDate','asc')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
+

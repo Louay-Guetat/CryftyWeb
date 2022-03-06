@@ -3,9 +3,10 @@
 namespace App\Entity\Payment;
 
 use App\Repository\CartRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CartRepository::class)
@@ -16,22 +17,58 @@ class Cart
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ("cartId:read")
      */
     private $id;
 
+
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NFT\Nft",inversedBy="cartProd")
+     * @param $date_creation
+     */
+    public function __construct()
+    {
+        $this->date_creation = new \DateTime();
+        $this->nftProd=new ArrayCollection();
+    }
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\NFT\Nft",cascade={"persist"})
      */
     private $nftProd;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+
+
     /**
-     * @ORM\Column(type="float")
+    * @Assert\DateTime
+    * @ORM\Column(type="datetime")
+    * @var string A "Y-m-d H:i:s" formatted value
+     * @Groups ("cartId:read")
+
+     */
+    private $date_creation;
+
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Crypto\Wallet",inversedBy="cartwallet")
+     */
+    private $wallets;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment\Transaction",mappedBy="cartId")
+     */
+    private $cartTransaction;
+
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Users\Client",inversedBy="cartId",cascade={"persist", "remove"})
+     */
+    private $clientId;
+
+    /**
+     * @ORM\Column (type="float")
      */
     private $total;
+
 
     /**
      * @return mixed
@@ -48,34 +85,6 @@ class Cart
     {
         $this->total = $total;
     }
-
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $quantite;
-
-    /**
-     * @return mixed
-     */
-    public function getQuantite()
-    {
-        return $this->quantite;
-    }
-
-    /**
-     * @param mixed $quantite
-     */
-    public function setQuantite($quantite): void
-    {
-        $this->quantite = $quantite;
-    }
-
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $date_creation;
     
     /**
      * @return mixed
@@ -92,8 +101,7 @@ class Cart
     {
         $this->date_creation = $date_creation;
     }
-    
-    
+
 
 
     /**
@@ -112,12 +120,6 @@ class Cart
         $this->nftProd = $nftProd;
     }
 
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Users\Client",inversedBy="cartId")
-     */
-    private $clientId;
-
     /**
      * @return mixed
      */
@@ -134,15 +136,6 @@ class Cart
         $this->clientId = $clientId;
     }
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Crypto\Wallet",inversedBy="cartwallet")
-     */
-    private $wallets;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payment\Transaction",mappedBy="cartId")
-     */
-    private $cartTransaction;
 
     /**
      * @return mixed
@@ -176,6 +169,12 @@ class Cart
         $this->cartTransaction = $cartTransaction;
     }
 
+
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
 
 

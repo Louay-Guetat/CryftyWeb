@@ -8,9 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity("username")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"admin"="Admin", "moderator"="Moderator", "client"="Client"})
@@ -22,11 +24,13 @@ abstract class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("owner:read")
+     * @Groups("post:read")
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(name="username",type="string", length=180, unique=true)
      */
     private $username;
 
@@ -41,8 +45,8 @@ abstract class User implements UserInterface
      */
     private $password;
 
-    /**
 
+    /**
      * @param $Groups
      */
     public function __construct()
@@ -50,17 +54,40 @@ abstract class User implements UserInterface
         $this->Groups = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
+
     /**
      * @param $Groups
      */
+
 
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="user")
      */
     private $comments;
+    /**
+     * @ORM\OneToMany (targetEntity="App\Entity\Blog\BlogComment", mappedBy="user")
+     * @Groups("post:read")
+     */
+    private $commentsb;
 
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
@@ -70,7 +97,7 @@ abstract class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public function getUsername()
     {
         return (string) $this->username;
     }
@@ -140,6 +167,7 @@ abstract class User implements UserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Chat\GroupChat")
+
      */
     private $Groups;
 
@@ -227,6 +255,7 @@ abstract class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Chat\GroupChat", mappedBy="Owner")
+
      */
     private $Group;
 
@@ -238,16 +267,15 @@ abstract class User implements UserInterface
 
 
 
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="Sender")
      */
     private $privateChatSender;
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Chat\PrivateChat", mappedBy="Received")
-     */
-    private $privateChatReceived;
+
 
 
 }
+

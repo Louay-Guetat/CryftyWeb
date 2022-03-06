@@ -1,0 +1,50 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block body %}
+
+
+    <section id="main-content">
+        <section class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> Blog management</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content-panel">
+                        <h4><i class="fa fa-angle-right"></i> BlogArticles Table     <a style="margin: auto" href=" {{ path('AjouterArticle' )}} ">+Add </a></h4>
+                        <hr>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Contents</th>
+                                <th>Author</th>
+                                <th>Date Of Post</th>
+                                <th><i class=" fa fa-edit"></i> Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr {% for a in BlogArticle%}>
+                                <td>{{ a.id }}</td>
+                                <td>{{ a.title }}</td>
+                                <td>{{ a.category }}</td>
+                                <td>{{ a.contents }}</td>
+                                <td>{{ a.author }}</td>
+                                <td>{{a.getDate()|date('d-m-Y')}}</td>
+                                <td>
+                                    <a href=" {{ path('u',{'id':a.id}) }} "><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>
+                                    <a href=" {{ path('d',{'id':a.id}) }} "><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a>
+                                </td>
+                            </tr {% endfor %}>
+
+                            </tbody>
+                        </table>
+                        <a href=" {{ path('AfficheBA' )}} ">Back to menu </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+{% endblock %}

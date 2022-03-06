@@ -5,6 +5,8 @@ namespace App\Entity\Blog;
 use App\Repository\BlogArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=BlogArticleRepository::class)
@@ -15,6 +17,7 @@ class BlogArticle
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -25,28 +28,44 @@ class BlogArticle
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="title is required")
+     * @Groups("post:read")
      */
     private $title;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $contents;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $category;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $author;
     /**
      * @Assert\NotBlank
      * @ORM\Column(type="date", nullable=true)
+     * @Groups("post:read")
      */
     private $date;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank
+     * @Groups("post:read")
+     */
+    private $image;
+    /**
+     * @ORM\OneToMany (targetEntity="App\Entity\Blog\BlogComment", mappedBy="article" , orphanRemoval=true)
+     * @Groups("post:read")
+     */
+    private $comments;
 
     /**
      * @return mixed
@@ -128,5 +147,44 @@ class BlogArticle
         $this->date = $date;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image): void
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return array
+     */
+    public function getComments(): ?array
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param array $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
+
+
+
+
+
+
+
 
 }
+

@@ -5,7 +5,8 @@ namespace App\Entity\Chat;
 use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=MessageRepository::class)
  */
@@ -15,16 +16,20 @@ class Message
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+
      */
     private $id;
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string")
+
      */
     private $contenu;
     /**
      * @Assert\DateTime
      * @ORM\Column(type="datetime")
      * @var string A "Y-m-d H:i:s" formatted value
+
      */
 
     private $createdAt;
@@ -38,6 +43,9 @@ class Message
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Chat\Conversation", inversedBy="messages")
+     * @ORM\JoinColumn(nullable=false)
+
+
      */
     private $conversation;
 
@@ -46,7 +54,8 @@ class Message
      */
     public function __construct()
     {
-        $this->createdAt = new \DateTime();;
+        $this->createdAt = new \DateTime();
+
     }
 
     /**

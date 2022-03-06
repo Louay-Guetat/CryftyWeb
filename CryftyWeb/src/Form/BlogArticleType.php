@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+
 //use Symfony\Component\Validator\Constraints\DateTime;
 
 class BlogArticleType extends AbstractType
@@ -59,7 +60,14 @@ class BlogArticleType extends AbstractType
                 'attr' => ['class' => 'form-control '],
 
                 'widget' =>'single_text',
-        ])
+            ])
+            ->add('image',TextType::class,[
+                'label'=>'path',
+                'attr' => [
+                    'placeholder'=> 'img/posts/imgname.jpg'
+                ]
+
+            ])
         ;
     }
 
@@ -71,3 +79,4 @@ class BlogArticleType extends AbstractType
         ]);
     }
 }
+

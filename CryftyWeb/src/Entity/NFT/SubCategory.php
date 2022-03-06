@@ -5,6 +5,8 @@ namespace App\Entity\NFT;
 use App\Repository\SubCategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=SubCategoryRepository::class)
@@ -15,33 +17,44 @@ class SubCategory
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ("category1:read")
+     * @Groups ("nfts:read")
      */
     private $id;
 
     /**
      * @ORM\Column (type="string")
      * @Assert\NotNull
+     * @Groups ("subCategory:read")
+     * @Groups ("category1:read")
+     * @Groups ("nfts:read")
      */
     private $name;
 
     /**
      * @Assert\DateTime()
      * @ORM\Column(type="datetime")
+     * @Groups ("category1:read")
+     * @Groups ("nfts:read")
      */
     private $creationDate;
 
     /**
      * @ORM\Column (type="integer")
+     * @Groups ("category1:read")
+     * @Groups ("nfts:read")
      */
     private $nbrNft;
 
     /**
-     * @ORM\ManyToOne (targetEntity="App\Entity\Nft\Category", inversedBy="subCategories")
+     * @ORM\ManyToOne (targetEntity="App\Entity\NFT\Category", inversedBy="subCategories")
+     * @Groups ("category1:read")
      */
     private $category;
 
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="subCategory")
+     * @Groups ("nfts:read")
      */
     private $nfts;
 

@@ -4,6 +4,7 @@ namespace App\Entity\Chat;
 
 use App\Repository\PrivateChatRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PrivateChatRepository::class)
@@ -14,12 +15,14 @@ class PrivateChat extends Conversation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("messages:read")
+     * @Groups("Sender:read")
      */
     protected $id;
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users\User", inversedBy="privateChatSender")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users\User")
      */
     private $Sender;
 
@@ -31,17 +34,17 @@ class PrivateChat extends Conversation
     /**
      * @return mixed
      */
-    public function getSenderP()
+    public function getSender()
     {
-        return $this->SenderP;
+        return $this->Sender;
     }
 
     /**
-     * @param mixed $SenderP
+     * @param mixed $Sender
      */
-    public function setSenderP($SenderP): void
+    public function setSenderP($Sender): void
     {
-        $this->SenderP = $SenderP;
+        $this->Sender = $Sender;
     }
 
 

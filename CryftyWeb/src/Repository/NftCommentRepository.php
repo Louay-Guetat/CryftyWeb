@@ -36,15 +36,14 @@ class NftCommentRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?NftComment
+    public function findAllByNft($value)
     {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('C')
+            ->where('C.nft = :value')
+            ->setParameter('value',$value)
+            ->orderBy('C.postDate','asc')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+
 }

@@ -1,37 +1,55 @@
-{% extends'base.html.twig' %}
-{% block title 'Gerer les contacts' %}
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Admin - View Contact{% endblock %}
+
 {% block body %}
-    <div class="container mt-4 "style="background: white">
-        <h1>Gerer les contacts</h1>
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
+
+    <section id="main-content">
+        <section class="wrapper site-min-height">
+            <h3><i class="fa fa-angle-right"></i> Contact list : </h3>
+            <div class="row mt">
+                <div class="col-lg-12">
+                    <section id="unseen">
+
+                        <style>
+                            td {
+                                text-align: center;
+                            }
+                        </style>
+                        <a class="btn btn-info" href="{{ path('contactlist') }}">Add New Reclamation</a>
+                        <table class="table table-bordered table-striped table-condensed ">
+                            <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for m in form %}
+                                <tr>
+                                    <form method="post">
+                                        <td>{{ m.name }}</td>
+                                        <td><strong>{{ m.email }}</strong></td>
+                                        <td class="numeric"><a href="{{ path('contact_update',{'id': m.id }) }}" class="btn btn-theme btn-sm">Update</a></td>
+                                        <td class="numeric"><a href="{{ path('delete_contact',{'id': m.id }) }}" class="btn btn-theme04 btn-sm"onclick="return confirm('are u sure?')"s>Delete</a></td>
+                                        <td class="numeric"><a href="{{ path('show_contact',{'id': m.id }) }}" class="btn btn-theme01 btn-sm">
+                                                <i class="fa fa-arrow-circle-o-right" style="font-size: large"/></a></td>
+                                    </form>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
             </div>
-        {% endfor %}
-        <a href="{{ path('Clientlist') }}" class="btn btn-primary">Client</a>
-        <a href="{{ path('moderatorlist') }}" class="btn btn-primary">Moderator</a>
+            {{ knp_pagination_render(form) }}
+        </section>
+        <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
 
-        <table class="table table-striped" width="1000" border="2">
-            <thead>
-            <tr>
-                <th scope="col"> Username</th>
-                <th scope="col"> Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for m in form %}
-                <tr>
-                    <form method="post">
-
-                        <td>{{ m.name }}</td>
-                          <td><a href="{{ path('contact_update',{'id': m.id }) }}">Update</a> </td>
-                        <td><a href="{{ path('delete_contact',{'id': m.id }) }}">Delete</a> </td>
-                    </form>
-                </tr>
-
-            {% endfor %}
-            </tbody>
-        </table>
-
-    </div>
 {% endblock %}
+

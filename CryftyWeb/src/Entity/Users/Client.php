@@ -26,25 +26,27 @@ class Client extends User
 
 
     /**
-     * @Assert\Length(min=5,max=255)
+     * @Assert\Length(min=3,max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $firstName;
 
     /**
-     * @Assert\Length(min=5,max=255)
+     * @Assert\Length(min=3,max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Email is required")
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Regex("/^[0-9]{9}$/")
+     * @Assert\Regex("/^[0-9]{8}$/")
      */
     private $phoneNumber;
 
@@ -55,7 +57,7 @@ class Client extends User
     private $age;
 
     /**
-     * @Assert\Length(min=5,max=255)
+     * @Assert\Length(min=3,max=255)
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
@@ -74,6 +76,16 @@ class Client extends User
      * @ORM\OneToMany(targetEntity=Wallet::class, mappedBy="client", orphanRemoval=true)
      */
     private $wallets;
+
+    /**
+     * @ORM\OneToOne (targetEntity="App\Entity\Payment\Cart" , mappedBy="clientId")
+     */
+    private $cartId;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\NFT\Nft", inversedBy="likedBy")
+     */
+    private $likes=[];
 
     public function __construct()
     {
@@ -153,11 +165,6 @@ class Client extends User
     }
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Payment\Cart",mappedBy="clientId")
-     */
-    private $cartId;
-
-    /**
      * @return mixed
      */
     public function getCartId()
@@ -181,6 +188,70 @@ class Client extends User
     public function getWallets(): Collection
     {
         return $this->wallets;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSupportticket()
+    {
+        return $this->supportticket;
+    }
+
+    /**
+     * @param mixed $supportticket
+     */
+    public function setSupportticket($supportticket): void
+    {
+        $this->supportticket = $supportticket;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNfts()
+    {
+        return $this->nfts;
+    }
+
+    /**
+     * @param mixed $nfts
+     */
+    public function setNfts($nfts): void
+    {
+        $this->nfts = $nfts;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param mixed $likes
+     */
+    public function setLikes($nft): void
+    {
+        $this->likes[count($this->likes)] = $nft;
     }
 
     public function addWallet(Wallet $wallet): self

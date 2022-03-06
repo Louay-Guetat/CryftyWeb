@@ -26,9 +26,11 @@
     </head>
     <body>
 
+
         {% for message in app.flashes('success') %}
             <div class="alert alert-success " style="margin-top: 5rem"> {{ message }} </div>
         {% endfor %}
+
         {% include 'shared/_header.html.twig' %}
         {% block body %}{% endblock %}
         {% include 'shared/_footer.html.twig' %}
@@ -45,6 +47,7 @@
             <script src="{{ asset('js/smooth-scrollbar.js') }}"></script>
             <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
             <script src="{{ asset('js/main.js') }}"></script>
+            <script src="https://js.stripe.com/v3/"></script>
             <script>
 
 

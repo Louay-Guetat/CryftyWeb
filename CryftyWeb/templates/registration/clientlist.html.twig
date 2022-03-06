@@ -1,40 +1,57 @@
-{% extends'base.html.twig' %}
-{% block title 'Gerer les utilisateur' %}
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Admin - View Clients{% endblock %}
+
 {% block body %}
-    <div class="container mt-4 "style="background: white">
-        <h1>Gerer les clients</h1>
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
+
+    <section id="main-content">
+        <section class="wrapper site-min-height">
+            <h3><i class="fa fa-angle-right"></i> Clients list : </h3>
+            <div class="row mt">
+                <div class="col-lg-12">
+                    <section id="unseen">
+
+                        <style>
+                            td {
+                                text-align: center;
+                            }
+                        </style>
+                        <a class="btn btn-info" href="{{ path('registration') }}">Add New Client</a>
+                        <table class="table table-bordered table-striped table-condensed ">
+                            <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for c in client %}
+                                <tr>
+
+                                        <td>{{ c.username }}</td>
+                                        <td><strong>{{ c.email }}</strong></td>
+                                        <td class="numeric"><a href="{{ path('client-profil') }}" class="btn btn-theme btn-sm">Update</a></td>
+                                        <td class="numeric"><a href="{{ path('delete_client',{'id': c.id }) }}" class="btn btn-theme04 btn-sm  " onclick="return confirm('are u sure?')">Delete</a></td>
+                                        <td class="numeric"><a href="{{ path('show_client',{'id': c.id }) }}" class="btn btn-theme01 btn-sm">
+                                                <i class="fa fa-arrow-circle-o-right" style="font-size: large"/></a></td>
+                                    
+                                </tr>
+                            {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
             </div>
-        {% endfor %}
-        <a href="{{ path('moderatorlist') }}" class="btn btn-primary">Moderator</a>
-        <a href="{{ path('contactlist') }}" class="btn btn-primary">Contact</a>
+            {{ knp_pagination_render(client) }}
+        </section>
+        <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
 
-        <div class="text-right">
-            <a href="{{ path('registration') }}" class="btn btn-primary">Creer un nouveau client</a>
-        </div>
-        <table class="table table-striped" width="1000" border="2">
-            <thead>
-            <tr>
-                <th scope="col"> Username</th>
-                <th scope="col"> Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for c in client %}
-                <tr>
-                    <form method="post">
 
-                        <td>{{ c.username }}</td>
-                        <td><a href="{{ path('updateclient',{'id': c.id }) }}">Update</a> </td>
-                        <td><a href="{{ path('delete_client',{'id': c.id }) }}">Delete</a> </td>
-                    </form>
-                </tr>
-
-            {% endfor %}
-            </tbody>
-        </table>
-
-    </div>
 {% endblock %}
+
