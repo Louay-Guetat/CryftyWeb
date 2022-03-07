@@ -13,9 +13,10 @@
                 <thead>
 
                 <tr>
-                    <td class="home__text"></td>
+                    <td class="home__text">Réf</td>
                     <th class="home__text">Montant</th>
                     <th class="home__text">Date Transaction</th>
+                    <th class="home__text">Facture</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,6 +25,12 @@
                         <td class="home__text">{{ trans.id }}</td>
                         <td class="home__text">{{ trans.cartId.total }}</td>
                         <td class="home__text">{{ trans.datetransaction|date }}</td>
+                        <td>
+                            <a href="{{ path('pdfTransaction', {id: trans.id}) }}">
+                                <button class="asset__btn" type="submit">
+                                    <i class="fa fa-download" ></i> </button>
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

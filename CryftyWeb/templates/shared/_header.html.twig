@@ -272,7 +272,7 @@
         </button>
     </div>
 </header>
-
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 <div class="container-wa">
     <div class="card">
         <div class="mb-2">
@@ -331,5 +331,5 @@
 
     </div>
 </div>
-
+{% endif %}
 

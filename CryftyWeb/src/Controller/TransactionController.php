@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Crypto\Wallet;
 use App\Entity\Payment\Transaction;
+use App\Repository\TransferRepository;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Form\TransactionType;
 use App\Repository\CartRepository;
@@ -137,6 +140,24 @@ class TransactionController extends AbstractController
         $formatted = $serializer->normalize($transaction,200,['groups'=>['cartId:read','wallets:read']]);
         return new JsonResponse($formatted);
 
+    }
+
+    /**
+     * @Route("transaction/pdfTransaction/{id}", name="pdfTransaction")
+     * @param Pdf $knpSnappyPdf
+     * @return PdfResponse
+     */
+    public function pdfTransaction(Pdf $knpSnappyPdf,$id, TransactionRepository $transactionRepository): PdfResponse
+    {
+        $transaction = $transactionRepository->find($id);
+        $html = $this->renderView('transaction/pdfTransaction.html.twig', [
+            'tpdf'=>$transaction
+        ]);
+
+        return new PdfResponse(
+            $knpSnappyPdf->getOutputFromHtml($html),
+            'file.pdf'
+        );
     }
 
 }
