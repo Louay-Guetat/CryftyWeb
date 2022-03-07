@@ -171,6 +171,12 @@ class ChatController extends AbstractController
 
 
     }
+    /**
+     * @Route("/chat/getChats", name="get-chats")
+     */
+    public function getChats(){
+
+    }
 
 
 

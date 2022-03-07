@@ -35,7 +35,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class NFTController extends AbstractController
 {
     /**
-     * @Route("/index", name="nft")
+     * @Route("/", name="nft")
      */
     public function index(NftRepository $repository ) {
         $nft = $repository->findAll();

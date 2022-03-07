@@ -86,6 +86,9 @@
                     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
                 });
 
+                $(".floating-button").click(function(){
+                    $(this).closest('.container-wa').toggleClass('is-opened');
+                })
             </script>
         {% endblock %}
 

@@ -3,7 +3,10 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     exception_controller: null
-
+    globals:
+        user_wallet: '@App\Repository\WalletRepository'
+        chat_group: '@App\Repository\GroupChatRepository'
+        chat_private: '@App\Repository\PrivateChatRepository'
     paths:
         '%kernel.project_dir%/public/img': images
 

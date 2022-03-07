@@ -2,6 +2,25 @@
 {% block title %}Cryfty | Your Wallets {% endblock %}
 
 {% block body %}
+    <style>
+        .item {
+            position:relative;
+            padding-top:0px;
+            display:inline-block;
+        }
+        .notify-badge{
+            position: absolute;
+            right:10px;
+            top:10px;
+            background:blue;
+            text-align: center;
+            border-radius: 30px 30px 30px 30px;
+            color:white;
+            padding:5px 10px;
+            font-size:12px;
+            font-weight: bolder;
+        }
+    </style>
     <main class="main container">
     <section class="row row--grid">
         <!-- title -->
@@ -21,7 +40,8 @@
     {% for wallet in wallets %}
         {% if wallet.isActive %}
                     <div class="card">
-                        <a href="{{ path('view-wallet-info',{'walletId':wallet.id}) }}" class="card__cover">
+                        <a href="{{ path('view-wallet-info',{'walletId':wallet.id}) }}" class="card__cover item">
+                           {% if wallet.isMain %} <span class="notify-badge badge badge-primary">MAIN</span>  {% endif %}
                             <img width="260" height="300" src="{{ asset("uploads/walletImages/"~ wallet.walletImageFileName) }}" alt="">
                         </a>
                         <h3 class="card__title">
