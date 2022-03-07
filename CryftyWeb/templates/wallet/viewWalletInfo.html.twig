@@ -21,7 +21,7 @@
                 </div>
                 <div class="activity__content">
                     <h3 class="activity__title">Wallet Label : </h3>
-                        <p class="activity__text">{{ wallet.walletLabel }}</p>
+                        <p class="activity__text">{{ wallet.walletLabel }} {% if wallet.isMain %}<span class="badge badge-secondary">Main</span>{% endif %}</p>
                     <h3 class="activity__title">Your Wallet Address :
                     </h3>
                     <div class="author__code col-4">
@@ -41,7 +41,7 @@
                             {% endif %}
                         </p>
                 </div>
-                <a class="btn btn-info text-white" href="{{ path('wallet-pdf',{'walletId':wallet.id}) }}"><i class="fa fa-download"></i> Download</a>
+                <a class="btn btn-theme text-white" href="{{ path('wallet-pdf',{'walletId':wallet.id}) }}"><i class="fa fa-download"></i> Download</a>
 
             </div>
             <div class="row justify-content-center">

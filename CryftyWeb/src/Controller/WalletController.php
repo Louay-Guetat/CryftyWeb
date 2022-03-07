@@ -74,8 +74,9 @@ class WalletController extends AbstractController
     /**
      * @Route("/wallet/createWallet", name="create-wallet")
      * @throws Exception
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
-    public function createWallet(Request $request,ClientRepository $clientRepository): Response
+    public function createWallet(Request $request,WalletRepository $walletRepository): Response
     {
         $wallet = new Wallet();
         $client = $this->security->getUser();
@@ -112,6 +113,14 @@ class WalletController extends AbstractController
             $wallet->setBalance(0);
             $wallet->setClient($client);
             $wallet->setIsActive(false);
+
+            $walletCount = $walletRepository->findAll();
+            if (!$walletCount){
+                $wallet->setIsMain(true);
+            }else{
+                $wallet->setIsMain(false);
+            }
+
             $em->persist($wallet);
             $em->flush();
             $emailClient = $client->getEmail();
@@ -121,8 +130,10 @@ class WalletController extends AbstractController
                    'username' => $client->getUsername()
                )
             );
+
             $this->addFlash('success','Wallet "'.$wallet->getWalletLabel().'" Created . Good job ,
              Check your Email and Activate it! ');
+
             return $this->redirectToRoute('view-wallets');
         }
 
@@ -133,7 +144,22 @@ class WalletController extends AbstractController
         ]);
     }
 
-
+    /**
+     * @Route("wallet/makeMain/{walletId}", name="make-main")
+     * @throws Exception
+     */
+    public function makeMain(WalletRepository $walletRepository,int $walletId): Response
+    {
+        $walletToMain = $walletRepository->find($walletId);
+        $currentMainWallet = $walletRepository->findOneBy(['isMain' => true]);
+        if ($currentMainWallet){
+            $currentMainWallet->setIsMain(false);
+        }
+        $walletToMain->setIsMain(true);
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+        return $this->redirectToRoute('view-wallets');
+    }
     /**
      * @Route("wallet/mineBlock/{walletId}", name="mine-block")
      * @throws Exception

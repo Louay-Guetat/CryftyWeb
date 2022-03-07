@@ -80,6 +80,11 @@ class Wallet
     private $isActive;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isMain;
+
+    /**
      * @return mixed
      */
     public function getCartwallet()
@@ -193,6 +198,18 @@ class Wallet
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getIsMain(): ?bool
+    {
+        return $this->isMain;
+    }
+
+    public function setIsMain(bool $isMain): self
+    {
+        $this->isMain = $isMain;
 
         return $this;
     }
