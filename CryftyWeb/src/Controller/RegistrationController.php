@@ -50,6 +50,7 @@ class RegistrationController extends AbstractController
             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
             // Set their role
             $user->setRoles(['ROLE_USER']);
+            $user->setIsActive(0);
             // Save
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);

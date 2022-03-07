@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Crypto\Wallet;
 use App\Entity\Payment\Transaction;
-
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Form\TransactionType;
 use App\Repository\CartRepository;
 use App\Repository\ClientRepository;
 use App\Repository\TransactionRepository;
+use App\Repository\WalletRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,11 +21,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class TransactionController extends AbstractController
 {
     /**
-     * @Route("/transaction", name="transaction")
+     * @Route("transaction/transaction1", name="transaction")
      */
     public function index(): Response
     {
@@ -34,19 +38,35 @@ class TransactionController extends AbstractController
 
     /**
      * @param $request
-     * @Route ("transactionWallet/{id}",name="TransactionWallet")
+     * @Route ("transaction/transactionWallet/{id}",name="TransactionWallet")
      */
-    function AjouterTransaction(Request $request,$id,CartRepository $cartRepository)
+    function AjouterTransaction(SessionInterface $session,Request $request,$id,CartRepository $cartRepository,ClientRepository $clientRepository,WalletRepository $walletRepository)
     {
         $transaction=new Transaction();
         $form=$this->createForm(TransactionType::class,$transaction);
         /*$form->add('payer maintenant',SubmitType::class);*/
+        $form->add('wallets',EntityType::class,[
+            'class'=>Wallet::class,
+            'required' => false,
+            'choice_label'=>'walletAddress',
+            'label'=>"wallets"
+            ,'label_attr'=>['class'=>'sign__label']
+            ,'attr'=>['class'=>'sign__input']
+            ,'constraints'=>array(new NotNull(['message'=>'ce champs est obligatoire']))
+            ,'query_builder'=>function(WalletRepository $walletRepository){
+                return  $walletRepository->createQueryBuilder('w')
+                    ->where('w.client=:id')
+                    ->setParameter('id',$this->getUser()->getId())
+                    ;
+            },
+        ]);
         $idcart=$cartRepository->find($id);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
             $em=$this->getDoctrine()->getManager();
             $transaction->setCartId($idcart);
+            $session->remove("panier");
             $em->persist($transaction);
             $em->flush();
             return $this->redirectToRoute('AfficheT');
@@ -54,7 +74,9 @@ class TransactionController extends AbstractController
         $ident=$transaction->getId();
         return $this->render('transaction/index.html.twig',['f'=>$form->createView(),'ident'=>$ident]);
     }
-   /**
+
+
+    /**
      * @return Response
      * @Route("admin/afficheAdminTransaction/",name="AfficheTA")
      */
@@ -65,29 +87,32 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route ("afficheTransaction/",name="AfficheT")
+     * @Route ("transaction/afficheTransaction/",name="AfficheT")
      */
-    function AfficherTransaction(TransactionRepository $repository,CartRepository $cartRepository){
+    function AfficherTransaction(PaginatorInterface $paginator,Request $request,TransactionRepository $repository,CartRepository $cartRepository){
         $carttr=$cartRepository->find($this->getUser());
-        $transaction=$repository->afficherTransaction($carttr);
+        $donnees=$repository->afficherTransaction($carttr);
+        $transaction=$paginator->paginate($donnees, $request->query->getInt('page', 1),3);
+
         return $this->render('transaction/affiche.html.twig',['t'=>$transaction]);
     }
 
     /**
-     * @Route ("search/",name="r")
+     * @Route ("transaction/search/",name="r")
      */
-    function Search(TransactionRepository $repository,ClientRepository $client,CartRepository $cartRepo,Request $request)
+    function Search(PaginatorInterface $paginator,TransactionRepository $repository,ClientRepository $client,CartRepository $cartRepo,Request $request)
     {
         $data=$request->get('rechercher');
         $tr = $repository->name($data);
         $cl = $client->findBy(['firstName'=>$tr[0]]);
         $cart = $cartRepo->findBy(['clientId'=>$cl]);
-        $transaction1=$repository->findBy(['cartId'=>$cart]);
+        $donnees=$repository->findBy(['cartId'=>$cart]);
+        $transaction1 = $paginator->paginate($donnees, $request->query->getInt('page', 1),3);
         return $this->render('transaction/adminTransaction.html.twig',['t'=>$transaction1]);
     }
 
     /**
-     * @Route ("afficheTransactiontest",name="AfficheTest",methods={"GET"})
+     * @Route ("transaction/afficheTransactiontest",name="AfficheTest",methods={"GET"})
      */
     function AfficherTransactionTest(TransactionRepository $repository,CartRepository $cartRepository){
         $transaction=$repository->findAll();
@@ -99,8 +124,8 @@ class TransactionController extends AbstractController
      * @Method ("POST")
      */
     public function ajouterTransactionTest(Request $request,
-                                 SerializerInterface $serializer,
-                                 TransactionRepository $transactionRepository)
+                                           SerializerInterface $serializer,
+                                           TransactionRepository $transactionRepository)
     {
         $montant=$request->query->get("montant");
         $transaction = new Transaction();
