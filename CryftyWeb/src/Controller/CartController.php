@@ -55,6 +55,7 @@ class CartController extends AbstractController
             $total=$total+$item["produit"]->getPrice();
             //$total=0;
         }
+        $session->set('total',$total);
         $tab=[];
         for($i=0;$i<count($dataPanier);$i++)
         {
@@ -135,18 +136,14 @@ class CartController extends AbstractController
         $cart=$cartRepository->find($id);
         $amount=$cart->getTotal();
         $clientId=$cart->getClientId()->getId();
-
         \Stripe\Charge::create(array(
             "amount"=>$amount,
             "currency"=>"eur",
             "source"=>"tok_visa",
             "description"=>"Paiement réussie",
-            "client"=>$clientId
-
         ));
         return $this->render('cart/Stripe.html.twig');
     }
-
 
 
 }

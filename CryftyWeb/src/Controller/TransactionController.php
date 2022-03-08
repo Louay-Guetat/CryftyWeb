@@ -2,11 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Crypto\Block;
+use App\Entity\Crypto\Transfer;
 use App\Entity\Crypto\Wallet;
+use App\Entity\NFT\Nft;
 use App\Entity\Payment\Transaction;
+use App\Repository\BlockRepository;
+use App\Repository\NftRepository;
 use App\Repository\TransferRepository;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
+use Symfony\Component\Form\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Form\TransactionType;
 use App\Repository\CartRepository;
@@ -43,11 +49,11 @@ class TransactionController extends AbstractController
      * @param $request
      * @Route ("transaction/transactionWallet/{id}",name="TransactionWallet")
      */
-    function AjouterTransaction(SessionInterface $session,Request $request,$id,CartRepository $cartRepository,ClientRepository $clientRepository,WalletRepository $walletRepository)
+    function AjouterTransaction(BlockRepository $blockRepository,SessionInterface $session,Request $request,$id,CartRepository $cartRepository,ClientRepository $clientRepository,WalletRepository $walletRepository)
     {
         $transaction=new Transaction();
+        $transaction->setEtat(0);
         $form=$this->createForm(TransactionType::class,$transaction);
-        /*$form->add('payer maintenant',SubmitType::class);*/
         $form->add('wallets',EntityType::class,[
             'class'=>Wallet::class,
             'required' => false,
@@ -59,8 +65,7 @@ class TransactionController extends AbstractController
             ,'query_builder'=>function(WalletRepository $walletRepository){
                 return  $walletRepository->createQueryBuilder('w')
                     ->where('w.client=:id')
-                    ->setParameter('id',$this->getUser()->getId())
-                    ;
+                    ->setParameter('id',$this->getUser()->getId());
             },
         ]);
         $idcart=$cartRepository->find($id);
@@ -69,13 +74,68 @@ class TransactionController extends AbstractController
         {
             $em=$this->getDoctrine()->getManager();
             $transaction->setCartId($idcart);
+            $transaction->setEtat(1);
             $session->remove("panier");
+
+
+            $this->bLock($transaction,$cartRepository,$walletRepository,$blockRepository,$id);
+
             $em->persist($transaction);
             $em->flush();
             return $this->redirectToRoute('AfficheT');
         }
         $ident=$transaction->getId();
+
         return $this->render('transaction/index.html.twig',['f'=>$form->createView(),'ident'=>$ident]);
+    }
+
+    function bLock(Transaction $transaction,CartRepository $cartRepository,WalletRepository $walletRepository
+                    ,BlockRepository $blockRepository,int $id)
+    {
+        //jebna cart
+        $idcart=$cartRepository->find($id);
+
+        //jebna nft fel cart array
+        $cartNft=$idcart->getNftProd();
+
+        //client qui vas payer
+        $buyerWallet = $transaction->getWallets();
+
+        $em = $this->getDoctrine()->getManager();
+
+        foreach($cartNft as $nft)
+        {
+            $author = $nft->getOwner();
+
+            //wallet tezedelha flous
+            $authWallet = $walletRepository->findOneBy(array('client' => $author,'isMain' => true));
+
+            $authWallet->setBalance($authWallet->getBalance() + $nft->getPrice() );
+
+            $walletBlocks = $blockRepository->findBy(array('wallet'=> $buyerWallet));
+
+            $counter = ( $nft->getPrice() / $authWallet->getNodeId()->getNodeReward() )+1;
+
+                foreach ($walletBlocks as $block){
+                    if ($counter >= 0)
+                    {
+                        $block->setWallet($authWallet);
+                        $em->persist($block);
+                        $em->persist($buyerWallet);
+                    }
+                    $counter--;
+                }
+
+        }
+        $count = $blockRepository->countUserBlocks($buyerWallet->getNodeId()->getNodeReward() );
+        if ($count != null ) {
+            $buyerWallet->setBalance($count* $buyerWallet->getNodeId()->getNodeReward());
+        }
+        else{
+            $buyerWallet->setBalance(0);
+        }
+        $em->flush();
+
     }
 
 
@@ -150,10 +210,10 @@ class TransactionController extends AbstractController
     public function pdfTransaction(Pdf $knpSnappyPdf,$id, TransactionRepository $transactionRepository): PdfResponse
     {
         $transaction = $transactionRepository->find($id);
+        $datesys= new \DateTime();
         $html = $this->renderView('transaction/pdfTransaction.html.twig', [
-            'tpdf'=>$transaction
+            'tpdf'=>$transaction,'d'=>$datesys
         ]);
-
         return new PdfResponse(
             $knpSnappyPdf->getOutputFromHtml($html),
             'file.pdf'

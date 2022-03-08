@@ -103,14 +103,11 @@ class Cart
     }
 
 
-
-    /**
-     * @return mixed
-     */
     public function getNftProd()
     {
         return $this->nftProd;
     }
+
 
     /**
      * @param mixed $nftProd

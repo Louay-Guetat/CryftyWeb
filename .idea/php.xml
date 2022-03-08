@@ -279,6 +279,10 @@
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/swiftmailer/swiftmailer" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/swiftmailer-bundle" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/sendgrid-mailer" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/knplabs/knp-snappy-bundle" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/knplabs/knp-snappy" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/polyfill-intl-grapheme" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

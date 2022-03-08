@@ -194,8 +194,6 @@ class WalletController extends AbstractController
         }
         $em->flush();
 
-
-
         return $this->redirectToRoute('view-wallet-info',['walletId'=>$walletId]);
     }
 
@@ -402,6 +400,9 @@ class WalletController extends AbstractController
            $recieverWallet->setBalance($recieverWallet->getBalance() + $floatAmount );
 
            $walletBlocks = $blockRepository->findBy(array('wallet'=>$senderWallet));
+
+
+
            $counter = ($amount/6.25)+1;
            foreach ($walletBlocks as $block){
                if ($counter >= 0)
