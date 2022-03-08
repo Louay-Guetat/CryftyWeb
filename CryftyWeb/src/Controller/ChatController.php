@@ -15,6 +15,7 @@ use App\Repository\MessageRepository;
 use App\Repository\PrivateChatRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 use PHPUnit\Util\Xml\Validator;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -37,15 +38,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class ChatController extends AbstractController
 {
-    /**
-     * @Route("/chat", name="chat")
-     */
-    public function index(): Response
-    {
-        return $this->render('chat/chat.html.twig', [
-            'controller_name' => 'ChatController',
-        ]);
-    }
+
 
     /**
      * @Route("/afficheGroups", name="afficheGroups",methods={"GET"})
@@ -97,7 +90,7 @@ class ChatController extends AbstractController
 
     }*/
     /**
-     * @Route("/AddGroup", name="AddGroup")
+     * @Route("chat/AddGroup", name="AddGroup")
      * @Method ("POST")
      */
     public function ajouterGroup(Request $request,
@@ -129,7 +122,7 @@ class ChatController extends AbstractController
     }
 
     /**
-     * @Route("/listeUsers", name="listUser")
+     * @Route("chat/listeUsers", name="listUser")
      */
     public function AffichUser(GroupChatRepository  $repository,PrivateChatRepository $PrivateChatRepository,
                                Request $request,UserRepository $UserRepository)
@@ -149,11 +142,10 @@ class ChatController extends AbstractController
             },
             'choice_label'=>'username',
             'multiple'=>true,
-
             'label'=>"Choice your participant group",
             'label_attr'=>['class'=>'sign__label']
             ,'attr'=>['class'=>'sign__input']
-            ,'constraints'=>array( new count(['min'=>3]))
+            ,'constraints'=>array( new count(['min'=>2]))
         ]);
         $form->handleRequest($request);
 
@@ -162,10 +154,10 @@ class ChatController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($GoupChat);
             $em->flush();
-            return $this->redirectToRoute('listUser');
+            return $this->redirectToRoute('nft');
         }
 
-        return $this->render('chat/chat.html.twig',
+        return $this->render('Chat/chat.html.twig',
             ['form' => $form->createView(), 'group' => $groups,
                 'users' => $users]);
 
@@ -181,7 +173,7 @@ class ChatController extends AbstractController
 
 
     /**
-     * @Route("/chat/{id}", name="chat")
+     * @Route("chat/{id}", name="chat")
      */
     public function afficheConversation(MessageRepository $repositoryMessage,
                                         ConversationRepository $repositoryConversation,
@@ -205,7 +197,6 @@ class ChatController extends AbstractController
         }
           else
         {
-
             $membreGroup="";
             $Owner="";
          $UserConversation = $repositoryChatPrive->nomPrivatChat( ($Conversation)->getId())[0];
@@ -238,7 +229,7 @@ class ChatController extends AbstractController
 
 
    /**
-     * @Route("/private/{id1}", name="Privatechat")
+     * @Route("chat/private/{id1}", name="Privatechat")
      */
 
     public function PrivateChat(UserRepository $repositoryUser,PrivateChatRepository $repositoryChatPrive,$id1)
@@ -271,7 +262,7 @@ class ChatController extends AbstractController
     /**
      * @param $id1
      * @param MessageRepository $rep
-     * @Route ("/Delete/{id1}/{id}", name="deleteMessage")
+     * @Route ("chat/Delete/{id1}/{id}", name="deleteMessage")
      */
     function Delete( ConversationRepository $repositoryConversation,$id1,$id,MessageRepository $rep){
 
@@ -284,9 +275,43 @@ class ChatController extends AbstractController
         return $this->redirectToRoute('chat',['id'=>$Conversation->getId()]);
 
     }
+    /**
 
+     * @param MessageRepository $rep
+     * @Route ("chat/Delete/{id}", name="delete_Group")
+     */
+    function DeleteGroup( GroupChatRepository  $repository,$id){
 
+        $group=$repository->find($id);
+        $em=$this->getDoctrine()->getManager();
+        $em->remove($group);
+        $em->flush();
+        return $this->redirectToRoute('AdminGroups');
 
+    }
+
+    /**
+     * @Route ("chat/searchGroups",name="searchGroups")
+     */
+    function Search(PaginatorInterface $paginator,GroupChatRepository  $repository,Request $request)
+    {
+        $donnees=$request->get('search');
+        $group = $repository->findBy(['nom'=>$donnees]);
+        $groups = $paginator->paginate($group, $request->query->getInt('page', 1),2);
+        return $this->render('Chat/index.html.twig',['groups'=> $groups]);
+    }
+    /**
+     * @Route("/AdminGroups", name="AdminGroups")
+     */
+    public function index(PaginatorInterface $paginator,Request $request,GroupChatRepository  $repository): Response
+    {
+        $donnees=$repository->findAll();
+        $groups = $paginator->paginate($donnees, $request->query->getInt('page', 1),2);
+
+        return $this->render('Chat/index.html.twig',
+            ['groups'=> $groups]
+        );
+    }
 }
 
 

@@ -91,15 +91,12 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
-
+    "guzzlehttp/psr7": {
+        "version": "2.1.0"
+    },
     "imagine/imagine": {
         "version": "1.2.4"
     },
-
-    "guzzlehttp/psr7": {
-        "version": "2.1.0"
-     },
-
     "knplabs/knp-components": {
         "version": "v3.4.0"
     },
@@ -458,6 +455,9 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/mercure": {
+        "version": "v0.6.1"
+    },
     "symfony/mime": {
         "version": "v4.4.37"
     },
@@ -496,6 +496,9 @@
             "./phpunit.xml.dist",
             "./tests/bootstrap.php"
         ]
+    },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.25.0"
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.24.0"
@@ -588,6 +591,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.37"
+    },
+    "symfony/string": {
+        "version": "v5.4.3"
     },
     "symfony/swiftmailer-bundle": {
         "version": "3.5",
