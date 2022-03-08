@@ -62,6 +62,16 @@ class Client extends User
      */
     private $address;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $avatar;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $couverture;
+
 
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="owner")
@@ -285,4 +295,38 @@ class Client extends User
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param mixed $avatar
+     */
+    public function setAvatar($avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCouverture()
+    {
+        return $this->couverture;
+    }
+
+    /**
+     * @param mixed $couverture
+     */
+    public function setCouverture($couverture): void
+    {
+        $this->couverture = $couverture;
+    }
+
+
 }

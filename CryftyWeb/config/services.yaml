@@ -10,6 +10,10 @@ parameters:
 
     wallet_image_directory:  '%kernel.project_dir%/public/uploads/walletImages'
 
+    images_avatar : '%kernel.project_dir%/public/uploads/avatar'
+
+    images_couverture: '%kernel.project_dir%/public/uploads/couverture'
+
 services:
     # default configuration for services in *this* file
     _defaults:
