@@ -48,6 +48,8 @@
             <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
             <script src="{{ asset('js/main.js') }}"></script>
             <script src="https://js.stripe.com/v3/"></script>
+            <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+            <script src="{{ asset('bundles/pugxautocompleter/js/autocompleter-jqueryui.js') }}"></script>
             <script>
 
                 $(document).ready(function () {
@@ -86,6 +88,57 @@
                 });
 
             </script>
+            <script>
+                $(document).ready(function () {
+                    'use strict';
+                    $('#form_titre').autocompleter({
+                        url_list: '/search-article',
+                        url_get: '/?term='
+                    });
+
+
+                    $("#ui-id-1").click(function(){
+                        var id = $("#form_titre").val();
+
+                        if(id.toString().length > 0){
+                            $(location).attr('href', '/article/'+id.toString());
+                        }
+                    })
+
+                });
+            </script>
+    {# Filtrer les subCategory par leurs category #}
+            <script>
+                window.onload = () =>{
+                    let category = document.querySelector("#ajout_nft_category");
+                    category.addEventListener("change",function(){
+                        let form = this.closest("form");
+                        let data = this.name + "=" + this.value;
+
+                        fetch(form.action,{
+                            method: form.getAttribute("method"),
+                            body: data,
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded; charset:UTF-8"
+                            }
+                        })
+                        .then(response => response.text())
+                        .then(html => {
+                            let content = document.createElement("html");
+                            content.innerHTML = html;
+                            let nouveauSelect = content.querySelector("#ajout_nft_subcategory");
+                            document.querySelector("#ajout_nft_subcategory").replaceWith(nouveauSelect);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                    });
+                }
+
+            </script>
+    {# Filtrer les subCategory par leurs category #}
+
+
         {% endblock %}
 
 

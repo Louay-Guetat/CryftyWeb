@@ -40,7 +40,7 @@
 
                     <!-- likes -->
                     <button class="asset__likes" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.16,5A6.29,6.29,0,0,0,12,4.36a6.27,6.27,0,0,0-8.16,9.48l6.21,6.22a2.78,2.78,0,0,0,3.9,0l6.21-6.22A6.27,6.27,0,0,0,20.16,5Zm-1.41,7.46-6.21,6.21a.76.76,0,0,1-1.08,0L5.25,12.43a4.29,4.29,0,0,1,0-6,4.27,4.27,0,0,1,6,0,1,1,0,0,0,1.42,0,4.27,4.27,0,0,1,6,0A4.29,4.29,0,0,1,18.75,12.43Z"></path></svg>
+                        <a href="{{ path('like',{'id':nftItem.id}) }}" name="like"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.16,5A6.29,6.29,0,0,0,12,4.36a6.27,6.27,0,0,0-8.16,9.48l6.21,6.22a2.78,2.78,0,0,0,3.9,0l6.21-6.22A6.27,6.27,0,0,0,20.16,5Zm-1.41,7.46-6.21,6.21a.76.76,0,0,1-1.08,0L5.25,12.43a4.29,4.29,0,0,1,0-6,4.27,4.27,0,0,1,6,0,1,1,0,0,0,1.42,0,4.27,4.27,0,0,1,6,0A4.29,4.29,0,0,1,18.75,12.43Z"></path></svg></a>
                         <span>{{ nftItem.likes }}</span>
                     </button>
                     <!-- end likes -->
@@ -84,10 +84,6 @@
                             <a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Details</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Bids</a>
-                        </li>
-
                     </ul>
 
                     <div class="tab-content">
@@ -101,15 +97,17 @@
                                         </div>
                                     {% else %}
                                         {% for c in nftComment %}
-                                            <div class="asset__action ">
-                                                <span class="home__text"> {{ c.user.username }} : {{ c.comment }} </span>
+                                            <div class="post__comments">
+                                                <span class="comments__text"> {{ c.user.username }} : {{ c.comment }} </span>
                                                 {% if c.user.id == app.user.id %}
-                                                    <div style="float: right">
-                                                        <a href="{{ path('delComment',{'id': c.id}) }}" >
-                                                            delete
-                                                        </a>
+                                                    <div style="float: right;">
+                                                    <a href="{{ path('delComment',{'id': c.id}) }}">
+                                                        <i class="fa fa-remove"></i>
+                                                    </a>
+                                                    <a href="{{ path('updateComment',{'idNft':nftItem.id ,'idComment':c.id}) }}">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
                                                     </div>
-
                                                 {% endif %}
                                             </div>
                                         {% endfor %}
@@ -125,25 +123,6 @@
                             {% endif %}
                         </div>
                         <!-- end comment section -->
-
-                        <div class="tab-pane fade" id="tab-2" role="tabpanel">
-                            <div class="asset__actions">
-                                <div class="asset__action asset__action--verified">
-                                    <img src="img/avatars/avatar10.jpg" alt="">
-                                    <p>Bid placed for <b>11.00 ETH</b> 4 hours ago <br>by <a href="author.html">@erikkk</a></p>
-                                </div>
-
-                                <div class="asset__action asset__action--verified">
-                                    <img src="img/avatars/avatar4.jpg" alt="">
-                                    <p>Bid placed for <b>10.00 ETH</b> 5 hours ago <br>by <a href="author.html">@johndoe</a></p>
-                                </div>
-
-                                <div class="asset__action asset__action--verified">
-                                    <img src="img/avatars/avatar6.jpg" alt="">
-                                    <p>Bid placed for <b>2.508 ETH</b> 5 hours ago <br>by <a href="author.html">@n1ckname</a></p>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="tab-pane fade" id="tab-3" role="tabpanel">
                             <ul class="asset__authors asset__authors--tab">

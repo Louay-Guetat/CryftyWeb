@@ -14,9 +14,8 @@ return [
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true],
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
-
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
-
     Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
-
+    PUGX\AutocompleterBundle\PUGXAutocompleterBundle::class => ['all' => true],
+    Vangrg\ProfanityBundle\VangrgProfanityBundle::class => ['all' => true],
 ];

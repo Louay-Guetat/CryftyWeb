@@ -1,0 +1,176 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <style>
+
+        .card {
+            background: #222;
+            border: 1px solid #dd2476;
+            color: rgba(250, 250, 250, 0.8);
+            margin-bottom: 2rem;
+        }
+        .has-search .form-control {
+            padding-left: 2.375rem;
+        }
+
+        .has-search .form-control-feedback {
+            position: absolute;
+            z-index: 2;
+            display: block;
+            width: 2.375rem;
+            height: 2.375rem;
+            line-height: 2.375rem;
+            text-align: center;
+            pointer-events: none;
+            color: #aaa;
+        }
+
+
+        .filter-buttons {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .list-view-button,
+        .grid-view-button {
+            color: white;
+            border: 1px solid white;
+            padding: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .list-view-button:hover,
+        .grid-view-button:hover {
+            background: white;
+            color: #0e2439;
+        }
+
+        .list-view-button {
+            margin-right: 10px;
+        }
+
+        .page-item.active .page-link {
+
+            z-index: 1;
+            color: #fff;
+            background-color: #dd2476;
+            border-color: #dd2476;
+
+
+        }
+
+    </style>
+    <main class="main container">
+        <section class="row row--grid">
+            <div class="col-12 mb-5">
+                <div class="main__title main__title--border-top">
+                    <h2>Nfts Ranking</h2>
+                </div>
+            </div>
+
+            <div class="filter-buttons justify-content-end">
+                <div class="list-view-button"><i class="fa fa-bars" aria-hidden="true"></i> NFTS View</div>
+                <div class="grid-view-button"><i class="fa fa-bars" aria-hidden="true"></i> Owners View</div>
+            </div>
+
+            <table class="table table-borderless table-striped border-dark mt-5" id="list-view">
+
+                <style>
+                    .table-bg{
+                        background: #dd2476 !important;
+                    }
+
+                </style>
+                <thead >
+                <tr class="table-bg text-light">
+
+                    <th scope=""><a href=""># <i class="fa fa-arrows-v"></i></a></th>
+                    <th scope="">Image</th>
+                    <th scope="">Title <a href="" name="title" id="title"><i class="fa fa-angle-double-down"></i></a> </th>
+                    <style>
+                        a{
+                            color:white;
+                        }
+                    </style>
+                    <th class="">Creation Date <a href="" name="date" id="date"><i class="fa fa-angle-double-down"></i></a></th>
+                    <th scope="">Likes <a href="" name="likes" id="likes"><i class="fa fa-angle-double-down"></i></a></th>
+                    <th scope="">Category <a href="" name="category" id="category"><i class="fa fa-angle-double-down"></i></a></th>
+                    <th scope="">SubCategory <a href="" name="subCategory" id="subCategory"><i class="fa fa-angle-double-down"></i></a></th>
+                    <th scope="">Price <a href="" name="price" id="price"><i class="fa fa-angle-double-down"></i></a></th>
+                    <th scope="">Currency <a href="" name="currency" id="currency"><i class="fa fa-angle-double-down"></i></a></th>
+                    <th scope="">Owner <a href="" name="owner" id="owner"><i class="fa fa-angle-double-down"></i></a></th>
+
+                </tr>
+                </thead>
+                <tbody class="bg-light">
+
+                {% for nft in nfts %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td><a href="{{ path('nftItem',{'id':nft.id}) }}"><img src="{{ asset('NFTS/'~ nft.image) }}" style="width: 70px; height: 70px;"></a></td>
+                        <td><u><a href="{{ path('nftItem',{'id':nft.id}) }}" style="color:black">{{ nft.title }}</a></u></td>
+                        <td>{{ nft.creationDate | date('d M Y, H:m') }}</td>
+                        <td>{{ nft.likes }} </td>
+                        <td>{{ nft.category.name }} </td>
+                        <td>{{ nft.subCategory.name }} </td>
+                        <td> <strong>{{ nft.price | round(5,"common")  }} {{ nft.currency.coinCode }}</strong></td>
+                        <td>{{ nft.currency.nodeLabel }} </td>
+                        <td><u><a href="{{ path('profil',{'id':nft.owner.id}) }}" style="color:black">{{ nft.owner.username }}</a></u></td>
+
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <div id="grid-view">
+                <table class="table table-borderless table-striped border-dark mt-5" id="list-view">
+
+                    <style>
+                        .table-bg{
+                            background: #dd2476 !important;
+                        }
+
+                    </style>
+                    <thead >
+                    <tr class="table-bg text-light">
+
+                        <th scope=""><a href=""># <i class="fa fa-arrows-v"></i></a></th>
+                        <th scope="">Owner</th>
+                        <th scope="">Volume <a href=""><i class="fa fa-angle-double-down"></i></a> </th>
+                        <style>
+                            a{
+                                color:white;
+                            }
+                        </style>
+                        <th class="">Floor Price <a href=""><i class="fa fa-angle-double-down"></i></a></th>
+                        <th scope="">Number of nfts <a href=""><i class="fa fa-angle-double-down"></i></a></th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-light">
+
+                    {% for nft in nfts %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <td><u><a href="{{ path('profil',{'id':nft.owner.id}) }}" style="color:black">{{ nft.owner.username }}</a></u></td>
+                            <td>{{ nft.creationDate | date('d M Y, h:m') }}</td>
+                            <td>{{ nft.likes }} </td>
+                            <td>{{ nft.category.name }} </td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <div id="navigation">
+                    {{ knp_pagination_render(nfts) }}
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

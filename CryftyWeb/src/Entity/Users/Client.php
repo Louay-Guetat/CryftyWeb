@@ -87,6 +87,16 @@ class Client extends User
      */
     private $likes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\NFT\NftComment", mappedBy="userLiked")
+     */
+    private $commentLiked;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\NFT\NftComment", mappedBy="userDisliked")
+     */
+    private $commentDisliked;
+
     public function __construct()
     {
         $this->wallets = new ArrayCollection();
@@ -262,6 +272,50 @@ class Client extends User
                 unset($this->likes[$i]);
             }
         }
+    }
+
+    public function setCommentLiked($nft): void
+    {
+        $this->commentLiked[count($this->commentLiked)] = $nft;
+    }
+
+    public function removeCommentLiked($nft): void
+    {
+        for($i=0;$i<count($this->commentLiked);$i++){
+            if($nft == $this->commentLiked[$i]){
+                unset($this->commentLiked[$i]);
+            }
+        }
+    }
+
+    public function setCommentDisLiked($nft): void
+    {
+        $this->commentDisliked[count($this->commentDisliked)] = $nft;
+    }
+
+    public function removeCommentDisLiked($nft): void
+    {
+        for($i=0;$i<count($this->commentDisliked);$i++){
+            if($nft == $this->commentDisliked[$i]){
+                unset($this->commentDisliked[$i]);
+            }
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentLiked()
+    {
+        return $this->commentLiked;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentDisliked()
+    {
+        return $this->commentDisliked;
     }
 
     public function addWallet(Wallet $wallet): self

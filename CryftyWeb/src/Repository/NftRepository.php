@@ -56,4 +56,59 @@ class NftRepository extends ServiceEntityRepository
             ->getQuery();
         return $query->getResult();
     }
+
+    public function findSearch(\App\Data\SearchData $data) : array
+    {
+        $query = $this->createQueryBuilder('p')
+        ->select('c','p')
+        ->join('p.category','c')
+        ->join('p.subCategory','s')
+        ->join('p.currency','cu');
+
+        if(!empty($data->min)){
+            $query = $query->andWhere('p.price >= :min')
+                ->setParameter('min',$data->min );
+        }
+
+        if(!empty($data->max)){
+            $query = $query->andWhere('p.price <= :max')
+                ->setParameter('max',$data->max );
+        }
+
+        if(!empty($data->categories)){
+            $query = $query->andWhere('c.id IN (:categories)')
+                ->setParameter('categories',$data->categories)
+                ->orderBy('c.name','asc');
+        }
+
+
+        if(!empty($data->subCategories)){
+            $query = $query->andWhere('s.id IN (:subCategory)')
+                ->setParameter('subCategory',$data->subCategories)
+                ->orderBy('s.name','asc');
+        }
+
+        if(!empty($data->currency)){
+            $query = $query->andWhere('cu.id IN (:currency)')
+                ->setParameter('currency',$data->currency);
+        }
+
+        if(!empty($data->q)){
+            $query = $query->andWhere('p.title LIKE :q')
+                ->setParameter('q','%'.$data->q.'%')
+                ->orderBy('p.title','asc');
+        }
+
+        if($data->tri == 1){
+            $query = $query->orderBy('p.price','asc');
+        }
+
+        if($data->tri == 0){
+            $query = $query->orderBy('p.price','desc');
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+
 }

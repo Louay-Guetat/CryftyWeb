@@ -283,6 +283,9 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/swiftmailer/swiftmailer" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/swiftmailer-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/sendgrid-mailer" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/webpack-encore-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/pugx/autocompleter-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/vangrg/profanity-bundle" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

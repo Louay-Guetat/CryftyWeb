@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\NFT\Category;
 use App\Entity\NFT\Nft;
 use App\Entity\NFT\NftComment;
@@ -10,11 +11,13 @@ use App\Entity\Users\Client;
 use App\Form\AjoutNftType;
 use App\Form\CommentType;
 use App\Form\ModifierNftType;
+use App\Form\SearchForm;
 use App\Repository\CategoryRepository;
 use App\Repository\ClientRepository;
 use App\Repository\NftCommentRepository;
 use App\Repository\NftRepository;
 use App\Repository\SubCategoryRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use phpDocumentor\Reflection\Types\Integer;
 use PhpParser\Node\Scalar\String_;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -35,20 +38,30 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class NFTController extends AbstractController
 {
     /**
-     * @Route("/index", name="nft")
+     * @Route("nft/index", name="nft")
      */
-    public function index(NftRepository $repository ) {
+    public function index(NftRepository $repository , PaginatorInterface $paginator,Request $request) {
         $nft = $repository->findAll();
-        return $this->render('nft/index.html.twig', ['nft' => $nft,'user'=>$this->getUser()]);
+        $nfts = $paginator->paginate($nft, $request->query->getInt('page',1),4);
+        return $this->render('nft/index.html.twig', ['nft' => $nfts,'user'=>$this->getUser()]);
     }
 
     /**
      * @Route("nft/AfficheNft", name="AfficheNft")
      */
-    function Affiche(NftRepository $repository, CategoryRepository $CatRepository){
-        $nft = $repository->findAll();
+    function Affiche(NftRepository $repository, CategoryRepository $CatRepository, Request $request,PaginatorInterface $paginator){
         $category = $CatRepository->findAll();
-        return $this->render('nft/afficheNft.html.twig',['nft'=>$nft,'category'=>$category]);
+        $nft = $repository->findAll();
+        $data = new SearchData();
+        $form = $this->createForm(SearchForm::class,$data);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $nft = $repository->findSearch($data);
+            $nfts = $paginator->paginate($nft, $request->query->getInt('page',1),6);
+            return $this->render('nft/afficheNft.html.twig',['nft'=>$nfts,'category'=>$category,'form'=>$form->createView()]);
+        }
+        $nfts = $paginator->paginate($nft, $request->query->getInt('page',1),6);
+        return $this->render('nft/afficheNft.html.twig',['nft'=>$nfts,'category'=>$category,'form'=>$form->createView()]);
     }
 
     /**
@@ -76,6 +89,28 @@ class NFTController extends AbstractController
         return $this->render('nft/nft.html.twig',['nftItem'=>$nft,'nftComment'=>$comments,
             'CommentForm'=>$ajoutComment->createView(),'user'=>$this->getUser()]);
     }
+
+    /**
+     * @Route ("nft/updateComment/{idNft}/{idComment}" , name="updateComment")
+     */
+    function updateComment($idNft,$idComment, NftCommentRepository $commentRepository,Request $request,NftRepository $nftRepository){
+        $nft =$nftRepository->find($idNft);
+        $comments =$commentRepository->findAllByNft($nft->getId());
+        $comment =$commentRepository->find($idComment);
+        $commentForm = $this->createForm(CommentType::class,$comment);
+        $commentForm->handleRequest($request);
+        if($this->getUser() != null) {
+            if(($commentForm->isSubmitted()) && $commentForm->isValid()){
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+                return $this->redirectToRoute('nftItem', ['id' => $nft->getId()]);
+            }
+        }
+        return $this->render('nft/nft.html.twig',['nftItem'=>$nft,'nftComment'=>$comments,
+            'CommentForm'=>$commentForm->createView(),'user'=>$this->getUser()]);
+    }
+
+
 
     /**
      * @param Request $request
@@ -142,24 +177,7 @@ class NFTController extends AbstractController
         return($this->redirectToRoute('nft'));
     }
 
-    /**
-     * @Route("nft/searchNft", name="searchNft")
-     */
-    function Search(NftRepository $repository,CategoryRepository $CatRepository,Request $request){
-        $category = $CatRepository->findAll();
-        $donnes = $request->get('search');
-        $nfts =$repository->findBy(['title'=>$donnes]);
-        return $this->render('nft/afficheNft.html.twig',['nft'=>$nfts,'category'=>$category]);
-    }
 
-    /**
-     * @Route("nft/FiltreByCat/{id}", name="filtreByCat")
-     */
-    function FiltreByCat($id,NftRepository $repository,CategoryRepository $CatRepository,Request $request){
-        $category = $CatRepository->findAll();
-        $nfts =$repository->findBy(['category'=>$id]);
-        return $this->render('nft/afficheNft.html.twig',['nft'=>$nfts,'category'=>$category]);
-    }
 
     /**
      * @Route ("nft/deleteComment/{id}" , name="delComment")
@@ -170,7 +188,7 @@ class NFTController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->remove($comment);
             $em->flush();
-            return($this->redirectToRoute('nftItem'));
+            return($this->redirectToRoute('nftItem',['id'=>$comment->getNft()->getId()]));
         }
     }
 
@@ -185,7 +203,7 @@ class NFTController extends AbstractController
     /**
      * @Route ("nft/liked/{id}", name="like")
      */
-    function like($id, NftRepository $nftRepo,ClientRepository $clientRepo){
+    function like($id, NftRepository $nftRepo,ClientRepository $clientRepo,Request $request){
         $nft = $nftRepo->find($id);
         $client = $clientRepo->find($this->getUser());
         $likedBy = $nft->getLikedBy();
@@ -201,7 +219,7 @@ class NFTController extends AbstractController
             $nft->setLikes($nft->getLikes() + 1);
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return $this->redirectToRoute('nft');
+            return $this->redirect($request->headers->get('referer'));
         }
         else{
             $client->removeLike($nft);
@@ -209,8 +227,79 @@ class NFTController extends AbstractController
             $nft->setLikes($nft->getLikes()-1);
             $em = $this->getDoctrine()->getManager();
             $em->flush();
+            return $this->redirect($request->headers->get('referer'));
+        }
+    }
+
+    /**
+     * @Route ("comment/liked/{id}", name="commLike")
+     */
+    function likeComment($id,ClientRepository $clientRepository, NftCommentRepository $commentRepository){
+        $comment = $commentRepository->find($id);
+        $client = $clientRepository->find($this->getUser());
+        $likedBy = $comment->getUserliked();
+        $situation =0;
+        for($i=0;$i<count($likedBy);$i++){
+            if($client == $likedBy[$i])
+                $situation =1;
+        }
+
+        if ($situation == 0) {
+            $client->setCommentLiked($comment);
+            $comment->setLikedBy($client);
+            $comment->setLikes($comment->getLikes() + 1);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
             return $this->redirectToRoute('nft');
         }
+        else{
+            $client->removeCommentLiked($comment);
+            $comment->removeLikedBy($client);
+            $comment->setLikes($comment->getLikes()-1);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $this->redirectToRoute('nft');
+        }
+    }
+
+    /**
+     * @Route ("comment/disliked/{id}", name="commDislike")
+     */
+    function dislikeComment($id,ClientRepository $clientRepository, NftCommentRepository $commentRepository){
+        $comment = $commentRepository->find($id);
+        $client = $clientRepository->find($this->getUser());
+        $dislikedBy = $comment->getUserDisliked();
+        $situation =0;
+        for($i=0;$i<count($dislikedBy);$i++){
+            if($client == $dislikedBy[$i])
+                $situation =1;
+        }
+
+        if ($situation == 0) {
+            $client->setCommentDisLiked($comment);
+            $comment->setDisLikedBy($client);
+            $comment->setDisLikes($comment->getLikes() + 1);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $this->redirectToRoute('nft');
+        }
+        else{
+            $client->removeCommentDisLiked($comment);
+            $comment->removeDisLikedBy($client);
+            $comment->setDislikes($comment->getLikes()-1);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $this->redirectToRoute('nft');
+        }
+    }
+
+    /**
+     * @Route ("nft/ranking",name="nftRanking")
+     */
+    function nftRanking(NftRepository $nftRepository,Request $request,PaginatorInterface $paginator){
+        $nft = $nftRepository->findAll();
+        $nfts = $paginator->paginate($nft, $request->query->getInt('page',1),10);
+        return $this->render('/nftRanking/nftRanking.html.twig',['nfts'=>$nfts]);
     }
 
     /**

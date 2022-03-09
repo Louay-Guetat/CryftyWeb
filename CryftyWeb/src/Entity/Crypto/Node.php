@@ -39,11 +39,11 @@ class Node
     private $Blocks;
 
     /**
-     * @ORM\Column(type="string", length=5)
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="currency")
+     * @ORM\Column(type="string", length=5)
      * @Assert\NotBlank
      * @Assert\NotNull
-     * @Assert\Length(min="3",max=5,minMessage="Code must be >= {{ limit }} Cahracters",
+     * @Assert\Length(min="3",max=5,minMessage="Code must be >= {{ limit }} Characters",
      *     maxMessage="Code must be <= {{ limit }} Cahracters")
      */
     private $coinCode;
