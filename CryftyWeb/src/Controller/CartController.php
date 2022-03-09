@@ -70,6 +70,31 @@ class CartController extends AbstractController
     }
 
 
+
+    /**
+     * @Route("/panier", name="cart_index2")
+     */
+    public function index2(SessionInterface $session, NftRepository $nftRepository)
+    {
+        $panier = $session->get("panier", []);
+
+        // On "fabrique" les données
+        $dataPanier = [];
+        $total = 0;
+
+        foreach($panier as $id => $quantite){
+            $product = $nftRepository->find($id);
+            $dataPanier[] = [
+                "produit" => $product,
+                "quantite" => $quantite
+            ];
+            $total += $product->getPrice() * $quantite;
+        }
+
+        return $this->render('cart/index.html.twig', compact("dataPanier", "total"));
+    }
+
+
     /**
      * @Route("cart/delete/{id}", name="delete_panier")
      */
@@ -127,6 +152,25 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart_index');
     }
 
+
+    /**
+     * @Route("ajout/{id}",name="ajouter_panier_test2")
+     */
+    public function AjouterPanier2(SessionInterface $session,$id)
+    {
+        // On récupère le panier actuel
+        $panier = $session->get("panier", []);
+
+        if(!empty($panier[$id])){
+            $panier[$id]++;
+        }else{
+            $panier[$id] = 1;
+        }
+        // On sauvegarde dans la session
+        $session->set("panier", $panier);
+        return $this->redirectToRoute('cart_index2');
+    }
+
     /**
      * @Route("cart/stripe/{id}", name="stripe")
      */
@@ -135,15 +179,37 @@ class CartController extends AbstractController
         \Stripe\Stripe::setApiKey('sk_test_51IyEiPKXO6zoy45XnSBJfUeShcjGESS1F0uIZoZH3XQjKcJrBVsctduUrUqjabgjdHZVALOU1OFe4lefVdlriKJg00dp6rwSy2');
         $cart=$cartRepository->find($id);
         $amount=$cart->getTotal();
-        $clientId=$cart->getClientId()->getId();
+        $clientId=$cart->getClientId();
         \Stripe\Charge::create(array(
             "amount"=>$amount,
             "currency"=>"eur",
             "source"=>"tok_visa",
             "description"=>"Paiement réussie",
+            "name"=>$clientId->getUsername()
         ));
+        //$this->addFlash('success','paiement reussi');
         return $this->render('cart/Stripe.html.twig');
     }
 
+
+    /**
+     * @Route("cart/stripe/{id}", name="stripe2")
+     */
+    public function stripe2(): Response
+    {
+        \Stripe\Stripe::setApiKey('sk_test_51IyEiPKXO6zoy45XnSBJfUeShcjGESS1F0uIZoZH3XQjKcJrBVsctduUrUqjabgjdHZVALOU1OFe4lefVdlriKJg00dp6rwSy2');
+        /*$cart=$cartRepository->find($id);
+        $amount=$cart->getTotal();
+        $clientId=$cart->getClientId();
+        \Stripe\Charge::create(array(
+            "amount"=>$amount,
+            "currency"=>"eur",
+            "source"=>"tok_visa",
+            "description"=>"Paiement réussie"
+        ));
+        //$this->addFlash('success','paiement reussi');
+        return $this->render('cart/Stripe.html.twig');*/
+        return $this->renderView('cart/Stripe.html.twig');
+    }
 
 }

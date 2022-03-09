@@ -77,12 +77,21 @@
                                             </button>
 
                                         </div>
+                                        {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
                                         <div class="asset__btns" style="text-align: center">
-                                            <a style="text-decoration-color: white" href="{{path('ajouter_panier_test',{'id':f.id})}}">
+                                            <a style="text-decoration-color: white" href="{{path('ajouter_panier_test2',{'id':f.id})}}">
                                                 <button class="asset__btn asset__btn--clr" type="submit" style="margin-left: 80px;background-color: #5cb85c">
                                                     <i class="fa fa-shopping-cart" ></i>
                                                 </button></a>
                                         </div>
+                                            {% else %}
+                                                <div class="asset__btns" style="text-align: center">
+                                                    <a style="text-decoration-color: white" href="{{path('ajouter_panier_test',{'id':f.id})}}">
+                                                        <button class="asset__btn asset__btn--clr" type="submit" style="margin-left: 80px;background-color: #5cb85c">
+                                                            <i class="fa fa-shopping-cart" ></i>
+                                                        </button></a>
+                                                </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
