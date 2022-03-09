@@ -10,7 +10,7 @@
                 <div class="input-append">
                 <form method="post"  action="{{ path('searchCat') }}" class="pull-right">
                     <!--    <input type="text" name="sear" placeholder="Search...">-->
-                    <input type="text" class="form-control" name="searchCat" placeholder="Search Category "><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/>
+                    <input type="text" class="form-control" placeholder="Search Category" id="myCategory"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/>
                 </form>
                 </div>
                 <table class="table table-striped table-advance table-hover">
@@ -26,7 +26,7 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="idCategory">
                     {% for cat in Category %}
                     <tr>
                         <td>
@@ -59,7 +59,7 @@
                         <div class="input-append">
                         <form method="post" action="{{ path('searchSubCat') }}" class="pull-right">
                             <!--    <input type="text" name="sear" placeholder="Search...">-->
-                            <input type="text" class="form-control" name="searchSubCat" placeholder="Search SubCategory"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/>
+                            <input type="text" class="form-control" name="searchSubCat" placeholder="Search SubCategory" id="mySubCategory"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/>
                         </form>
                         </div>
                         <table class="table table-striped table-advance table-hover">
@@ -75,7 +75,7 @@
                                 <th></th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="idSubCategory">
                             {% for subCat in subCategory %}
                                 <tr>
                                     <td>

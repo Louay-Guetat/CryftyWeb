@@ -41,10 +41,10 @@
                     <!-- end sidebar -->
 
                     <!-- content -->
-                    <div class="col-12 col-xl-9 order-xl-1">
+                    <div class="col-12 col-xl-9 order-xl-1" id="idContenu">
                         <div class="row row--grid">
                             {% for f in nft %}
-                            <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="col-12 col-sm-6 col-lg-4 nft">
                                 <!-- card -->
                                 <div class="card">
                                     <a href="{{ path('nftItem',{'id': f.id }) }}" style="width: 250px;height: 250px" class="card__cover">

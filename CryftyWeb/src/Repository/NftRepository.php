@@ -99,12 +99,20 @@ class NftRepository extends ServiceEntityRepository
                 ->orderBy('p.title','asc');
         }
 
-        if($data->tri == 1){
+        if($data->triPrix == 0){
             $query = $query->orderBy('p.price','asc');
         }
 
-        if($data->tri == 0){
+        if($data->triPrix == 1){
             $query = $query->orderBy('p.price','desc');
+        }
+
+        if($data->triLikes == 0){
+            $query = $query->orderBy('p.likes','asc');
+        }
+
+        if($data->triLikes == 1){
+            $query = $query->orderBy('p.likes','desc');
         }
 
         return $query->getQuery()->getResult();

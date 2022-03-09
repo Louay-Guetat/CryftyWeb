@@ -20,14 +20,6 @@ class SearchForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('q',TextType::class,[
-                'label'=> false,
-                'required'=>false,
-                'attr'=>[
-                    'placeholder'=>'Rechercher',
-                    'class'=>'filter__input'
-                ]
-            ])
             ->add('categories',EntityType::class,[
                 'label'=>false,
                 'required'=>false,
@@ -80,14 +72,28 @@ class SearchForm extends AbstractType
                     'class'=>'filter__input'
                 ]
             ])
-            ->add('tri',ChoiceType::class,[
+            ->add('triPrix',ChoiceType::class,[
                 'label'=>false,
                 'required'=>false,
                 'expanded'=>true,
                 'multiple'=>false,
                 'choices'=>[
-                    'Tri par prix croissant'=>true,
-                    'Tri par prix decroissant'=>false
+                    'Tri par prix croissant'=>0,
+                    'Tri par prix décroissant'=>1
+                ],
+                'attr'=>[
+                    'class'=>'filter__checkboxes'
+                ]
+            ])
+
+            ->add('triLikes',ChoiceType::class,[
+                'label'=>false,
+                'required'=>false,
+                'expanded'=>true,
+                'multiple'=>false,
+                'choices'=>[
+                    'Tri par pertinence croissante'=>0,
+                    'Tri par pertinence décroissante'=>1
                 ],
                 'attr'=>[
                     'class'=>'filter__checkboxes'

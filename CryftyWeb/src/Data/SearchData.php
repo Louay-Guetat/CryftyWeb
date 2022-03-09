@@ -38,6 +38,11 @@ class SearchData
     /**
      * @var boolean
      */
-    public $tri;
+    public $triPrix;
+
+    /**
+     * @var boolean
+     */
+    public $triLikes;
 
 }

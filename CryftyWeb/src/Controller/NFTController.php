@@ -51,7 +51,6 @@ class NFTController extends AbstractController
         foreach ($nft as $item){
             $likedBy = $item->getLikedBy();
             $j=0;
-
             do{
                 if($likedBy[$i]!= null){
                     if($client->getId() == $likedBy[$j]->getId()){
@@ -81,12 +80,6 @@ class NFTController extends AbstractController
         $data = new SearchData();
         $form = $this->createForm(SearchForm::class,$data);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
-            $nft = $repository->findSearch($data);
-            $nfts = $paginator->paginate($nft, $request->query->getInt('page',1),6);
-            return $this->render('nft/afficheNft.html.twig',['nft'=>$nfts,'category'=>$category,
-                                'form'=>$form->createView()]);
-        }
         $client = $clientRepo->find($this->getUser());
         $situation =[];
         $i=0;
@@ -109,6 +102,12 @@ class NFTController extends AbstractController
                 }
             }while($j<count($likedBy) && $situation[$i]!=1);
             $i++;
+        }
+        if ($form->isSubmitted() && $form->isValid()){
+            $nft = $repository->findSearch($data);
+            $nfts = $paginator->paginate($nft, $request->query->getInt('page',1),6);
+            return $this->render('nft/afficheNft.html.twig',['nft'=>$nfts,'category'=>$category,
+                                'form'=>$form->createView(),'situation'=>$situation]);
         }
         $nfts = $paginator->paginate($nft, $request->query->getInt('page',1),6);
         return $this->render('nft/afficheNft.html.twig',['nft'=>$nfts,'situation'=>$situation
