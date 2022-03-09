@@ -7,6 +7,7 @@ use App\Entity\Crypto\Transfer;
 use App\Entity\Crypto\Wallet;
 use App\Entity\NFT\Nft;
 use App\Entity\Payment\Transaction;
+use App\Form\QrCodeType;
 use App\Repository\BlockRepository;
 use App\Repository\NftRepository;
 use App\Repository\TransferRepository;
@@ -31,6 +32,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Validator\Constraints\NotNull;
+use App\Services\Transaction\QrcodeService;
 
 class TransactionController extends AbstractController
 {
@@ -134,7 +136,7 @@ class TransactionController extends AbstractController
         else{
             $buyerWallet->setBalance(0);
         }
-        $em->flush();
+        //$em->flush();
 
     }
 
@@ -153,8 +155,8 @@ class TransactionController extends AbstractController
      * @Route ("transaction/afficheTransaction/",name="AfficheT")
      */
     function AfficherTransaction(PaginatorInterface $paginator,Request $request,TransactionRepository $repository,CartRepository $cartRepository){
-        $carttr=$cartRepository->find($this->getUser());
-        $donnees=$repository->afficherTransaction($carttr);
+        $cartTr=$cartRepository->find($this->getUser());
+        $donnees=$repository->afficherTransaction($cartTr);
         $transaction=$paginator->paginate($donnees, $request->query->getInt('page', 1),3);
 
         return $this->render('transaction/affiche.html.twig',['t'=>$transaction]);
@@ -206,18 +208,26 @@ class TransactionController extends AbstractController
      * @Route("transaction/pdfTransaction/{id}", name="pdfTransaction")
      * @param Pdf $knpSnappyPdf
      * @return PdfResponse
+     * @param Request $request
+     * @param QrcodeService $qrcodeService
      */
-    public function pdfTransaction(Pdf $knpSnappyPdf,$id, TransactionRepository $transactionRepository): PdfResponse
+    public function pdfTransaction(Pdf $knpSnappyPdf,QrcodeService $qrcodeService,$id, TransactionRepository $transactionRepository): PdfResponse
     {
+        //pdf
         $transaction = $transactionRepository->find($id);
         $datesys= new \DateTime();
+
+        //codeQR
+        $transaction=$transactionRepository->find($id);
+        $qrCode=$qrcodeService->qrcode($transaction->getId());
+
+
         $html = $this->renderView('transaction/pdfTransaction.html.twig', [
-            'tpdf'=>$transaction,'d'=>$datesys
+            'tpdf'=>$transaction,'d'=>$datesys,'qrCode'=>$qrCode
         ]);
         return new PdfResponse(
             $knpSnappyPdf->getOutputFromHtml($html),
             'file.pdf'
         );
     }
-
 }

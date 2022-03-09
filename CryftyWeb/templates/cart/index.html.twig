@@ -61,12 +61,26 @@
                                 {% set tab=tab+element.produit.price %}
                             {% endfor %}
                             <span class="home__text" >Total :{{ tab }}</span>
-                            {# <script src="https://js.stripe.com/v3/"></script> #}
-                            <a href="{{path('TransactionWallet',{'id': cart.id })}}" class="home__btn home__btn--clr">Procéder au paiement avec wallet</a>
+
+
+                            {% if user_wallet.findOneBy({'client' :  app.user.id }).balance >  tab   %}
+                                <a href="{{path('TransactionWallet',{'id': cart.id })}}" class="home__btn home__btn--clr">
+                                    Procéder au paiement avec wallet</a>
+                                <span class="sign__delimiter" style="margin-top: 30px">Or</span>
+                                <a href="{{path('stripe',{'id': cart.id })}}" class="home__btn home__btn--clr">
+                                    Procéder au paiement avec carte bancaire
+                                </a>
+                            {% else %}
+                            <a href="{{path('TransactionWallet',{'id': cart.id })}}" class="home__btn home__btn" style="pointer-events: none;
+                            cursor: default;color: #6c757d">
+                                Procéder au paiement avec wallet</a>
                             <span class="sign__delimiter" style="margin-top: 30px">Or</span>
-                            <a href="{{path('stripe',{'id': cart.id })}}" class="home__btn home__btn--clr">
+                            <a href="{{path('stripe',{'id': cart.id })}}" class="home__btn home__btn" style="pointer-events: none;
+                            cursor: default;color: #6c757d">
                                 Procéder au paiement avec carte bancaire
                             </a>
+                            {% endif %}
+
                         </div>
 
                     </div>

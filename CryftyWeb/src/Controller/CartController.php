@@ -66,7 +66,7 @@ class CartController extends AbstractController
         $em=$this->getDoctrine()->getManager();
         $em->flush();
         $tr=$transactionRepository->afficherTransaction($cart);
-        return $this->render('cart/index.html.twig',['dataPanier'=>$dataPanier,'cart'=>$cart,'tr'=>$tr]);
+        return $this->render('cart/index.html.twig',['dataPanier'=>$dataPanier,'cart'=>$cart,'tr'=>$tr,'tot'=>$total]);
     }
 
 

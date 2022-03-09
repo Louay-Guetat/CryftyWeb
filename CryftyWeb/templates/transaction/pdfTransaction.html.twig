@@ -130,6 +130,7 @@
 <body>
 <div class="page-content container">
     <div class="page-header text-blue-d2">
+        {# <img src="{{ asset('img/logoNoText.png') }}" width="50" height="50" alt=""> #}
         <h1 class="page-title text-secondary-d1" style="text-align: center;font-size: 50px">
             Facture
             <br>
@@ -215,11 +216,11 @@
                         </div>
                         <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Issue Date:</span>
                             {{ d|date }}</div>
-                        {% if tpdf.etat == true %}
+                        {# {% if tpdf.etat == true %}
                         <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25" style="background-color: #d9ce00">Paid</span></div>
                         {% else %}
                         <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25" style="background-color: #d9ce00">Inpaid</span></div>
-                        {% endif %}
+                        {% endif %} #}
                     </div>
                 </div>
                 </div>
@@ -237,6 +238,13 @@
                     </div>
                 </div>
         </div>
+    </div>
+</div>
+<div class="row" style="margin-left: 300px;margin-top: 100px">
+    <div class="col-md-6">
+        {% if qrCode %}
+            <img src="{{ qrCode }}" alt="qr-code" width="250px">
+        {% endif %}
     </div>
 </div>
 </body>
