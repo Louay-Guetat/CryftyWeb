@@ -151,13 +151,13 @@
                     </thead>
                     <tbody class="bg-light">
 
-                    {% for nft in nfts %}
+                    {% for client in clients %}
                         <tr>
                             <th scope="row">{{ loop.index }}</th>
-                            <td><u><a href="{{ path('profil',{'id':nft.owner.id}) }}" style="color:black">{{ nft.owner.username }}</a></u></td>
-                            <td>{{ nft.creationDate | date('d M Y, h:m') }}</td>
-                            <td>{{ nft.likes }} </td>
-                            <td>{{ nft.category.name }} </td>
+                            <td><u><a href="{{ path('profil',{'id':client   .id}) }}" style="color:black">{{ client.username }}</a></u></td>
+                            <td>{{ volume[loop.index-1] }}</td>
+                            <td>{{ floorPrice[loop.index-1] }} </td>
+                            <td>{{ nombreNfts[loop.index-1] }} </td>
                         </tr>
                     {% endfor %}
 
@@ -168,7 +168,7 @@
 
             <div class="d-flex justify-content-center">
                 <div id="navigation">
-                    {{ knp_pagination_render(nfts) }}
+                    {{ knp_pagination_render(clients) }}
                 </div>
             </div>
         </section>

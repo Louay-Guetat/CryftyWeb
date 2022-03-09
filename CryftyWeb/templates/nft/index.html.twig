@@ -75,10 +75,17 @@
                                                 <span>  {{ f.creationDate |date('d-m-Y') }} </span>
                                                 </div>
                                             </div>
+                                            {% if situation[loop.index-1] ==0 %}
                                             <button class="card__likes" type="button">
                                                     <a href="{{ path('like' ,{'id':f.id}) }}" name="like"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.16,5A6.29,6.29,0,0,0,12,4.36a6.27,6.27,0,0,0-8.16,9.48l6.21,6.22a2.78,2.78,0,0,0,3.9,0l6.21-6.22A6.27,6.27,0,0,0,20.16,5Zm-1.41,7.46-6.21,6.21a.76.76,0,0,1-1.08,0L5.25,12.43a4.29,4.29,0,0,1,0-6,4.27,4.27,0,0,1,6,0,1,1,0,0,0,1.42,0,4.27,4.27,0,0,1,6,0A4.29,4.29,0,0,1,18.75,12.43Z"/></svg></a>
                                                 <span> {{ f.likes }}</span>
                                             </button>
+                                            {% else %}
+                                                <button class="card__likes card__likes--active" type="button">
+                                                    <a href="{{ path('like' ,{'id':f.id}) }}" name="like"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.16,5A6.29,6.29,0,0,0,12,4.36a6.27,6.27,0,0,0-8.16,9.48l6.21,6.22a2.78,2.78,0,0,0,3.9,0l6.21-6.22A6.27,6.27,0,0,0,20.16,5Zm-1.41,7.46-6.21,6.21a.76.76,0,0,1-1.08,0L5.25,12.43a4.29,4.29,0,0,1,0-6,4.27,4.27,0,0,1,6,0,1,1,0,0,0,1.42,0,4.27,4.27,0,0,1,6,0A4.29,4.29,0,0,1,18.75,12.43Z"/></svg></a>
+                                                    <span> {{ f.likes }}</span>
+                                                </button>
+                                            {% endif %}
                                             <div class="asset__btns">
                                                 <a style="text-decoration-color: white" href="{{path('ajouter_panier_test',{'id':f.id})}}">
                                                     <button class="asset__btn asset__btn--clr" type="submit">
