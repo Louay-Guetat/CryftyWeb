@@ -283,6 +283,12 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/swiftmailer/swiftmailer" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/swiftmailer-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/sendgrid-mailer" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/vangrg/profanity-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/dompdf/dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/phenx/php-svg-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/phenx/php-font-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sabberworm/php-css-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/friendsofsymfony/ckeditor-bundle" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

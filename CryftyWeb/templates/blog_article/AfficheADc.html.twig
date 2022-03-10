@@ -8,43 +8,38 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="content-panel">
-                        <h4><i class="fa fa-angle-right"></i> BlogArticles Table     <a style="margin: auto" href=" {{ path('AjouterArticle' )}} ">+Add </a></h4>
+                        <h4><i class="fa fa-angle-right"></i> BlogArticles Table     <a style="margin: auto" href=" {{ path('AfficheBAAD' )}} "> *Back to Articles </a></h4>
                         <hr>
                         <input id="myInput" type="text" placeholder="Search..">
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>id</th>
+                                <th>id article</th>
                                 <th>Title</th>
-                                <th>Category</th>
-                                <th>Contents</th>
-                                <th>Author</th>
+                                <th>id</th>
+                                <th>user</th>
+                                <th>Comment</th>
                                 <th>Date Of Post</th>
                                 <th><i class=" fa fa-edit"></i> Status</th>
                             </tr>
                             </thead>
                             <tbody id="myTable">
-                            <tr {% for a in BlogArticle%}>
+                            <tr {% for a in Blogcomment%}>
+                                <td>{{ a.article.id }}</td>
+                                <td>{{ a.article.title }}</td>
                                 <td>{{ a.id }}</td>
-                                <td>{{ a.title }}</td>
-                                <td>{{ a.category }}</td>
-                                <td>{{ a.contents|raw }}</td>
-                                <td>{{ a.author }}</td>
-                                <td>{{a.getDate()|date('d-m-Y')}}</td>
+                                <td>{{ a.user.username }}</td>
+                                <td>{{ a.comment }}</td>
+                                <td>{{a.getPostDate()|date('d-m-Y,H:i:s')}}</td>
                                 <td>
-                                    <a href=" {{ path('u',{'id':a.id}) }} "><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>
-                                    <a href=" {{ path('dArticle',{'id':a.id}) }} "><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a>
+                                  <a href=" {{ path('dcAD',{'id':a.id}) }} "><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a>
                                 </td>
                             </tr {% endfor %}>
 
                             </tbody>
                         </table>
-                        <div>
-                            <a href=" {{ path('AfficheBAADc' )}} ">Comments </a>
-                        </div>
                         <a href=" {{ path('AfficheBA' )}} ">Back to menu </a>
                     </div>
-
                 </div>
             </div>
         </section>

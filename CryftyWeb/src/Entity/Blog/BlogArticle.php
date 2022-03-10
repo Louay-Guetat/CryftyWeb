@@ -6,6 +6,7 @@ use App\Repository\BlogArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vangrg\ProfanityBundle\Validator\Constraints as ProfanityAssert;
 
 
 /**
@@ -28,12 +29,14 @@ class BlogArticle
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="title is required")
+     * @ProfanityAssert\ProfanityCheck
      * @Groups("post:read")
      */
     private $title;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
+     * @ProfanityAssert\ProfanityCheck
      * @Groups("post:read")
      */
     private $contents;
@@ -43,6 +46,11 @@ class BlogArticle
      * @Groups("post:read")
      */
     private $category;
+    /**
+     * @ORM\Column(type="string", length=65535, nullable=true)
+     * @Assert\NotBlank
+     */
+    private $base64;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
@@ -177,6 +185,22 @@ class BlogArticle
     public function setComments($comments): void
     {
         $this->comments = $comments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBase64()
+    {
+        return $this->base64;
+    }
+
+    /**
+     * @param mixed $base64
+     */
+    public function setBase64($base64): void
+    {
+        $this->base64 = $base64;
     }
 
 
