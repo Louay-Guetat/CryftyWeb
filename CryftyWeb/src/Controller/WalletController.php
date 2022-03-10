@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Form\WalletSearchFormType;
 use App\Services\Mailer\MailerService;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Knp\Bundle\SnappyBundle\DependencyInjection\KnpSnappyExtension;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Bundle\SnappyBundle\Snappy\Response\SnappyResponse;
@@ -206,15 +209,20 @@ class WalletController extends AbstractController
      * @param ClientRepository $clientRepository
      * @return Response
      */
-    public function viewWallets(WalletRepository $walletRepository,ClientRepository $clientRepository):Response
+    public function viewWallets(WalletRepository $walletRepository,ClientRepository $clientRepository,Request $request):Response
     {
-
+        $data = new Wallet();
         $currentUser = $this->security->getUser();
+        $form = $this->createForm(WalletSearchFormType::class,$data);
+        $form->handleRequest($request);
 
         $client = $clientRepository->find($currentUser->getId());
-        $wallets = $walletRepository->findBy(array('client'=> $client));
+        $data->setClient($client);
+        $wallets = $walletRepository->findSearch($data);
+//        $wallets = $walletRepository->findBy(array('client'=> $client));
         return $this->render('wallet/viewWallets.html.twig', [
             'wallets' => $wallets,
+            'search_form' => $form->createView()
         ]);
 
     }
@@ -225,6 +233,7 @@ class WalletController extends AbstractController
      * @param WalletRepository $walletRepository
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function viewWalletInfo(int $walletId,WalletRepository $walletRepository,TransferRepository $transferRepository,BlockRepository $blockRepository,Request $request):Response
     {
@@ -240,11 +249,44 @@ class WalletController extends AbstractController
 
         $transferOutArray = $transferRepository->findBy(array('senderId'=>$walletId));
         $transferInArray = $transferRepository->findBy(array('recieverId'=>$walletId));
+
+        $collectionOut = new ArrayCollection($transferOutArray);
+        $collectionIn = new ArrayCollection($transferInArray);
+
+        //SORTING
+        $collectionInSorted = $collectionIn;
+        $collectionOutSorted = $collectionOut;
+        if($request->query->get('date_in')){
+            $iteratorIn = $collectionIn->getIterator();
+            $iteratorIn->uasort(function ($a, $b) use ($request) {
+                if($request->query->get('date_in') == "DESC"){
+                    return ($a->getTransferDate() > $b->getTransferDate()) ? -1 : 1;
+                }
+                else{
+                    return ($a->getTransferDate() < $b->getTransferDate()) ? -1 : 1;
+                }
+            });
+            $collectionInSorted = new ArrayCollection(iterator_to_array($iteratorIn));
+        }
+
+        if($request->query->get('date_out')){
+            $iterator = $collectionOut->getIterator();
+            $iterator->uasort(function ($a, $b) use ($request) {
+                if($request->query->get('date_out') == "DESC"){
+                    return ($a->getTransferDate() > $b->getTransferDate()) ? -1 : 1;
+                }
+                else{
+                    return ($a->getTransferDate() < $b->getTransferDate()) ? -1 : 1;
+                }
+            });
+            $collectionOutSorted = new ArrayCollection(iterator_to_array($iterator));
+        }
+
         return $this->render('wallet/viewWalletInfo.html.twig', [
             'wallet' => $wallet,
             'transfer_form'=>$transferForm->createView(),
-            'outTransfers'=>$transferOutArray,
-            'inTransfers'=>$transferInArray
+            'outTransfers'=>$collectionOutSorted,
+            'inTransfers'=>$collectionInSorted
         ]);
     }
 
@@ -402,7 +444,7 @@ class WalletController extends AbstractController
            $recieverWallet->setBalance($recieverWallet->getBalance() + $floatAmount );
 
            $walletBlocks = $blockRepository->findBy(array('wallet'=>$senderWallet));
-           $counter = ($amount/6.25)+1;
+           $counter = ($amount/$senderWallet->getNodeId()->getNodeReward())+1;
            foreach ($walletBlocks as $block){
                if ($counter >= 0)
                {

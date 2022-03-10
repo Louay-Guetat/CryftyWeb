@@ -31,4 +31,16 @@ class MailerService
             ->context($variables);
         $this->mailer->send($email);
     }
+
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function sendEmailResetPassword(string $toMail){
+        $email = (new TemplatedEmail())
+            ->from('khalilrezgui1607@gmail.com')
+            ->to($toMail)
+            ->subject('Reset Password')
+            ->htmlTemplate('emails/walletVerification.html.twig');
+        $this->mailer->send($email);
+    }
 }
