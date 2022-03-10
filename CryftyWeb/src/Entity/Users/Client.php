@@ -21,7 +21,6 @@ class Client extends User
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Users\SupportTicket", mappedBy="Client")
      */
-
     private $supportticket;
 
 
@@ -86,6 +85,7 @@ class Client extends User
      * @ORM\ManyToMany(targetEntity="App\Entity\NFT\Nft")
      */
     private $likes;
+
 
     public function __construct()
     {
@@ -223,21 +223,6 @@ class Client extends User
         $this->nfts = $nfts;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
-
-    /**
-     * @param mixed $comments
-     */
-    public function setComments($comments): void
-    {
-        $this->comments = $comments;
-    }
 
     /**
      * @return mixed
@@ -263,6 +248,7 @@ class Client extends User
             }
         }
     }
+
 
     public function addWallet(Wallet $wallet): self
     {

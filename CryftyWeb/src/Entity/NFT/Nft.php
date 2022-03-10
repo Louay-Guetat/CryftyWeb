@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use Vangrg\ProfanityBundle\Validator\Constraints as ProfanityAssert;
 /**
  * @ORM\Entity(repositoryClass=NftRepository::class)
  */
@@ -28,6 +28,7 @@ class Nft
 
     /**
      * @ORM\Column(type="string")
+     * @ProfanityAssert\ProfanityCheck
      * @Groups ("Category:read")
      * @Groups ("subCategory:read")
      * @Groups ("currency:read")
@@ -39,6 +40,7 @@ class Nft
 
     /**
      * @ORM\Column(type="string")
+     * @ProfanityAssert\ProfanityCheck
      * @Groups ("Category:read")
      * @Groups ("subCategory:read")
      * @Groups ("currency:read")
@@ -80,6 +82,8 @@ class Nft
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank(message="Ajouter un média")
+     * @Assert\Image(
+     *     mimeTypes="image/*")
      * @Groups ("Category:read")
      * @Groups ("subCategory:read")
      * @Groups ("currency:read")

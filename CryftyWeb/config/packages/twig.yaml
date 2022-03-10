@@ -3,10 +3,16 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     exception_controller: null
+
+    form_themes: ['bootstrap_4_layout.html.twig']
+
+
+
     globals:
         user_wallet: '@App\Repository\WalletRepository'
         chat_group: '@App\Repository\GroupChatRepository'
         chat_private: '@App\Repository\PrivateChatRepository'
     paths:
         '%kernel.project_dir%/public/img': images
+
 

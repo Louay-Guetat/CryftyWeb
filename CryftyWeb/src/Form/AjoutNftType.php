@@ -5,23 +5,19 @@ namespace App\Form;
 use App\Entity\Crypto\Node;
 use App\Entity\NFT\Category;
 use App\Entity\NFT\SubCategory;
-use App\Repository\CategoryRepository;
-use App\Repository\SubCategoryRepository;
-use phpDocumentor\Reflection\Types\Float_;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Validator\Constraints\Image;
-
 
 class AjoutNftType extends AbstractType
 {
@@ -29,17 +25,6 @@ class AjoutNftType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('image', FileType::class,['label'=>'e. g. Image, Audio, Video',
-                'label_attr'=>['class'=>'sign__label'
-                    , 'class'=>'custom-file-label'
-                    ,'for'=>'customFile'
-                    ,'mapped'=>false
-                    ,'required'=>true
-                    ,'multiple'=>false
-                ]
-                ,'attr'=>['class'=>'custom-file-input','name'=>'filename','id'=>'customFile','accept' => "image/*"]
-                , 'constraints' => [new Image()]
-            ])
             ->add('title',TextType::class,['label'=>"TITLE"
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input']
@@ -48,9 +33,10 @@ class AjoutNftType extends AbstractType
             ])
             ->add('description',TextareaType::class,['label'=>"DESCRIPTION"
                 ,'label_attr'=>['class'=>'sign__label']
+                ,'required'=>false
                 ,'attr'=>['class'=>'sign__textarea','cols' => '5', 'rows' => '5']
             ])
-            ->add('price',MoneyType::class,['label'=>"PRICE"
+            ->add('price',NumberType::class,['label'=>"PRICE"
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input']
                 ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas être vide']))
@@ -81,21 +67,40 @@ class AjoutNftType extends AbstractType
 
             ])
             ->add('subcategory',EntityType::class,[
-                'required' => false,
+                'class'=>SubCategory::class,
+                'required' => false
+                ,'attr'=>['class'=>'sign__select'],
+                'choice_label'=>'name',
                 'label' => 'SubCategory',
-                'class' => SubCategory::class,
                 'multiple' => false,
                 'expanded' => false,
                 'choice_label' => 'name'
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__select']
-                ,'constraints'=>array(new NotNull(['message'=>'Ce champ ne doit pas être vide']))
-                /*,'query_builder'=>function (SubCategoryRepository $subCat){
-                    return $subCat->createQueryBuilder('c')
-                        ->where('c.category =:cat')
-                        ->setParameter('cat');
-                }*/
             ]);
+
+        $formModifier = function (FormInterface $form, Category $category=null){
+            $subCategories = (null === $category) ? [] : $category->getSubCategories();
+            $form->add('subcategory',EntityType::class,[
+                'class'=>SubCategory::class,
+                'choices'=> $subCategories,
+                'choice_label'=>'name',
+                'placeholder'=>'',
+                'label' => 'SubCategory',
+                'multiple' => false,
+                'expanded' => false
+                ,'label_attr'=>['class'=>'sign__label']
+                ,'attr'=>['class'=>'sign__select']
+            ]);
+        };
+
+        $builder->get('category')->addEventListener(
+          FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier){
+                $cat = $event->getForm()->getData();
+                $formModifier($event->getForm()->getParent(),$cat);
+            }
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
