@@ -54,8 +54,6 @@ class QrcodeService
         //generate name
         $namePng = uniqid('', '') . '.png';
 
-        //Save img png
-        $result->saveToFile($path.'qr-code/'.$namePng);
 
         return $result->getDataUri();
 

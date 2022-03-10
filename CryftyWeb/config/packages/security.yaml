@@ -1,9 +1,7 @@
 security:
-
     role_hierarchy:
         ROLE_MODERATOR: ROLE_USER
         ROLE_ADMIN: [ROLE_MODERATOR, ROLE_ALLOWED_TO_SWITCH]
-
     encoders:
         App\Entity\Users\User:
             algorithm: auto
@@ -47,12 +45,13 @@ security:
             # switch_user: true
 
     # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+    # Note: Only the first access control that matches will be used
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/category, roles: ROLE_ADMIN }
-         - { path: ^/blog, roles: ROLE_USER }
-         - { path: ^/wallet, roles: ROLE_USER }
-         - { path: ^/nft, roles: ROLE_USER }
-         - { path: ^/cart, roles: ROLE_USER }
-         - { path: ^/transaction, roles: ROLE_USER }
+        - { path: ^/, roles: [IS_AUTHENTICATED_ANONYMOUSLY,ROLE_USER]}
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/category, roles: ROLE_ADMIN }
+        - { path: ^/blog, roles: ROLE_USER }
+        - { path: ^/wallet, roles: ROLE_USER }
+        - { path: ^/nft, roles: ROLE_USER }
+        - { path: ^/cart, roles: ROLE_USER }
+        - { path: ^/transaction, roles: ROLE_USER }

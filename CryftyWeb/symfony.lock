@@ -109,8 +109,6 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
-
-
     "friendsofsymfony/ckeditor-bundle": {
         "version": "2.4",
         "recipe": {
@@ -538,9 +536,6 @@
             "./tests/bootstrap.php"
         ]
     },
-    "symfony/polyfill-intl-grapheme": {
-        "version": "v1.25.0"
-    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.24.0"
     },
@@ -632,9 +627,6 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.37"
-    },
-    "symfony/string": {
-        "version": "v5.4.3"
     },
     "symfony/swiftmailer-bundle": {
         "version": "3.5",

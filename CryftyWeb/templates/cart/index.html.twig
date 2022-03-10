@@ -77,7 +77,7 @@
 
                             {%  if is_granted('IS_AUTHENTICATED_FULLY')  %}
 
-
+                        {% if user_wallet.findOneBy({'client' :  app.user.id }) %}
                             {% if user_wallet.findOneBy({'client' :  app.user.id }).balance >=  tab  and tab != 0 %}
                                 <a href="{{path('TransactionWallet',{'id': cart.id })}}" class="home__btn home__btn--clr">
                                     Procéder au paiement avec wallet</a>
@@ -86,6 +86,17 @@
                                     Procéder au paiement avec carte bancaire
                                 </a>
                             {% else %}
+                                <a href="{{path('TransactionWallet',{'id': cart.id })}}" class="home__btn home__btn" style="pointer-events: none;
+                            cursor: default;color: #6c757d">
+                                    Procéder au paiement avec wallet</a>
+                                <span class="sign__delimiter" style="margin-top: 30px">Or</span>
+                                <a href="{{path('stripe',{'id': cart.id })}}" class="home__btn home__btn" style="pointer-events: none;
+                            cursor: default;color: #6c757d">
+                                    Procéder au paiement avec carte bancaire
+                                </a>
+                            {% endif %}
+
+                        {% else %}
                             <a href="{{path('TransactionWallet',{'id': cart.id })}}" class="home__btn home__btn" style="pointer-events: none;
                             cursor: default;color: #6c757d">
                                 Procéder au paiement avec wallet</a>

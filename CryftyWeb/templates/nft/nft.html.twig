@@ -28,6 +28,7 @@
             <!-- content -->
             <div class="col-12 col-xl-8">
                 <div class="asset__item">
+                    {% if app.user %}
                     {% if app.user.id == nftItem.owner.id %}
                         <a class="asset__img" href="{{ asset('NFTS/'~ nftItem.image) }}">
                     {% endif %}
@@ -37,6 +38,10 @@
                             <img src="{{ asset('NFTS/'~ nftItem.image) | imagine_filter('imageNft') }}" width="520" height="520" alt="image">
                         {% endif %}
                     </a>
+                        {% else %}
+                            <img src="{{ asset('NFTS/'~ nftItem.image) | imagine_filter('imageNft') }}" width="520" height="520" alt="image">
+
+                    {% endif %}
 
                     <!-- share -->
                     <div class="share share--asset">
@@ -160,8 +165,12 @@
                     <!-- end tabs -->
                     <!-- actions -->
                     <div class="asset__btns">
-                        <button class="asset__btn asset__btn--clr" type="button">Buy - {{ nftItem.price }} {{ nftItem.currency.coinCode}} </button>
-                        <a href="#modal-bid" class="asset__btn open-modal">Place a bid</a>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a class="asset__btn asset__btn--clr" href="{{ path("ajouter_panier_test",{'id':nftItem.id}) }}">Buy - {{ nftItem.price }} {{ nftItem.currency.coinCode}} </a>
+                        {% else %}
+                            <a class="asset__btn asset__btn--clr" href="{{ path("ajouter_panier_test2",{'id':nftItem.id}) }}">Buy - {{ nftItem.price }} {{ nftItem.currency.coinCode}} </a>
+
+                        {% endif %}
                     </div>
                     <!-- end actions -->
                 </div>
