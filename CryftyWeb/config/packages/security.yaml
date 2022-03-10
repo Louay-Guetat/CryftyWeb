@@ -54,4 +54,5 @@ security:
          - { path: ^/blog, roles: ROLE_USER }
          - { path: ^/wallet, roles: ROLE_USER }
          - { path: ^/nft, roles: ROLE_USER }
-
+         - { path: ^/cart, roles: ROLE_USER }
+         - { path: ^/transaction, roles: ROLE_USER }
