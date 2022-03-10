@@ -19,6 +19,9 @@
         "dompdf/dompdf": "^1.2",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
         "knplabs/knp-paginator-bundle": "^5.8",
+
+        "knplabs/knp-snappy-bundle": "^1.9",
+
         "liip/imagine-bundle": "^2.7",
         "phpdocumentor/reflection-docblock": "^5.3",
         "sensio/framework-extra-bundle": "^5.1",
@@ -48,6 +51,7 @@
         "symfony/web-link": "4.4.*",
         "symfony/web-server-bundle": "4.4.*",
         "symfony/yaml": "4.4.*",
+        "symfonycasts/reset-password-bundle": "^1.13",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
         "vangrg/profanity-bundle": "^1.1"

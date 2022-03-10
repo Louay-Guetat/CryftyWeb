@@ -37,7 +37,7 @@ class Wallet
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Assert\NotBlank
      */
-    private $NodeId;
+    private $nodeId;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -78,6 +78,11 @@ class Wallet
      * @ORM\Column(type="boolean")
      */
     private $isActive;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isMain;
 
     /**
      * @return mixed
@@ -122,12 +127,12 @@ class Wallet
 
     public function getNodeId(): ?Node
     {
-        return $this->NodeId;
+        return $this->nodeId;
     }
 
-    public function setNodeId(Node $NodeId): self
+    public function setNodeId(Node $nodeId): self
     {
-        $this->NodeId = $NodeId;
+        $this->nodeId = $nodeId;
 
         return $this;
     }
@@ -193,6 +198,18 @@ class Wallet
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getIsMain(): ?bool
+    {
+        return $this->isMain;
+    }
+
+    public function setIsMain(bool $isMain): self
+    {
+        $this->isMain = $isMain;
 
         return $this;
     }

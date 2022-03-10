@@ -80,24 +80,14 @@
                         <div> {% for gr in group %}
                                   {% set Currentuser=app.user.id %}
                                     {% for user in gr.getParticipants %}
-
                                 {% set us=user.id  %}
                                 {% if us==Currentuser  %}
                       <li >
                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_02.jpg" alt="">
                         <div >
-
-
                             <a href="{{path('chat',{'id':gr.id}) }}">
                                 <h2>
-
-
-
                                             {{ gr.nom }}
-
-
-
-
                                 </h2></a>
 
                             <h3>
@@ -106,44 +96,26 @@
                             </h3>
                         </div>
                         </li >{% endif %}
-
-
                             {% endfor %}
-
                             {% endfor %}</div>
                         <div>
                             {% for gr in group %}
                                 {% set Currentuser=app.user.id %}
-
-
                                     {% if gr.owner.id==app.user.id %}
                                         <li >
                                         <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_02.jpg" alt="">
                                         <div >
-
-
                                             <a href="{{path('chat',{'id':gr.id}) }}">
                                                 <h2>
-
-
-
                                                     {{ gr.nom }}
-
-
-
-
                                                 </h2></a>
-
                                             <h3>
                                                 <span class="status green"></span>
                                                 online
                                             </h3>
                                         </div>
                                         </li >{% endif %}
-
-
                                 {% endfor %}
-
                             </div>
                     </ul >
 

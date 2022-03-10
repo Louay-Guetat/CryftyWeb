@@ -23,6 +23,19 @@ class NodeController extends AbstractController
     }
 
     /**
+     * @Route("/admin/searchNode", name="search-node")
+     */
+    public  function searchNode(Request $request,NodeRepository $nodeRepository):Response
+    {
+        $search = $request->get('search-term');
+        $nodes = $nodeRepository->searchByName($search);
+        return $this->render("node/viewNodes.html.twig",[
+            "nodes" => $nodes
+        ]);
+
+    }
+
+    /**
      * @Route("/admin/createNode", name="create-node")
      * @param Request $request
      * @return Response

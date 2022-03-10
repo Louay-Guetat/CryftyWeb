@@ -1,4 +1,7 @@
 security:
+    role_hierarchy:
+        ROLE_MODERATOR: ROLE_USER
+        ROLE_ADMIN: [ROLE_MODERATOR, ROLE_ALLOWED_TO_SWITCH]
     encoders:
         App\Entity\Users\User:
             algorithm: auto
