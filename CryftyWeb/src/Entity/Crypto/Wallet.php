@@ -37,7 +37,7 @@ class Wallet
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Assert\NotBlank
      */
-    private $NodeId;
+    private $nodeId;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -112,12 +112,12 @@ class Wallet
 
     public function getNodeId(): ?Node
     {
-        return $this->NodeId;
+        return $this->nodeId;
     }
 
-    public function setNodeId(Node $NodeId): self
+    public function setNodeId(Node $nodeId): self
     {
-        $this->NodeId = $NodeId;
+        $this->nodeId = $nodeId;
 
         return $this;
     }

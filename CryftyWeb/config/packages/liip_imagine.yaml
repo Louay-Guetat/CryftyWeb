@@ -21,3 +21,10 @@ liip_imagine:
                     image: ../public/img/LogoV1.png
                     size: 0.3
                     position: bottomright
+        imageNft:
+            quality: 75
+            filters :
+                watermark:
+                    image: ../public/img/LogoV1.png
+                    size: 0.3
+                    position: bottomright

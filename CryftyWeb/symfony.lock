@@ -88,6 +88,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.2"
     },
+    "dompdf/dompdf": {
+        "version": "v1.2.0"
+    },
     "egulias/email-validator": {
         "version": "3.1.2"
     },
@@ -105,6 +108,20 @@
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
+    },
+
+
+    "friendsofsymfony/ckeditor-bundle": {
+        "version": "2.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "f5ad42002183a6881962683e6d84bbb25cdfce5d"
+        },
+        "files": [
+            "./config/packages/fos_ckeditor.yaml"
+        ]
     },
     "guzzlehttp/psr7": {
         "version": "2.1.0"
@@ -163,6 +180,12 @@
     },
     "phar-io/version": {
         "version": "3.1.1"
+    },
+    "phenx/php-font-lib": {
+        "version": "0.5.4"
+    },
+    "phenx/php-svg-lib": {
+        "version": "0.4.1"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -223,6 +246,9 @@
     "psr/log": {
         "version": "1.1.4"
     },
+    "pugx/autocompleter-bundle": {
+        "version": "v1.8.0"
+    },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
@@ -249,6 +275,9 @@
     },
     "react/stream": {
         "version": "v1.2.0"
+    },
+    "sabberworm/php-css-parser": {
+        "version": "8.4.0"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -699,8 +728,39 @@
             "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
         }
     },
+    "symfony/webpack-encore-bundle": {
+        "version": "1.14",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.9",
+            "ref": "f466b6384e592cfda11ca2361bbf7c7287b58f55"
+        },
+        "files": [
+            "./assets/app.js",
+            "./assets/bootstrap.js",
+            "./assets/controllers.json",
+            "./assets/controllers/hello_controller.js",
+            "./assets/styles/app.css",
+            "./config/packages/webpack_encore.yaml",
+            "./package.json",
+            "./webpack.config.js"
+        ]
+    },
     "symfony/yaml": {
         "version": "v4.4.37"
+    },
+    "symfonycasts/reset-password-bundle": {
+        "version": "1.13",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "97c1627c0384534997ae1047b93be517ca16de43"
+        },
+        "files": [
+            "./config/packages/reset_password.yaml"
+        ]
     },
     "theseer/tokenizer": {
         "version": "1.2.1"
@@ -710,6 +770,9 @@
     },
     "twig/twig": {
         "version": "v3.3.8"
+    },
+    "vangrg/profanity-bundle": {
+        "version": "v1.1.6"
     },
     "webmozart/assert": {
         "version": "1.10.0"

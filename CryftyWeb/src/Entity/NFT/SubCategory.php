@@ -6,6 +6,7 @@ use App\Repository\SubCategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vangrg\ProfanityBundle\Validator\Constraints as ProfanityAssert;
 
 
 /**
@@ -24,6 +25,7 @@ class SubCategory
 
     /**
      * @ORM\Column (type="string")
+     * @ProfanityAssert\ProfanityCheck
      * @Assert\NotNull
      * @Groups ("subCategory:read")
      * @Groups ("category1:read")

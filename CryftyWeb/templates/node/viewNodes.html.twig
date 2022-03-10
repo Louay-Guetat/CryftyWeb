@@ -10,7 +10,13 @@
                 {% for message in app.flashes('success') %}
                     <div class="alert alert-success"> {{ message }} </div>
                 {% endfor %}
+
                 <h3><i class="fa fa-angle-right"></i> Nodes list : </h3>
+                <div class="input-append">
+                    <form method="post"  action="{{ path('search-node') }}" class="pull-right">
+                        <input type="text" class="form-control" name="search-term" placeholder="Search Node "><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/>
+                    </form>
+                </div>
                 <div class="row mt">
                     <div class="col-lg-12">
                         <section id="unseen">
@@ -21,6 +27,7 @@
                                 }
                             </style>
                             <a class="btn btn-info" href="{{ path('create-node') }}">Add New Node</a>
+
                             <table class="table table-bordered table-striped table-condensed ">
                                 <thead>
                                 <tr>
@@ -39,9 +46,9 @@
                                     <td class="numeric">{{ node.blocks | length }}</td>
                                     <td class="numeric">{{ node.nodeReward }}</td>
                                     <td class="numeric"><a href="{{ path('update-node',{'nodeId':node.id}) }}" class="btn btn-theme btn-sm">Update</a></td>
-                                    <td class="numeric"><a href="{{ path('delete-node',{'nodeId':node.id}) }}" class="btn btn-theme04 btn-sm">Delete</a></td>
+                                    <td class="numeric"><button type="button" onClick="getNodeId({{ node.id }})"   data-toggle="modal" data-target="#exampleModal" class="btn btn-theme04 btn-sm">Delete</button></td>
                                     <td class="numeric"><a href="{{ path('view-node-info',{'nodeId':node.id}) }}" class="btn btn-theme01 btn-sm">
-                                            <i class="fa fa-arrow-circle-o-right" style="font-size: large"/></a></td>
+                                            <i class="fa fa-arrow-circle-o-right" style="font-size: large"></i></a></td>
                                 </tr>
                                 {% endfor %}
 
@@ -50,11 +57,45 @@
                         </section>
                     </div>
                 </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Confirm Your Choice</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are your sure you want to delete this node ?
+                                Every block attached to it will be deleted as well !
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <a href="#" onclick="deleteNode()" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
             <!-- /wrapper -->
         </section>
         <!-- /MAIN CONTENT -->
         <!--main content end-->
 
+
+
+    <script>
+        var nodeId;
+        function getNodeId(id){
+            nodeId = id;
+        }
+        function deleteNode(){
+            var url = `{{ path("delete-node",{'nodeId' : '1' }) }}`.replace('1', nodeId)
+            window.location.href = url;
+        }
+    </script>
 {% endblock %}
 

@@ -33,6 +33,46 @@
             </div>
         </div>
         <!-- end title -->
+        {{ form_start(search_form) }}
+        <div class="main__filter">
+        <div class="main__filter-search">
+            {{ form_widget(search_form.walletAddress) }}
+            <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"></path></svg></button>
+        </div>
+            <span
+                class="ml-3"></span>
+            <div class="main__filter-search">
+            {{ form_widget(search_form.walletLabel) }}
+            <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"></path></svg></button>
+
+        </div>
+        </div>
+        <div class="main__filter ">
+
+
+                <div class="filter__select-wrap">
+                {{ form_widget(search_form.nodeId,{'attr':{'class':'filter__select'}}) }}
+                </div>
+
+            <div class="main__filter-wrap ml-3">
+                <ul class="filter__checkboxes d-flex flex-row ">
+                    <li class="mr-2">
+                        {{ form_widget(search_form.isMain) }}
+                        {{ form_label(search_form.isMain) }}
+                    </li>
+                    <li>
+                        {{ form_widget(search_form.isActive) }}
+                        {{ form_label(search_form.isActive) }}
+                    </li>
+                </ul>
+
+                    <button class="filter__btn w-25 ml-5" type="submit" style="font-size: 9px; padding: 2px!important;
+width: 6rem!important;height: 2rem!important;">APPLY FILTER</button>
+
+            </div>
+        </div>
+        {{ form_end(search_form) }}
+
         <!-- carousel -->
         <div class="col-12">
             <div class="main__carousel-wrap">
