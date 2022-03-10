@@ -28,7 +28,7 @@
 
 
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success" style="margin-top: 5rem"> {{ message }} </div>
+            <div class="alert alert-success " style="margin-top: 5rem"> {{ message }} </div>
         {% endfor %}
 
         {% include 'shared/_header.html.twig' %}
@@ -51,6 +51,7 @@
             <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
             <script src="{{ asset('bundles/pugxautocompleter/js/autocompleter-jqueryui.js') }}"></script>
             <script>
+
 
                 $(document).ready(function () {
                     $('#select-state').selectize({
@@ -87,6 +88,9 @@
                     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
                 });
 
+                $(".floating-button").click(function(){
+                    $(this).closest('.container-wa').toggleClass('is-opened');
+                })
             </script>
             <script>
                 $(document).ready(function () {

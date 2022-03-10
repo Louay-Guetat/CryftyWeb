@@ -283,6 +283,13 @@
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/pugx/autocompleter-bundle" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/vangrg/profanity-bundle" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/ux-chartjs" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/vangrg/profanity-bundle" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/phenx/php-svg-lib" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/phenx/php-font-lib" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/sabberworm/php-css-parser" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/friendsofsymfony/ckeditor-bundle" />
+
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

@@ -10,7 +10,7 @@
                     <div class="content-panel">
                         <h4><i class="fa fa-angle-right"></i> BlogArticles Table     <a style="margin: auto" href=" {{ path('AjouterArticle' )}} ">+Add </a></h4>
                         <hr>
-
+                        <input id="myInput" type="text" placeholder="Search..">
                         <table class="table">
                             <thead>
                             <tr>
@@ -23,12 +23,12 @@
                                 <th><i class=" fa fa-edit"></i> Status</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="myTable">
                             <tr {% for a in BlogArticle%}>
                                 <td>{{ a.id }}</td>
                                 <td>{{ a.title }}</td>
                                 <td>{{ a.category }}</td>
-                                <td>{{ a.contents }}</td>
+                                <td>{{ a.contents|raw }}</td>
                                 <td>{{ a.author }}</td>
                                 <td>{{a.getDate()|date('d-m-Y')}}</td>
                                 <td>
@@ -39,12 +39,28 @@
 
                             </tbody>
                         </table>
+                        <div>
+                            <a href=" {{ path('AfficheBAADc' )}} ">Comments </a>
+                        </div>
                         <a href=" {{ path('AfficheBA' )}} ">Back to menu </a>
                     </div>
+
                 </div>
             </div>
         </section>
     </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 
 
 {% endblock %}

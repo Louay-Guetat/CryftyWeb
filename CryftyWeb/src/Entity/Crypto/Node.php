@@ -29,14 +29,14 @@ class Node
      *     minMessage="label too short (More than {{ limit }} characters needed !)",
      *     maxMessage="label too long (less than {{ limit }} characters needed !)" )
      */
-    private $NodeLabel;
+    private $nodeLabel;
 
 
 
     /**
      * @ORM\OneToMany(targetEntity=Block::class, mappedBy="node", orphanRemoval=true)
      */
-    private $Blocks;
+    private $blocks;
 
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="currency")
@@ -58,7 +58,7 @@ class Node
 
     public function __construct()
     {
-        $this->Blocks = new ArrayCollection();
+        $this->blocks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,12 +68,12 @@ class Node
 
     public function getNodeLabel(): ?string
     {
-        return $this->NodeLabel;
+        return $this->nodeLabel;
     }
 
     public function setNodeLabel(string $NodeLabel): self
     {
-        $this->NodeLabel = $NodeLabel;
+        $this->nodeLabel = $NodeLabel;
 
         return $this;
     }
@@ -83,13 +83,13 @@ class Node
      */
     public function getBlocks(): Collection
     {
-        return $this->Blocks;
+        return $this->blocks;
     }
 
     public function addBlock(Block $block): self
     {
-        if (!$this->Blocks->contains($block)) {
-            $this->Blocks[] = $block;
+        if (!$this->blocks->contains($block)) {
+            $this->blocks[] = $block;
             $block->setNode($this);
         }
 
@@ -98,7 +98,7 @@ class Node
 
     public function removeBlock(Block $block): self
     {
-        if ($this->Blocks->removeElement($block)) {
+        if ($this->blocks->removeElement($block)) {
             // set the owning side to null (unless already changed)
             if ($block->getNode() === $this) {
                 $block->setNode(null);

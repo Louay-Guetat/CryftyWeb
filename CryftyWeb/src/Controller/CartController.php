@@ -44,6 +44,7 @@ class CartController extends AbstractController
         }
         $user= $this->getUser();
         $thisClient = $client->find($user);
+
         $cart = $cartRepository->find($thisClient->getCartId());
         if($nft != null)
         {

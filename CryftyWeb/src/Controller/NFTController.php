@@ -41,7 +41,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class NFTController extends AbstractController
 {
     /**
-     * @Route("nft/index", name="nft")
+     * @Route("/", name="nft")
      */
     public function index(NftRepository $repository, ClientRepository $clientRepo, PaginatorInterface $paginator,Request $request) {
         $nft = $repository->findAll();

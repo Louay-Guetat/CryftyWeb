@@ -66,8 +66,16 @@
                             {{ form_widget(form) }}
                             {{ form_row(form) }}
                         </div>
+                        <input type="file" name="" id="fileId"
+                               onchange="imageUploaded()">
+                        <br><br>
+                       <pre id="demo"> </pre>
+                        <button onclick="displayString()">
+                            Display String
+                        </button>
                         <button style="color: #bdbdbd">>>Add</button>
                         {{ form_end(form) }}
+
                     </div>
                     <a href=" {{ path('AfficheBAAD' )}} ">Back  </a>
                 </div>
@@ -76,6 +84,33 @@
         </section>
         <!-- /wrapper -->
     </section>
+    <script>
+        let base64String = "";
+
+        function imageUploaded() {
+            var file = document.querySelector(
+                    'input[type=file]')['files'][0];
+
+            var reader = new FileReader();
+            console.log("next");
+
+        reader.onload = function () {
+            base64String = reader.result.replace("data:", "")
+            .replace(/^.+,/, "");
+
+            imageBase64Stringsep = base64String;
+
+        // alert(imageBase64Stringsep);
+            console.log(base64String);
+        }
+        reader.readAsDataURL(file);
+        }
+
+        function displayString() {
+            console.log("Base64String about to be printed");
+            document.getElementById("demo").innerHTML = base64String;
+        }
+    </script>
 
 
 

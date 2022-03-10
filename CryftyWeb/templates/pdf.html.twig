@@ -1,0 +1,270 @@
+
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
+
+*{
+    font-family: "Roboto", helvetica, arial, sans-serif;
+}
+article{
+    padding: 100px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+    h1 {
+        font-size: 72px;
+        line-height: 1.1;
+    }
+    p{
+        font-size: 24px;
+        line-height: 2;
+    }
+
+
+
+    h1, p, body {
+        margin: 0;
+    }
+
+    body{
+
+        background: rgb(2,0,36);
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    }
+    img{
+        border-radius: 20px;
+    }
+    html {
+        block-size: 100%;
+        inline-size: 100%;
+    }
+
+    div.table-title {
+        display: block;
+        margin: auto;
+        max-width: 600px;
+        padding:5px;
+        width: 100%;
+    }
+
+    .table-title h3 {
+        color: #fafafa;
+        font-size: 30px;
+        font-weight: 400;
+        font-style:normal;
+        font-family: "Roboto", helvetica, arial, sans-serif;
+        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+        text-transform:uppercase;
+    }
+
+
+    /*** Table Styles **/
+
+    .table-fill {
+        background: white;
+        border-radius:3px;
+        border-collapse: collapse;
+        height: 320px;
+        margin: auto;
+        max-width: 600px;
+        padding:5px;
+        width: 100%;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        animation: float 5s infinite;
+    }
+
+    th {
+        color:#D5DDE5;;
+        background:#1b1e24;
+        border-bottom:4px solid #9ea7af;
+        border-right: 1px solid #343a45;
+        font-size:23px;
+        font-weight: 100;
+        padding:24px;
+        text-align:left;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        vertical-align:middle;
+    }
+
+    th:first-child {
+        border-top-left-radius:3px;
+    }
+
+    th:last-child {
+        border-top-right-radius:3px;
+        border-right:none;
+    }
+
+    tr {
+        border-top: 1px solid #C1C3D1;
+        border-bottom-: 1px solid #C1C3D1;
+        color:#666B85;
+        font-size:16px;
+        font-weight:normal;
+        text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+    }
+
+    tr:hover td {
+        background:#4E5066;
+        color:#FFFFFF;
+        border-top: 1px solid #22262e;
+    }
+
+    tr:first-child {
+        border-top:none;
+    }
+
+    tr:last-child {
+        border-bottom:none;
+    }
+
+    tr:nth-child(odd) td {
+        background:#EBEBEB;
+    }
+
+    tr:nth-child(odd):hover td {
+        background:#4E5066;
+    }
+
+    tr:last-child td:first-child {
+        border-bottom-left-radius:3px;
+    }
+
+    tr:last-child td:last-child {
+        border-bottom-right-radius:3px;
+    }
+
+    td {
+        background:#FFFFFF;
+        padding:20px;
+        text-align:left;
+        vertical-align:middle;
+        font-weight:300;
+        font-size:18px;
+        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+        border-right: 1px solid #C1C3D1;
+    }
+
+    td:last-child {
+        border-right: 0px;
+    }
+
+    th.text-left {
+        text-align: left;
+    }
+    h1{
+        color: #6164ff;
+    }
+
+    th.text-center {
+        text-align: center;
+    }
+
+    th.text-right {
+        text-align: right;
+    }
+
+    td.text-left {
+        text-align: left;
+    }
+
+    td.text-center {
+        text-align: center;
+    }
+
+    td.text-right {
+        text-align: right;
+    }
+    h2{
+        color: white;
+        text-align: center;
+    }
+    .muted-text{
+        color: #7c888d;
+    }
+</style>
+<html>
+<head>
+    <title>Wallet Info</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="{{ absolute_url(asset('adminAssets/lib/font-awesome/css/font-awesome.css')) }}" rel="stylesheet" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="{{ absolute_url(asset('img/logoNoText.png')) }}" sizes="32x32">
+    <link rel="apple-touch-icon" href="{{ absolute_url(asset('img/logoNoText.png')) }}">
+</head>
+<body>
+<article class="container">
+    <img src="{{ absolute_url(asset('img/logoNoText.png')) }}" width="50" height="50" alt="">
+    <img width="200" height="200" src="{{ absolute_url(asset("uploads/walletImages/"~ wallet.walletImageFileName)) }}" alt="">
+    <img src="{{ absolute_url(asset('img/logoNoText.png')) }}" width="50" height="50" alt="">
+
+    <h1>- Your Wallet Info -</h1>
+    <br>
+    <p><span class="muted-text">Wallet Label :</span> {{ wallet.walletLabel }}</p>
+    <p><span class="muted-text">Your address :</span> {{ wallet.walletAddress }}</p>
+    {% set count = inTransfers|length + outTransfers|length %}
+    <p><span class="muted-text">Your Balance :</span> {{ wallet.balance }} {{ wallet.nodeId.coinCode }}</p>
+    <p><span class="muted-text">Total Number of transactions :</span> {{ count }}</p>
+    <small>www.cryfty.com</small>
+
+
+
+</article>
+<div class="row mt-3" style="margin-top: 50px;padding-top:50px">
+    <div class="col-sm-6 ">
+        <h2 class="activity__title">Sent :  </h2>
+        {% if inTransfers is not empty %}
+            <table class="table  table-responsive text-center ">
+                <thead class="">
+                <tr class="bg-dark text-primary ">
+                    <th >DATE  <i class="fa fa-calendar-o"></i></th>
+                    <th  >SENT BY <i class="fa fa-long-arrow-left"></i></th>
+                    <th  >AMOUNT <i class="fa fa-bitcoin"></i></th>
+                </tr>
+                </thead>
+                {% for transfer in inTransfers %}
+                    <tr class="text-light">
+                        <td>{{ transfer.transferDate |date }}</td>
+                        <td>{% if transfer.senderId is not null %}
+                                {{ transfer.senderId.walletAddress }}
+                            {% else %}
+                                <small class="text-danger">This Wallet Was Deleted</small>
+                            {% endif %}</td>
+                        <td class="text-success">{{ transfer.amount }} <i class="fa fa-angle-double-up"></i></td>
+                    </tr>
+
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+    <div class="col-sm-6 ">
+        <h2 class="activity__title">Received :  </h2>
+        {% if outTransfers is not empty %}
+            <table class="table  table-responsive text-center">
+                <thead class="">
+                <tr class="bg-dark text-primary ">
+                    <th >DATE  <i class="fa fa-calendar-o"></i></th>
+                    <th  >SENT TO <i class="fa fa-long-arrow-right"></i></th>
+                    <th  >AMOUNT <i class="fa fa-bitcoin"></i></th>
+                </tr>
+                </thead>
+                {% for transfer in outTransfers %}
+                    <tr class="text-light">
+                        <td>{{ transfer.transferDate |date }}</td>
+                        <td>{% if transfer.recieverId is not null %}
+                                {{ transfer.recieverId.walletAddress }}
+                            {% else %}
+                                <small class="text-danger">This Wallet Was Deleted</small>
+                            {% endif %}</td>
+                        <td class="text-danger">{{ transfer.amount }} <i class="fa fa-angle-double-down"></i></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>
