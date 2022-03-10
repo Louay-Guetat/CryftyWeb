@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Users\Client;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
-use App\Services\Mailer\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,14 +29,13 @@ class ResetPasswordController extends AbstractController
 
     private $resetPasswordHelper;
     private $entityManager;
-    private $mailer;
 
-    public function __construct(ResetPasswordHelperInterface $resetPasswordHelper, EntityManagerInterface $entityManager
-                                    ,MailerService $mailer)
+
+    public function __construct(ResetPasswordHelperInterface $resetPasswordHelper, EntityManagerInterface $entityManager)
     {
         $this->resetPasswordHelper = $resetPasswordHelper;
         $this->entityManager = $entityManager;
-        $this->mailer = $mailer;
+
     }
 
     /**
@@ -133,7 +131,9 @@ class ResetPasswordController extends AbstractController
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
 
-            return $this->redirectToRoute('nft');
+
+            return $this->redirectToRoute('app_login');
+
         }
 
         return $this->render('reset_password/reset.html.twig', [
@@ -155,21 +155,13 @@ class ResetPasswordController extends AbstractController
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
-            // If you want to tell the user why a reset email was not sent, uncomment
-            // the lines below and change the redirect to 'app_forgot_password_request'.
-            // Caution: This may reveal if a user is registered or not.
-            //
-            // $this->addFlash('reset_password_error', sprintf(
-            //     '%s - %s',
-            //     $translator->trans(ResetPasswordExceptionInterface::MESSAGE_PROBLEM_HANDLE, [], 'ResetPasswordBundle'),
-            //     $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
-            // ));
 
-            return $this->redirectToRoute('app_check_email');
+            dd("Not sent");
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('khalilrezgui1607@gmail.com', 'ResetPass'))
+            ->from('khalilrezgui1607@gmail.com')
+
             ->to($user->getEmail())
             ->subject('Your password reset request')
             ->htmlTemplate('reset_password/email.html.twig')

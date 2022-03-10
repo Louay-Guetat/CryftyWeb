@@ -1,6 +1,6 @@
 {% extends 'baseAdmin.html.twig' %}
 
-{% block title %} Admin -Show Contact!{% endblock %}
+{% block title %} Admin - ADD Admin!{% endblock %}
 
 {% block body %}
 
@@ -10,18 +10,19 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <h3><i class="fa fa-angle-right"></i> Show</h3>
+            <h3><i class="fa fa-angle-right"></i> ADD Admin</h3>
             <div class="row mt">
                 <div class="col-lg-12">
-                    <h1>Contact detail</h1>
-                    <p>Name : {{ T.name }}</p>
-                    <p>Email : {{ T.email }}</p>
-                    <p>Subject : {{ T.subject }}</p>
-                    <p>Message : {{ T.message }}</p>
-                    <button type="button" ><a href="{{ path('traite_contact',{'id':T.id}) }}">Traite</a></button>
-                    <button type="button" ><a href="{{ path('abondone_contact',{'id':T.id}) }}">Abondoné</a></button>
+                    {{ form_start(form,{'attr':{'class':'form-horizontal style-form'}}) }}
+                    <div class="form-group">
 
+                        <div class="col-sm-10">
+                            {{ form_row(form) }}
+                            <button type="submit">Envoyer</button>
+                        </div>
 
+                    </div>
+                    {{ form_end(form) }}
                 </div>
             </div>
         </section>

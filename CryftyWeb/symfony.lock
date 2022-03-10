@@ -763,8 +763,13 @@
     "twig/twig": {
         "version": "v3.3.8"
     },
+
+    "twilio/sdk": {
+        "version": "6.35.1"
+
     "vangrg/profanity-bundle": {
         "version": "v1.1.6"
+
     },
     "webmozart/assert": {
         "version": "1.10.0"

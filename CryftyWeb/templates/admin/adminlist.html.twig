@@ -1,12 +1,12 @@
 {% extends 'baseAdmin.html.twig' %}
 
-{% block title %}Admin - View Contact{% endblock %}
+{% block title %}Admin - View Admin{% endblock %}
 
 {% block body %}
 
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <h3><i class="fa fa-angle-right"></i> Contact list : </h3>
+            <h3><i class="fa fa-angle-right"></i> Admin list : </h3>
             <input type="text" id="myInput" class="pull-right">
 
             <div class="row mt">
@@ -18,23 +18,24 @@
                                 text-align: center;
                             }
                         </style>
+                        <a class="btn btn-info" href="{{ path('registeradmin') }}">Add New Admin</a>
                         <table class="table table-bordered table-striped table-condensed ">
                             <thead>
                             <tr>
                                 <th>Username</th>
-                                <th>Email</th>
+                                <th>First Name</th>
                             </tr>
                             </thead>
                             <tbody id="myTable">
 
-                            {% for m in form %}
+                            {% for m in admin %}
                                 <tr>
                                     <form method="post">
-                                        <td>{{ m.name }}</td>
-                                        <td><strong>{{ m.email }}</strong></td>
-                                        <td><strong>{{ m.etat }}</strong></td>
-                                        <td class="numeric"><a href="{{ path('delete_contact',{'id': m.id }) }}" class="btn btn-theme04 btn-sm"onclick="return confirm('are u sure?')"s>Delete</a></td>
-                                        <td class="numeric"><a href="{{ path('show_contact',{'id': m.id }) }}" class="btn btn-theme01 btn-sm">
+                                        <td>{{ m.username }}</td>
+                                        <td><strong>{{ m.firstname }}</strong></td>
+                                        <td class="numeric"><a href="{{ path('updateadmin',{'id': m.id }) }}" class="btn btn-theme btn-sm">Update</a></td>
+                                        <td class="numeric"><a href="{{ path('delete_admin',{'id': m.id }) }}" class="btn btn-theme04 btn-sm" onclick="return confirm('are u sure?')">Delete</a></td>
+                                        <td class="numeric"><a href="{{ path('show_admin',{'id': m.id }) }}" class="btn btn-theme01 btn-sm">
                                                 <i class="fa fa-arrow-circle-o-right" style="font-size: large"/></a></td>
                                     </form>
                                 </tr>
@@ -45,7 +46,8 @@
                     </section>
                 </div>
             </div>
-            {{ knp_pagination_render(form) }}
+            {{ knp_pagination_render(admin) }}
+
         </section>
         <!-- /wrapper -->
     </section>
