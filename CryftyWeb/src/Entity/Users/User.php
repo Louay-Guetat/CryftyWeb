@@ -2,6 +2,7 @@
 
 namespace App\Entity\Users;
 
+use App\Entity\Chat\GroupChat;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -71,9 +72,7 @@ abstract class User implements UserInterface
         $this->comments = $comments;
     }
 
-    /**
-     * @param $Groups
-     */
+
 
 
     /**
@@ -313,6 +312,22 @@ abstract class User implements UserInterface
     {
         $this->isActive = $isActive;
     }
+
+    public function addGroup(GroupChat $groupChat): self
+    {
+        if (!$this->Groups->contains($groupChat)) {
+            $this->Groups[] = $groupChat;
+        }
+        return $this;
+    }
+    public function removeGroup(GroupChat $groupChat): self
+    {
+        if ($this->Groups->contains( $groupChat)) {
+            $this->Groups->removeElement( $groupChat);
+        }
+        return $this;
+    }
+
 
 }
 

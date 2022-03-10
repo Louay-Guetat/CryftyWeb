@@ -184,7 +184,6 @@
                     <a class="header__nav-link" href="{{ path ('AfficheNft') }}" role="button"  aria-haspopup="true" aria-expanded="false">Explore <path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></a>
                 </li>
 
-
                 <li class="header__nav-item">
                     <a class="header__nav-link" href="{{ path('AfficheBA') }}" role="button" aria-haspopup="true" aria-expanded="false">Blogs <path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></a>
                 </li>
@@ -219,17 +218,7 @@
                 <li class="header__nav-item">
                 </li>
 
-                <li class="header__nav-item">
-                    <a class="header__nav-link header__nav-link--menu" href="#" role="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,10a2,2,0,1,0,2,2A2,2,0,0,0,12,10ZM5,10a2,2,0,1,0,2,2A2,2,0,0,0,5,10Zm14,0a2,2,0,1,0,2,2A2,2,0,0,0,19,10Z"></path></svg></a>
 
-                    <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu2">
-                        <li><a href="signin.html">Sign in</a></li>
-                        <li><a href="signup.html">Sign up</a></li>
-                        <li><a href="forgot.html">Forgot password</a></li>
-                        <li><a href="404.html">404 Page</a></li>
-                        <li><a href="privacy.html">Privacy policy</a></li>
-                    </ul>
-                </li>
             </ul>
         </div>
 
@@ -294,24 +283,30 @@
 <div class="container-wa">
     <div class="card">
         <div class="mb-2">
-        <span class="fw-5 h6">Your Chats</span> <a href="#" class="btn btn-primary btn-sm">Add New Group</a>
+        <span class="fw-5 h6">Your Chats</span> <a href="{{ path('listUser') }}" class="btn btn-primary btn-sm">Add New Group</a>
         </div>
 
         {% set groups = chat_group.findAll()  %}
         {% set privates = chat_private.UsersContacter(app.user.id) %}
+
         <div>
             <ul class="list-group">
                 {% for private in privates %}
                     <li style="width: 230px;" class="list-group-item ">
-                        <a href="{{path('chat',{'id':gr.id}) }}" class="hover">
+                        <a href="{{path('chat',{'id':private.id}) }}" class="hover">
                             <img class="rounded-circle" width="30" height="30"
                                  src="{{ asset('uploads/walletImages/defaultImage.png') }}"/>
                             {% if private.Sender.id ==app.user.id %}
                                 {{  private.Received.Username }}
+
                             {% else %}
                                 {{ private.Sender.Username }}
+
                             {% endif %}
                         </a>
+                     {% set lastmsg = chat_message.AffichelastMsg(private.id) %}
+                    {% if lastmsg is empty %}
+                    <p></p>{% else %}<p> {{ lastmsg[0]["contenu"] }}</p>{% endif %}
                     </li>
                 {% endfor %}
 
@@ -324,6 +319,12 @@
                              src="{{ asset('uploads/walletImages/defaultImage.png') }}"/>
                         {{ gr.nom }}
                     </a>
+                    {% set lastmsgG = chat_message.AffichelastMsg(gr.id) %} {% if lastmsgG is empty %}
+                    <p></p>{% else %}<p> {{ lastmsgG[0]["contenu"] }}</p>{% endif %}
+                    <td class="numeric">
+                        <a style="float: right" href="{{ path('del',{'id2': gr.id }) }}" class="btn btn-theme04 btn-sm "onclick="return confirm('are u sure?')"><i style="color: brown" class="fa fa-trash " ></i>
+                        </a>
+                    </td>
                 </li>
                     {% endif %}
                 {% endfor %}
@@ -337,6 +338,9 @@
                              src="{{ asset('uploads/walletImages/defaultImage.png') }}"/>
                         {{ gr.nom }}
                     </a>
+
+                    {% set lastmsgG2 = chat_message.AffichelastMsg(gr.id) %} {% if lastmsgG2 is empty %}
+                    <p> </p>{% else %}<p>{{ lastmsgG2[0]["contenu"] }}</p>{% endif %}
                 </li>
                         {% endif %}
                 {% endfor %}
@@ -351,4 +355,3 @@
     </div>
 </div>
 {% endif %}
-

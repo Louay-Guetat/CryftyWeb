@@ -167,7 +167,6 @@
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/phpdocumentor/reflection-docblock" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/phpdocumentor/reflection-common" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/version" />
-      <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/type" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/resource-operations" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/recursion-context" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/object-reflector" />
@@ -280,6 +279,16 @@
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/swiftmailer-bundle" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/sendgrid-mailer" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/knplabs/knp-snappy-bundle" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/knplabs/knp-snappy" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/mercure" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/mercure-bundle" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/lcobucci/clock" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/spatie/emoji" />
+
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/knplabs/knp-snappy-bundle" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/knplabs/knp-snappy" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/string" />

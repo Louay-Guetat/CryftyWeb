@@ -47,7 +47,7 @@ class Conversation
         return $this->nom;
     }
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Chat\Message", mappedBy="conversation")
+     * @ORM\OneToMany(targetEntity="App\Entity\Chat\Message", mappedBy="conversation",cascade={"remove"})
 
      */
     private  $messages;

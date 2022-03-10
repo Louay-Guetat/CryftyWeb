@@ -56,4 +56,7 @@ security:
          - { path: ^/contact, roles: ROLE_USER }
          - { path: ^/cart, roles: ROLE_USER }
          - { path: ^/transaction, roles: ROLE_USER }
+         - { path: ^/chat, roles: ROLE_USER }
+         - { path: ^/profile, roles: ROLE_USER }
+
 
