@@ -14,12 +14,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Validator\Constraints\Image;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+
+
 //use Symfony\Component\Validator\Constraints\DateTime;
 
-class BlogArticleType extends AbstractType
+class UpdArticleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -62,23 +62,7 @@ class BlogArticleType extends AbstractType
 
                 'widget' =>'single_text',
             ])
-            ->add('image', FileType::class,['label'=>'e. g. Image',
-                'label_attr'=>['class'=>'sign__label'
-                    , 'class'=>'custom-file-label'
-                    ,'for'=>'customFile'
-                    ,'mapped'=>false
-                    ,'required'=>true
-                    ,'multiple'=>false
-                ]
-                ,'attr'=>['class'=>'custom-file-input','name'=>'filename','id'=>'customFile','accept' => "image/*"]
-                , 'constraints' => [new Image()]
-            ])
-            ->add('base64',TextareaType::class,[
-                'label'=>'base64',
-                'attr'=>[
-                    'placeholder'=>'base64'
-                ]
-            ])
+
         ;
     }
 
@@ -90,4 +74,3 @@ class BlogArticleType extends AbstractType
         ]);
     }
 }
-
