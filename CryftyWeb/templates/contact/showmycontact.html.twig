@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Client - View Contact{% endblock %}
+
+{% block body %}
+
+    <main class="main">
+        <!-- home -->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="home__content">
+                        <h1 class="home__title">Mes reclamations</h1>
+                        {% for R in Ticket %}
+                            <div class="col-12 col-xl-8 order-xl-1">
+                                <div class="row row--grid">
+                                    <div class="col-12 col-lg-6 col-xl-12">
+                                        <div class="activity">
+                                            <div class="activity__content">
+                                                <h3 class="activity__title">Subject : {{ R.subject }}</h3>
+                                                <h5 class="activity__text">Message: {{ R.message }}</h5>
+                                                 <h5 class="activity__text" >Etat :<strong>{{ R.etat }}</strong></h5>
+                                                <h6 class="activity__text" style="margin-left: 450px">listed by {{ R.name }}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end home -->
+    </main>
+
+{% endblock %}
+

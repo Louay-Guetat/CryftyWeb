@@ -41,6 +41,7 @@ class ModeratorController extends AbstractController
 
             // Set their role
             $user->setRoles(['ROLE_MODERATOR']);
+            $user->setIsActive(false);
 
             // Save
             $em = $this->getDoctrine()->getManager();
@@ -58,7 +59,7 @@ class ModeratorController extends AbstractController
     /**
      * @Route("/updatemoderator/{id}", name="updatemoderator")
      */
-    public function updateClient(Request $request,ModeratorRepository $repository,$id)
+    public function updateUpdate(Request $request,ModeratorRepository $repository,$id)
     {
         $moderator=$repository->find($id);
         $form = $this->createForm(UpdateModeratorType::class, $moderator);

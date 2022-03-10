@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Users\SupportTicket;
 use App\Entity\Users\Client;
+use App\Services\Mailer\MailerService;
 use Knp\Component\Pager\PaginatorInterface;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\ContactFormType;
 use App\Repository\SupportTicketRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Symfony\Component\Security\Core\Security;
 
 
 class ContactController extends AbstractController
@@ -26,6 +28,15 @@ class ContactController extends AbstractController
             'controller_name' => 'ContactController',
         ]);
     }
+    private $security;
+    private $mailerService;
+    public function __construct(Security $security,MailerService $mailerService){
+        $this->security = $security;
+        $this->mailerService = $mailerService;
+
+    }
+
+
 
 
     /**
@@ -34,14 +45,28 @@ class ContactController extends AbstractController
     public function new(Request $request)
     {
         $SupportTicket=new SupportTicket();
+        $client = $this->security->getUser();
+
         $form = $this->createForm(ContactFormType::class,$SupportTicket);
         $form->handleRequest($request);
         if ($form->isSubmitted()&& $form->isValid()){
+            $SupportTicket->setClient($this->getUser());
+            $SupportTicket->setEtat("En attente");
             $em=$this->getDoctrine()->getManager();
             $em->persist($SupportTicket);
             $em->flush();
-            $this->addFlash('success','Bien cree avec succes');
-            return $this->redirectToRoute('registration');
+
+            $emailClient = $client->getEmail();
+            $this->mailerService->sendClientReclamationEmail(
+                $emailClient,array('Subject' => $SupportTicket->getSubject(),
+                    'supportTicketId' => $SupportTicket->getId(),
+                    'username' => $client->getUsername()
+                )
+            );
+
+            $this->addFlash('success','Subject "'.$SupportTicket->getSubject().'" Created . Good job ,
+             Check your Email  ');
+            return $this->redirectToRoute('Mreclamation',['id'=> $this->getUser()->getId()]);
         }
         return $this->render('contact/Add.html.twig',['form'=>$SupportTicket,'form'=>$form->createView()]);
     }
@@ -62,6 +87,31 @@ class ContactController extends AbstractController
 
 
     }
+
+
+    /**
+     * @Route("/contact/traite/{id}", name="traite_contact")
+     */
+    public function traitecontact($id,SupportTicketRepository $repository) {
+
+        $SupportTicket=$repository->find($id);
+        $SupportTicket->setEtat('Traité');
+        $em=$this->getDoctrine()->getManager();
+        $em->flush();
+        return $this->redirectToRoute('contactlist');
+    }
+    /**
+     * @Route("/contact/abondone/{id}", name="abondone_contact")
+     */
+    public function abondonecontact($id,SupportTicketRepository $repository) {
+
+        $SupportTicket=$repository->find($id);
+        $SupportTicket->setEtat('Abandonné');
+        $em=$this->getDoctrine()->getManager();
+        $em->flush();
+        return $this->redirectToRoute('contactlist');
+    }
+
     /**
      * @Route("/contact/delete/{id}", name="delete_contact")
      */
@@ -89,16 +139,33 @@ class ContactController extends AbstractController
         return $this->render('contact/contactlist.html.twig',['form'=>$SupportTicket ]);
     }
 
+
     /**
      * @Route("/Contact/{id}", name="show_contact")
      */
-    public function ShowContact(int $id,SupportTicketRepository $repository)
+    public function ShowContact(int $id,SupportTicketRepository $repository,Request $request)
     {
         $Ticket =$repository->find($id);
+
+        $form=$this->createForm(ContactFormType::class,$Ticket);
+        $Ticket->setEtat("En cours de traitement");
+        $em=$this->getDoctrine()->getManager();
+        $em->flush();
 
         return $this->render("contact/showcontact.html.twig", [
             "T" => $Ticket,
         ]);
     }
+
+    /**
+     * @Route("contact/AfficheMesreclamations/{id}", name="Mreclamation")
+     */
+    function afficheReclamation($id,SupportTicketRepository $Repository){
+
+        $Ticket = $Repository->findBy(['Client'=>$id]);
+        return $this->render('contact/showmycontact.html.twig',['Ticket'=>$Ticket]);
+    }
+
+
 
 }

@@ -1,6 +1,6 @@
 {% extends 'baseAdmin.html.twig' %}
 
-{% block title %} Admin -Show Contact!{% endblock %}
+{% block title %} Admin -Show Admin!{% endblock %}
 
 {% block body %}
 
@@ -13,15 +13,9 @@
             <h3><i class="fa fa-angle-right"></i> Show</h3>
             <div class="row mt">
                 <div class="col-lg-12">
-                    <h1>Contact detail</h1>
-                    <p>Name : {{ T.name }}</p>
-                    <p>Email : {{ T.email }}</p>
-                    <p>Subject : {{ T.subject }}</p>
-                    <p>Message : {{ T.message }}</p>
-                    <button type="button" ><a href="{{ path('traite_contact',{'id':T.id}) }}">Traite</a></button>
-                    <button type="button" ><a href="{{ path('abondone_contact',{'id':T.id}) }}">Abondoné</a></button>
-
-
+                    <h1>Admin detail</h1>
+                    <p>First Name : {{ m.firstname }}</p>
+                    <p>Username : {{ m.username }}</p>
                 </div>
             </div>
         </section>

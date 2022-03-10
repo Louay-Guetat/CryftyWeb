@@ -18,7 +18,7 @@ class UpdateProfilType extends AbstractType
     {
         $builder
             ->add('avatar',FileType::class,[
-                'label' => 'Wallet Image',
+                'label' => 'Avatar Image',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -34,7 +34,7 @@ class UpdateProfilType extends AbstractType
                 'attr' => ['class' => 'sign__file-upload']
             ])
             ->add('couverture',FileType::class,[
-                'label' => 'Wallet Image',
+                'label' => 'Couverture Image',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [

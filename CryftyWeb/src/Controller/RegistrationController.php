@@ -47,10 +47,13 @@ class RegistrationController extends AbstractController
 
     /**
      * @Route("/registration", name="registration")
+     * @throws \Twilio\Exceptions\TwilioException
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
     public function index(Request $request,UserRepository $repository)
     {
         $user = new Client();
+
         $form = $this->createForm(RegistrationClientType::class, $user);
         $form->handleRequest($request);
 
@@ -73,6 +76,19 @@ class RegistrationController extends AbstractController
             $cart->setTotal(0);
             $em->persist($cart);
             $em->flush();
+            $account_sid = 'AC9e2a04a58eb7173bf6c77a21ba9f08d6';
+            $auth_token = '34f03ffe77268678bb2d42bce7fa72ff';
+            $twilio_number = "+16127784838";
+
+            $client = new \Twilio\Rest\Client($account_sid,$auth_token);
+            $client->messages->create(
+                '+21624032953',
+                array(
+                    'from' => $twilio_number,
+                    'body' => 'Welcome to Cryfty site, You created a user with the username
+                    '.$user->getUsername().'!'
+                )
+            );
 
             $emailClient = $user->getEmail();
             $this->mailerService->sendClientVerificationEmail(
@@ -82,7 +98,7 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $this->addFlash('success','Wallet "'.$user->getFirstName().'" Created . Good job ,
+            $this->addFlash('success','Compte "'.$user->getFirstName().'" Created . Good job ,
              Check your Email and Activate it! ');
 
             return $this->redirectToRoute('app_login');
