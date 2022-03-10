@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en-US">
 
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-    <title>Change password! </title>
+    <title>Hey {{ username }}, We get reclamation! </title>
     <meta name="description" content="Reset Password Email Template.">
     <style type="text/css">
         a:hover {text-decoration: underline !important;}
@@ -41,18 +40,14 @@
                             </tr>
                             <tr>
                                 <td style="padding:0 35px;">
-                                    <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">You can change password</h1>
+                                    <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">You have
+                                        created a new reclamation with subject Name " {{ Subject }} " </h1>
                                     <span
                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                     <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-                                    <p>To reset your password, please visit the following link</p>
-
-                                    <p>This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
-
-                                    <p>Cheers!</p>
+                                        We got your reclamation, and we will verify and check it .Thank you <code>{{ email.to[0].address }}</code>
+                                        .
                                     </p>
-                                    <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
-                                    </a>
                                 </td>
                             </tr>
                             <tr>
@@ -79,4 +74,3 @@
 </body>
 
 </html>
-

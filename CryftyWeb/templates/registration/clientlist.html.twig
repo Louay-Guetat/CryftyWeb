@@ -7,6 +7,7 @@
     <section id="main-content">
         <section class="wrapper site-min-height">
             <h3><i class="fa fa-angle-right"></i> Clients list : </h3>
+            <input type="text" id="myInput" class="pull-right">
             <div class="row mt">
                 <div class="col-lg-12">
                     <section id="unseen">
@@ -16,7 +17,6 @@
                                 text-align: center;
                             }
                         </style>
-                        <a class="btn btn-info" href="{{ path('registration') }}">Add New Client</a>
                         <table class="table table-bordered table-striped table-condensed ">
                             <thead>
                             <tr>
@@ -24,18 +24,17 @@
                                 <th>Email</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="myTable">
 
                             {% for c in client %}
                                 <tr>
 
-                                        <td>{{ c.username }}</td>
-                                        <td><strong>{{ c.email }}</strong></td>
-                                        <td class="numeric"><a href="{{ path('client-profil') }}" class="btn btn-theme btn-sm">Update</a></td>
-                                        <td class="numeric"><a href="{{ path('delete_client',{'id': c.id }) }}" class="btn btn-theme04 btn-sm  " onclick="return confirm('are u sure?')">Delete</a></td>
-                                        <td class="numeric"><a href="{{ path('show_client',{'id': c.id }) }}" class="btn btn-theme01 btn-sm">
-                                                <i class="fa fa-arrow-circle-o-right" style="font-size: large"/></a></td>
-                                    
+                                    <td>{{ c.username }}</td>
+                                    <td><strong>{{ c.email }}</strong></td>
+                                    <td class="numeric"><a href="{{ path('delete_client',{'id': c.id }) }}" class="btn btn-theme04 btn-sm  " onclick="return confirm('are u sure?')">Delete</a></td>
+                                    <td class="numeric"><a href="{{ path('show_client',{'id': c.id }) }}" class="btn btn-theme01 btn-sm">
+                                            <i class="fa fa-arrow-circle-o-right" style="font-size: large"/></a></td>
+
                                 </tr>
                             {% endfor %}
 

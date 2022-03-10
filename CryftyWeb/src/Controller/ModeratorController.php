@@ -25,7 +25,7 @@ class ModeratorController extends AbstractController
     }
 
     /**
-     * @Route("/registermoderator", name="registermoderator")
+     * @Route("/admin/registermoderator", name="registermoderator")
      */
     public function register(Request $request)
     {
@@ -41,6 +41,7 @@ class ModeratorController extends AbstractController
 
             // Set their role
             $user->setRoles(['ROLE_MODERATOR']);
+            $user->setIsActive(true);
 
             // Save
             $em = $this->getDoctrine()->getManager();
@@ -56,9 +57,9 @@ class ModeratorController extends AbstractController
     }
 
     /**
-     * @Route("/updatemoderator/{id}", name="updatemoderator")
+     * @Route("/admin/updatemoderator/{id}", name="updatemoderator")
      */
-    public function updateClient(Request $request,ModeratorRepository $repository,$id)
+    public function updateUpdate(Request $request,ModeratorRepository $repository,$id)
     {
         $moderator=$repository->find($id);
         $form = $this->createForm(UpdateModeratorType::class, $moderator);
@@ -84,7 +85,7 @@ class ModeratorController extends AbstractController
     }
 
     /**
-     * @Route("/moderator/delete/{id}", name="delete_moderator")
+     * @Route("/admin/moderator/delete/{id}", name="delete_moderator")
      */
     public function deletemoderator($id,ModeratorRepository $repository) {
 
@@ -98,7 +99,7 @@ class ModeratorController extends AbstractController
 
     /**
      * @return Response
-     * @Route ("/Moderatorlist",name="moderatorlist")
+     * @Route ("/admin/Moderatorlist",name="moderatorlist")
      */
     public function Listclient(ModeratorRepository $repository,Request $request,PaginatorInterface $paginator){
         $donnees=$repository->findAll();
@@ -111,7 +112,7 @@ class ModeratorController extends AbstractController
     }
 
     /**
-     * @Route("/Moderator/{id}", name="show_moderator")
+     * @Route("/admin/Moderator/{id}", name="show_moderator")
      */
     public function ShowModerator(int $id,ModeratorRepository $repository)
     {

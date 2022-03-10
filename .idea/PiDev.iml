@@ -284,6 +284,14 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/swiftmailer-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/sendgrid-mailer" />
 
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/polyfill-intl-grapheme" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-snappy-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-snappy" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/string" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfonycasts/reset-password-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/twilio/sdk" />
+
+
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/string" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-snappy-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-snappy" />

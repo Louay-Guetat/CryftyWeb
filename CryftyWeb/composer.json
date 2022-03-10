@@ -17,11 +17,13 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
 
+
         "endroid/qr-code": "^4.4",
         "endroid/qr-code-bundle": "^4.0",
 
         "dompdf/dompdf": "^1.2",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
+
 
         "knplabs/knp-paginator-bundle": "^5.8",
         "knplabs/knp-snappy-bundle": "^1.9",
@@ -59,7 +61,11 @@
         "symfonycasts/reset-password-bundle": "^1.13",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
+
+        "twilio/sdk": "^6.35"
+
         "vangrg/profanity-bundle": "^1.1"
+
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
