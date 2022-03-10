@@ -54,7 +54,6 @@ class TransactionController extends AbstractController
     function AjouterTransaction(BlockRepository $blockRepository,SessionInterface $session,Request $request,$id,CartRepository $cartRepository,ClientRepository $clientRepository,WalletRepository $walletRepository)
     {
         $transaction=new Transaction();
-        $transaction->setEtat(0);
         $form=$this->createForm(TransactionType::class,$transaction);
         $form->add('wallets',EntityType::class,[
             'class'=>Wallet::class,
@@ -76,14 +75,13 @@ class TransactionController extends AbstractController
         {
             $em=$this->getDoctrine()->getManager();
             $transaction->setCartId($idcart);
-            $transaction->setEtat(1);
-            $session->remove("panier");
-
 
             $this->bLock($transaction,$cartRepository,$walletRepository,$blockRepository,$id);
 
             $em->persist($transaction);
             $em->flush();
+            $session->get('nbNft',$session->set('nbNft',0));
+            $session->remove("panier");
             return $this->redirectToRoute('AfficheT');
         }
         $ident=$transaction->getId();
@@ -127,7 +125,8 @@ class TransactionController extends AbstractController
                     }
                     $counter--;
                 }
-
+            $nft->setCartProd(null);
+                $em->flush();
         }
         $count = $blockRepository->countUserBlocks($buyerWallet->getNodeId()->getNodeReward() );
         if ($count != null ) {
@@ -136,7 +135,8 @@ class TransactionController extends AbstractController
         else{
             $buyerWallet->setBalance(0);
         }
-        //$em->flush();
+        $idcart->setNftProd(null);
+        $em->flush();
 
     }
 
@@ -219,7 +219,10 @@ class TransactionController extends AbstractController
 
         //codeQR
         $transaction=$transactionRepository->find($id);
-        $qrCode=$qrcodeService->qrcode($transaction->getId());
+        $username=$transaction->getCartId()->getClientId()->getUsername();
+        $adresse=$transaction->getCartId()->getClientId()->getAddress();
+        $dateTransaction=$transaction->getDatetransaction()->format('d-m-Y à H:i:s');;
+        $qrCode=$qrcodeService->qrcode($transaction->getId(),$username,$adresse,$dateTransaction);
 
 
         $html = $this->renderView('transaction/pdfTransaction.html.twig', [

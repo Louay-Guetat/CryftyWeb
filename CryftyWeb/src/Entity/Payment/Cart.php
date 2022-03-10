@@ -49,11 +49,6 @@ class Cart
 
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Crypto\Wallet",inversedBy="cartwallet")
-     */
-    private $wallets;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Payment\Transaction",mappedBy="cartId")
      */
     private $cartTransaction;
@@ -131,23 +126,6 @@ class Cart
     public function setClientId($clientId): void
     {
         $this->clientId = $clientId;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getWallets()
-    {
-        return $this->wallets;
-    }
-
-    /**
-     * @param mixed $wallets
-     */
-    public function setWallets($wallets): void
-    {
-        $this->wallets = $wallets;
     }
 
     /**

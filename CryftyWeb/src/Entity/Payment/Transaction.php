@@ -50,28 +50,6 @@ class Transaction
     private $wallets;
 
     /**
-     * @ORM\Column (type="boolean")
-     */
-    private $etat;
-
-    /**
-     * @return mixed
-     */
-    public function getEtat()
-    {
-        return $this->etat;
-    }
-
-    /**
-     * @param mixed $etat
-     */
-    public function setEtat($etat): void
-    {
-        $this->etat = $etat;
-    }
-
-
-    /**
      * @return mixed
      */
     public function getDatetransaction()

@@ -55,7 +55,9 @@ class CartController extends AbstractController
             $total=$total+$item["produit"]->getPrice();
             //$total=0;
         }
+        $n=count($dataPanier);
         $session->set('total',$total);
+        $session->set('nbNft',$n);
         $tab=[];
         for($i=0;$i<count($dataPanier);$i++)
         {
@@ -90,7 +92,9 @@ class CartController extends AbstractController
             ];
             $total += $product->getPrice() * $quantite;
         }
-
+        $n=count($dataPanier);
+        $session->set('total',$total);
+        $session->set('nbNft',$n);
         return $this->render('cart/index.html.twig', compact("dataPanier", "total"));
     }
 
@@ -129,10 +133,27 @@ class CartController extends AbstractController
             }
         }
         return $this->render('cart/index.html.twig',['dataPanier'=>$panier,'cart'=>$cart]);
-
-
     }
 
+
+    /**
+     * @Route("/delete/{id}", name="delete_panier_index")
+     */
+    public function deleteFromPanierIndex(Nft $nft, SessionInterface $session)
+    {
+        // On récupère le panier actuel
+        $panier = $session->get("panier", []);
+        $id = $nft->getId();
+
+        if(!empty($panier[$id])){
+            unset($panier[$id]);
+        }
+
+        // On sauvegarde dans la session
+        $session->set("panier", $panier);
+
+        return $this->redirectToRoute("cart_index2");
+    }
 
     /**
      * @Route("cart/ajout/{id}",name="ajouter_panier_test")
@@ -174,7 +195,7 @@ class CartController extends AbstractController
     /**
      * @Route("cart/stripe/{id}", name="stripe")
      */
-    public function stripe($id,CartRepository $cartRepository): Response
+    public function stripe(SessionInterface $session,$id,CartRepository $cartRepository): Response
     {
         \Stripe\Stripe::setApiKey('sk_test_51IyEiPKXO6zoy45XnSBJfUeShcjGESS1F0uIZoZH3XQjKcJrBVsctduUrUqjabgjdHZVALOU1OFe4lefVdlriKJg00dp6rwSy2');
         $cart=$cartRepository->find($id);
@@ -185,31 +206,17 @@ class CartController extends AbstractController
             "currency"=>"eur",
             "source"=>"tok_visa",
             "description"=>"Paiement réussie",
-            "name"=>$clientId->getUsername()
         ));
+
         //$this->addFlash('success','paiement reussi');
+        $session->remove("panier");
+        //$session->get('nbNft',$session->set('nbNft',0));
         return $this->render('cart/Stripe.html.twig');
+
     }
 
 
-    /**
-     * @Route("cart/stripe/{id}", name="stripe2")
-     */
-    public function stripe2(): Response
-    {
-        \Stripe\Stripe::setApiKey('sk_test_51IyEiPKXO6zoy45XnSBJfUeShcjGESS1F0uIZoZH3XQjKcJrBVsctduUrUqjabgjdHZVALOU1OFe4lefVdlriKJg00dp6rwSy2');
-        /*$cart=$cartRepository->find($id);
-        $amount=$cart->getTotal();
-        $clientId=$cart->getClientId();
-        \Stripe\Charge::create(array(
-            "amount"=>$amount,
-            "currency"=>"eur",
-            "source"=>"tok_visa",
-            "description"=>"Paiement réussie"
-        ));
-        //$this->addFlash('success','paiement reussi');
-        return $this->render('cart/Stripe.html.twig');*/
-        return $this->renderView('cart/Stripe.html.twig');
-    }
+
+
 
 }

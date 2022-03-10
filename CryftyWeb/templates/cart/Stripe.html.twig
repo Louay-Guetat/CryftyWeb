@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <main class="main">
+
         <!-- home -->
 
         <div class="container">
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-    </main>
+
     <script src="https://js.stripe.com/v3/"></script>
     <style>
         /* Variables */
@@ -242,7 +242,12 @@
             hiddenInput.setAttribute('name','stripeToken');
             hiddenInput.setAttribute('value',token.id);
             form.appendChild(hiddenInput);
-            form.submit();
+            if(form.submit())
+            {
+                {% set nb=app.session.get('nbNft',app.session.set('nbNft',0))  %}
+                {{ nb }};
+
+            }
         }
     </script>
 {% endblock %}

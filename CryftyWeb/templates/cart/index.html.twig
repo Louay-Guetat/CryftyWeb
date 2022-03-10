@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="home__content">
-                        <h1 class="home__title">Votre Panier</h1>
+                        <h1 class="home__title" style="margin-bottom: 30px">Votre Panier</h1>
                         {% if dataPanier | length >0 %}
                             <table class="table table-bordered" style="size: 150px">
                                 <thead>
@@ -30,13 +30,19 @@
                                         <td class="home__text"><img src="{{ asset('NFTS/'~ element.produit.image) }}"></td>
                                         <td class="home__text">{{ element.produit.price }} </td>
                                         <td>
-                                            <a href="{{path('delete_panier', {id: element.produit.id})}}">
-                                                <button class="asset__btn" type="submit" style="color: red">
+                                            {%  if is_granted('IS_AUTHENTICATED_FULLY')  %}
+                                            <a href="{{path('delete_panier', {id: element.produit.id})}}" style="background-color: darkred">
+                                                <button class="asset__btn" type="submit">
                                                     <i class="fa fa-trash" ></i> </button>
                                             </a>
+                                            {% else %}
+                                                <a href="{{path('delete_panier_index', {id: element.produit.id})}}">
+                                                    <button class="asset__btn" type="submit" style="color: red">
+                                                        <i class="fa fa-trash" ></i> </button>
+                                                </a>
+                                                {% endif %}
                                         </td>
                                     </tr>
-
                                     </tbody>
                                 {% endfor %}
                                 <tfoot>
@@ -54,6 +60,12 @@
                         {% else %}
                                     <h5 class="home__text"> Votre panier est vide</h5>
                         {% endif %}
+
+                        <div class="main__title main__title--border-top col-sm-3">
+                        <a class="sign__btn" href="{{ path("nft") }}">
+                            <i class="fa fa-angle-double-left mx-2"></i> Remplir votre panier</a>
+                        </div>
+
 
                         <div class="sign__form"  style="margin-left: 700px;size: 150px">
                             {% set tab=0 %}

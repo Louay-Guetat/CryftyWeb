@@ -27,22 +27,24 @@ class QrcodeService
         $this->builder = $builder;
     }
 
-    public function qrcode($ref)
+    public function qrcode($ref,$username,$adresse,$date)
     {
         $url = 'http://127.0.0.1:8000/transaction/afficheTransaction/';
 
         $objDateTime = new \DateTime('NOW');
         $dateString = $objDateTime->format('d-m-Y H:i:s');
 
+
+
         $path = dirname(__DIR__, 3).'/public/';
 
         $result = Builder::create()
             ->writer(new PngWriter())
             ->writerOptions([])
-            ->data('La réference de votre facture est : 00'.$ref.'00')
+            ->data('Facture payable par :                                                                                                              '.$username.'                                                      '.$adresse.'                                                             Le '.$date.'                                                              Réference :                                                        00'.$ref.'00')
             ->encoding(new Encoding('UTF-8'))
             ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
-            ->size(400)
+            ->size(350)
             ->margin(10)
             //->logoPath($path.'img/logoV1.png')
             ->labelText($dateString)

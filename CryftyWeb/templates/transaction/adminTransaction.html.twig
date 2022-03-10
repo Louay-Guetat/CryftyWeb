@@ -1,12 +1,13 @@
 {% extends 'baseAdmin.html.twig' %}
-{% block title %}Hello CartController!{% endblock %}
+{% block title %} Transaction {% endblock %}
 
 {% block body %}
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <div><h3><i class="fa fa-angle-right"></i> Transaction : </h3>
+            <div>
+                <div><h3><i class="fa fa-angle-right"></i> Transaction : </h3>
                 <form action="{{ path('r') }}" style="float: right">
-                    <input type="text" placeholder="nom du client" name="rechercher">
+                    <input type="text" placeholder="nom du client" name="rechercher" id="myInput">
                     <input type="submit" value="Rechercher">
                 </form></div>
             <div class="row mt">
@@ -30,7 +31,7 @@
                                 <th class="home__text">Date Transaction</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="idContenuTransaction">
                             {% for trans in t %}
                                 <tr>
                                     <td class="home__text">{{ trans.id }}</td>
@@ -47,6 +48,7 @@
 
                     </section>
                 </div>
+            </div>
             </div>
         </section>
         <!-- /wrapper -->
