@@ -30,10 +30,12 @@ class ResetPasswordController extends AbstractController
     private $resetPasswordHelper;
     private $entityManager;
 
+
     public function __construct(ResetPasswordHelperInterface $resetPasswordHelper, EntityManagerInterface $entityManager)
     {
         $this->resetPasswordHelper = $resetPasswordHelper;
         $this->entityManager = $entityManager;
+
     }
 
     /**
@@ -129,7 +131,9 @@ class ResetPasswordController extends AbstractController
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
 
+
             return $this->redirectToRoute('app_login');
+
         }
 
         return $this->render('reset_password/reset.html.twig', [
@@ -151,11 +155,13 @@ class ResetPasswordController extends AbstractController
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
+
             dd("Not sent");
         }
 
         $email = (new TemplatedEmail())
             ->from('khalilrezgui1607@gmail.com')
+
             ->to($user->getEmail())
             ->subject('Your password reset request')
             ->htmlTemplate('reset_password/email.html.twig')

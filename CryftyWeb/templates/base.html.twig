@@ -48,6 +48,8 @@
             <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
             <script src="{{ asset('js/main.js') }}"></script>
             <script src="https://js.stripe.com/v3/"></script>
+            <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+            <script src="{{ asset('bundles/pugxautocompleter/js/autocompleter-jqueryui.js') }}"></script>
             <script>
 
 
@@ -90,6 +92,297 @@
                     $(this).closest('.container-wa').toggleClass('is-opened');
                 })
 
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    'use strict';
+                    $('#form_titre').autocompleter({
+                        url_list: '/search-article',
+                        url_get: '/?term='
+                    });
+
+
+                    $("#ui-id-1").click(function(){
+                        var id = $("#form_titre").val();
+
+                        if(id.toString().length > 0){
+                            $(location).attr('href', '/article/'+id.toString());
+                        }
+                    })
+
+                });
+            </script>
+    {# Filtrer les subCategory par leurs category #}
+            <script>
+                window.onload = () =>{
+                    let category = document.querySelector("#ajout_nft_category");
+                    category.addEventListener("change",function(){
+                        let form = this.closest("form");
+                        let data = this.name + "=" + this.value;
+
+                        fetch(form.action,{
+                            method: form.getAttribute("method"),
+                            body: data,
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded; charset:UTF-8"
+                            }
+                        })
+                        .then(response => response.text())
+                        .then(html => {
+                            let content = document.createElement("html");
+                            content.innerHTML = html;
+                            let nouveauSelect = content.querySelector("#ajout_nft_subcategory");
+                            document.querySelector("#ajout_nft_subcategory").replaceWith(nouveauSelect);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                    });
+                }
+
+            </script>
+    {# Filtrer les subCategory par leurs category #}
+
+    {# recherche avancé sur les produits #}
+            <script>
+                $(document).ready(function(){
+                    $("#nftInput").on("keyup", function() {
+                        var value = $(this).val().toLowerCase();
+                        $("#nft .nft").filter(function() {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                        });
+                    });
+                });
+            </script>
+    {# recherche avancé sur les produits #}
+
+            <script>
+                function sortNfts(n) {
+                    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                    table = document.getElementById("nftRanking");
+                    switching = true;
+                    //Set the sorting direction to ascending:
+                    dir = "asc";
+                    /*Make a loop that will continue until
+                    no switching has been done:*/
+                    while (switching) {
+                        //start by saying: no switching is done:
+                        switching = false;
+                        rows = table.rows;
+                        /*Loop through all table rows (except the
+                        first, which contains table headers):*/
+                        for (i = 1; i < (rows.length - 1); i++) {
+                            //start by saying there should be no switching:
+                            shouldSwitch = false;
+                            /*Get the two elements you want to compare,
+                            one from current row and one from the next:*/
+                            x = rows[i].getElementsByTagName("TD")[n];
+                            y = rows[i + 1].getElementsByTagName("TD")[n];
+                            /*check if the two rows should switch place,
+                            based on the direction, asc or desc:*/
+                            if (dir == "asc") {
+                                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                    //if so, mark as a switch and break the loop:
+                                    shouldSwitch= true;
+                                    break;
+                                }
+                            } else if (dir == "desc") {
+                                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                    //if so, mark as a switch and break the loop:
+                                    shouldSwitch = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (shouldSwitch) {
+                            /*If a switch has been marked, make the switch
+                            and mark that a switch has been done:*/
+                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                            switching = true;
+                            //Each time a switch is done, increase this count by 1:
+                            switchcount ++;
+                        } else {
+                            /*If no switching has been done AND the direction is "asc",
+                            set the direction to "desc" and run the while loop again.*/
+                            if (switchcount == 0 && dir == "asc") {
+                                dir = "desc";
+                                switching = true;
+                            }
+                        }
+                    }
+                }
+            </script>
+
+            <script>
+                function sortOwners(n) {
+                    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                        table = document.getElementById("clientRanking");
+                    switching = true;
+                    //Set the sorting direction to ascending:
+                    dir = "asc";
+                    /*Make a loop that will continue until
+                    no switching has been done:*/
+                    while (switching) {
+                        //start by saying: no switching is done:
+                        switching = false;
+                        rows = table.rows;
+                        /*Loop through all table rows (except the
+                        first, which contains table headers):*/
+                        for (i = 1; i < (rows.length - 1); i++) {
+                            //start by saying there should be no switching:
+                            shouldSwitch = false;
+                            /*Get the two elements you want to compare,
+                            one from current row and one from the next:*/
+                            x = rows[i].getElementsByTagName("TD")[n];
+                            y = rows[i + 1].getElementsByTagName("TD")[n];
+                            /*check if the two rows should switch place,
+                            based on the direction, asc or desc:*/
+                            if (dir == "asc") {
+                                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                    //if so, mark as a switch and break the loop:
+                                    shouldSwitch= true;
+                                    break;
+                                }
+                            } else if (dir == "desc") {
+                                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                    //if so, mark as a switch and break the loop:
+                                    shouldSwitch = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (shouldSwitch) {
+                            /*If a switch has been marked, make the switch
+                            and mark that a switch has been done:*/
+                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                            switching = true;
+                            //Each time a switch is done, increase this count by 1:
+                            switchcount ++;
+                        } else {
+                            /*If no switching has been done AND the direction is "asc",
+                            set the direction to "desc" and run the while loop again.*/
+                            if (switchcount == 0 && dir == "asc") {
+                                dir = "desc";
+                                switching = true;
+                            }
+                        }
+                    }
+                }
+            </script>
+
+            <script>
+                function sortNftsNumbers(n) {
+                    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                    table = document.getElementById("nftRanking");
+                    switching = true;
+                    //Set the sorting direction to ascending:
+                    dir = "asc";
+                    /*Make a loop that will continue until
+                    no switching has been done:*/
+                    while (switching) {
+                        //start by saying: no switching is done:
+                        switching = false;
+                        rows = table.rows;
+                        /*Loop through all table rows (except the
+                        first, which contains table headers):*/
+                        for (i = 1; i < (rows.length - 1); i++) {
+                            //start by saying there should be no switching:
+                            shouldSwitch = false;
+                            /*Get the two elements you want to compare,
+                            one from current row and one from the next:*/
+                            x = rows[i].getElementsByTagName("TD")[n];
+                            y = rows[i + 1].getElementsByTagName("TD")[n];
+                            /*check if the two rows should switch place,
+                            based on the direction, asc or desc:*/
+                            if (dir == "asc") {
+                                if (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
+                                    //if so, mark as a switch and break the loop:
+                                    shouldSwitch= true;
+                                    break;
+                                }
+                            } else if (dir == "desc") {
+                                if (Number(x.innerHTML) < Number(y.innerHTML)) {
+                                    //if so, mark as a switch and break the loop:
+                                    shouldSwitch = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (shouldSwitch) {
+                            /*If a switch has been marked, make the switch
+                            and mark that a switch has been done:*/
+                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                            switching = true;
+                            //Each time a switch is done, increase this count by 1:
+                            switchcount ++;
+                        } else {
+                            /*If no switching has been done AND the direction is "asc",
+                            set the direction to "desc" and run the while loop again.*/
+                            if (switchcount == 0 && dir == "asc") {
+                                dir = "desc";
+                                switching = true;
+                            }
+                        }
+                    }
+                }
+            </script>
+
+            <script>
+                function sortOwnersNumbers(n) {
+                    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                    table = document.getElementById("clientRanking");
+                    switching = true;
+                    //Set the sorting direction to ascending:
+                    dir = "asc";
+                    /*Make a loop that will continue until
+                    no switching has been done:*/
+                    while (switching) {
+                        //start by saying: no switching is done:
+                        switching = false;
+                        rows = table.rows;
+                        /*Loop through all table rows (except the
+                        first, which contains table headers):*/
+                        for (i = 1; i < (rows.length - 1); i++) {
+                            //start by saying there should be no switching:
+                            shouldSwitch = false;
+                            /*Get the two elements you want to compare,
+                            one from current row and one from the next:*/
+                            x = rows[i].getElementsByTagName("TD")[n];
+                            y = rows[i + 1].getElementsByTagName("TD")[n];
+                            /*check if the two rows should switch place,
+                            based on the direction, asc or desc:*/
+                            if (dir == "asc") {
+                                if (Number(x.innerHTML) > Number(y.innerHTML)) {
+                                    //if so, mark as a switch and break the loop:
+                                    shouldSwitch= true;
+                                    break;
+                                }
+                            } else if (dir == "desc") {
+                                if (Number(x.innerHTML) < Number(y.innerHTML)) {
+                                    //if so, mark as a switch and break the loop:
+                                    shouldSwitch = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (shouldSwitch) {
+                            /*If a switch has been marked, make the switch
+                            and mark that a switch has been done:*/
+                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                            switching = true;
+                            //Each time a switch is done, increase this count by 1:
+                            switchcount ++;
+                        } else {
+                            /*If no switching has been done AND the direction is "asc",
+                            set the direction to "desc" and run the while loop again.*/
+                            if (switchcount == 0 && dir == "asc") {
+                                dir = "desc";
+                                switching = true;
+                            }
+                        }
+                    }
+                }
             </script>
 
 

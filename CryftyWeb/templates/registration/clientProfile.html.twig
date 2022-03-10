@@ -10,12 +10,14 @@
                 <div class="author author--page">
                     <div class="author__meta">
                         <a href="author.html" class="author__avatar author__avatar--verified">
+
                             <img height="150" width="250" src="{{ asset("uploads/avatar/"~ user.avatar) }}">
 
                         </a>
                         <h1 class="author__name"><a href="author.html">{{ user.firstName }} {{ user.lastName }}</a></h1>
                         <h2 class="author__nickname"><a href="author.html">@{{ user.username }}</a></h2>
                             <a href="{{ path('view-wallets') }}" class="author__follow">My Wallets</a>
+
 
                         <div class="author__wrap">
                             <div class="author__followers">

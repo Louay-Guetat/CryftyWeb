@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Blog\BlogArticle;
 use App\Entity\Blog\BlogComment;
+use App\Form\UpdArticleType;
 use App\Repository\BlogCommentRepository;
 use App\Form\BlogArticleType;
 use App\Form\CommentbType;
@@ -20,6 +21,8 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Knp\Component\Pager\PaginatorInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class BlogArticleController extends AbstractController
 {
@@ -61,6 +64,17 @@ class BlogArticleController extends AbstractController
         return $this->render('blog_article/AfficheAD.html.twig',
             ['BlogArticle'=>$BlogArticle]);
     }
+    /**
+     * @param BlogCommentRepository $repository
+     * @return Response
+     * @Route ("blog/AfficheBAADc",name="AfficheBAADc")
+     */
+    public function AfficheAdc(BlogCommentRepository $repository){
+        //$repo=$this->getDoctrine()->getRepository(BlogArticle::class);
+        $Blogcomment=$repository->findAll();
+        return $this->render('blog_article/AfficheADc.html.twig',
+            ['Blogcomment'=>$Blogcomment]);
+    }
 
 
     /**
@@ -81,13 +95,55 @@ class BlogArticleController extends AbstractController
             $comment->setPostDate(new \DateTime('now'));
             $comment->setLikes(0);
             $comment->setDislikes(0);
+            $badwords = array('bad1', 'sisi', 'mtar', 'khalil');
+            $text =$comment->getComment();
+            function filterBadwords($text, array $badwords, $replaceChar = '*') {
+                return preg_replace_callback(
+                    array_map(function($w) { return '/\b' . preg_quote($w, '/') . '\b/i'; }, $badwords),
+                    function($match) use ($replaceChar) { return str_repeat($replaceChar, strlen($match[0])); },
+                    $text
+                );
+            }
+            $comment->setComment(filterBadwords($text, $badwords));
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
             return $this->redirectToRoute('articleItem',['id'=>$BA->getId()]);
         }
+
         return $this->render('blog_article/AfficheAr.html.twig',['articleItem'=>$BA,'BlogComment'=>$commentb,
             'CommentbForm'=>$ajoutComment->createView()]);
+    }
+    /**
+     * @param  BlogArticleRepository $BARepository
+     * @Route("blog/pdf/{id}",name="pdf")
+     */
+    function pdf($id, BlogArticleRepository $BARepository){
+        $BA =$BARepository->find($id);
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('blog_article/mypdf.html.twig',['articleItem'=>$BA
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (inline view)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => false
+        ]);
     }
     /**
      * @param $id
@@ -111,7 +167,19 @@ class BlogArticleController extends AbstractController
             $em=$this->getDoctrine()->getManager();
             $em->remove($comment);
             $em->flush();}
-        return $this->redirectToRoute('AfficheBA');
+        return $this->redirectToRoute('articleItem',['id'=>$comment->getArticle()->getId()]);
+
+    }
+    /**
+     * @Route("blog/DeleteCAD/{id}",name="dcAD")
+     */
+    function DeleteCAD($id,BlogCommentRepository $repC){
+        $comment=$repC->find($id);
+        if($this->getUser()==$comment->getUser()){
+            $em=$this->getDoctrine()->getManager();
+            $em->remove($comment);
+            $em->flush();}
+        return $this->redirectToRoute('AfficheBAADc');
 
     }
 
@@ -151,7 +219,7 @@ class BlogArticleController extends AbstractController
      */
     function Update(BlogArticleRepository $repository,$id,Request $request){
         $BlogArticle=$repository->find($id);
-        $form=$this->createForm(BlogArticleType::class,$BlogArticle);
+        $form=$this->createForm(UpdArticleType::class,$BlogArticle);
         $form->add('Update',SubmitType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -159,7 +227,7 @@ class BlogArticleController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('AfficheBAAD');
         }
-        return $this->render('blog_article/Update.html.twig',[
+        return $this->render('blog_article/updatearticle.html.twig',[
             'f'=>$form->createView()
         ]);
 
@@ -172,7 +240,24 @@ class BlogArticleController extends AbstractController
     function Search(BlogArticleRepository $repository,Request $request){
         $data=$request->get('sear');
         $BlogArticle=$repository->findBy(['title'=>$data]);
-        return $this->render('blog_article/Affiche.html.twig',[
+        return $this->render('blog_article/test.html.twig',[
+            'BlogArticle'=>$BlogArticle
+        ]);
+
+    }
+    /**
+     * @Route("blog/Filt",name="filtre")
+     */
+    function SearchC(BlogArticleRepository $repository,Request $request){
+        $data=$request->get('searC');
+        if($data ==""){
+            $BlogArticle=$repository->findAll();
+            return $this->render('blog_article/test.html.twig',[
+                'BlogArticle'=>$BlogArticle
+            ]);
+        }
+        $BlogArticle=$repository->findBy(['category'=>$data]);
+        return $this->render('blog_article/test.html.twig',[
             'BlogArticle'=>$BlogArticle
         ]);
 

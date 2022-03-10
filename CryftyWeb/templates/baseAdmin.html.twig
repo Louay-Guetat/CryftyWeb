@@ -43,16 +43,36 @@
     <!--script for this page-->
     <script src="{{ asset('adminAssets/lib/sparkline-chart.js')}}"></script>
     <script src="{{ asset('adminAssets/lib/zabuto_calendar.js')}}"></script>
+
     <script>
         $(document).ready(function(){
+
             $("#myInput").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function() {
+                $("table tr").filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
         });
+
+            $("#myCategory").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#idCategory tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+            $("#mySubCategory").on("keyup", function() {
+                var value2 = $(this).val().toLowerCase();
+                $("#idSubCategory tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value2) > -1)
+                });
+            });
+        });
+
+
     </script>
+
+
 {% endblock %}
 
 

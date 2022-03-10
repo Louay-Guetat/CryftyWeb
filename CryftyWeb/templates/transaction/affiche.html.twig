@@ -1,38 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Transaction{% endblock %}
 
 {% block body %}
 
     <main class="main">
 
-                            <div  class="sign__form" style="margin-left: 500px;size: 150px">
-                            <h1 class="home__title">Transaction</h1>
+        <div  class="sign__form" style="margin-left: 500px;size: 150px">
+            <h1 class="home__title">Transaction</h1>
 
-                            <table border="3" style="size: 150px">
-                                <thead>
+            <table class="table table-bordered" style="size: 150px">
+                <thead>
 
-                                <tr>
-                                    <td class="home__text"></td>
-                                    <th class="home__text">Montant</th>
-                                    <th class="home__text">Date Transaction</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for trans in t %}
-                                <tr>
-                                    <td class="home__text">{{ trans.id }}</td>
-                                    <td class="home__text">{{ trans.montant }}</td>
-                                    <td class="home__text">{{ trans.datetransaction|date }}</td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                <tr>
+                    <td class="home__text">Réf</td>
+                    <th class="home__text">Montant</th>
+                    <th class="home__text">Date Transaction</th>
+                    <th class="home__text">Facture</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for trans in t %}
+                    <tr>
+                        <td class="home__text">{{ trans.id }}</td>
+                        <td class="home__text">{{ trans.cartId.total }}</td>
+                        <td class="home__text">{{ trans.datetransaction|date }}</td>
+                        <td>
+                            <a href="{{ path('pdfTransaction', {id: trans.id}) }}">
+                                <button class="asset__btn" type="submit">
+                                    <i class="fa fa-download" ></i> </button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
 
         </div>
         <!-- end home -->
+        <div style="text-align: center;margin-left: 550px;margin-top: 10px">
+            {{ knp_pagination_render(t) }}
+        </div>
     </main>
-
-</body>
+    </body>
 {% endblock %}

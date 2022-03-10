@@ -35,6 +35,7 @@ class MailerService
     /**
      * @throws TransportExceptionInterface
      */
+
     public function sendClientVerificationEmail(string $toMail, array $variables){
         $email = (new TemplatedEmail())
             ->from('khalilrezgui1607@gmail.com')
@@ -55,6 +56,7 @@ class MailerService
             ->subject('Reclamation ')
             ->htmlTemplate('emails/ClientReclamation.html.twig')
             ->context($variables);
+
         $this->mailer->send($email);
     }
 }

@@ -1,0 +1,42 @@
+{{ form_start(form) }}
+<h4 class="filter__title">Filters <button type="reset">Clear all</button></h4>
+    <div class="filter__group">
+        <input class="filter__input" type="Text" id="nftInput" placeholder="Recherche">
+    </div>
+    <h4 class="filter__label"> Categories :</h4>
+    <div class="filter__group">
+        {{ form_row(form.categories) }}
+    </div>
+    <h4 class="filter__label"> SubCategories :</h4>
+    <div class="filter__group">
+        {{ form_row(form.subCategories) }}
+    </div>
+    <h4 class="filter__label"> Currency :</h4>
+    <div class="filter__group">
+        {{ form_row(form.currency) }}
+    </div>
+    <h4 class="filter__label"> Prix :</h4>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.min) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.max) }}
+            </div>
+        </div>
+<br>
+    <div class="filter__group">
+        {{ form_row(form.triPrix) }}
+    </div>
+    <div class="filter__group">
+        {{ form_row(form.triLikes) }}
+    </div>
+
+    <div class="filter__group">
+        <button type="submit" class="filter__btn">Filtrer</button>
+    </div>
+    <div class="filter__group">
+        <a href="{{ path('AfficheNft') }}" class="filter__btn">Reset</a>
+    </div>
+
+{{ form_end(form) }}

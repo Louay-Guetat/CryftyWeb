@@ -8,6 +8,7 @@
         <div class="row row--grid">
             <!-- breadcrumb -->
             <div class="col-12">
+
     {% for flash_error in app.flashes('reset_password_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
@@ -24,8 +25,10 @@
 
         <button class="btn btn-primary">Send password reset email</button>
     {{ form_end(requestForm) }}
+
             </div>
         </div>
     </div>
 </main>
+
 {% endblock %}

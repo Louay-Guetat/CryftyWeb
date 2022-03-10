@@ -9,6 +9,7 @@ parameters:
     blog_directory: '%kernel.project_dir%/public/uploads/blogs'
 
     wallet_image_directory:  '%kernel.project_dir%/public/uploads/walletImages'
+    locale: 'fr_FR'
 
     images_avatar : '%kernel.project_dir%/public/uploads/avatar'
 
