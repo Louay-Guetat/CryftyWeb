@@ -62,7 +62,7 @@
 
     </style>
     <main class="main container">
-        <section class="row row--grid">
+        <div class="row row--grid">
             <div class="col-12 mb-5">
                 <div class="main__title main__title--border-top">
                     <h2>Nfts Ranking</h2>
@@ -73,8 +73,8 @@
                 <div class="list-view-button"><i class="fa fa-bars" aria-hidden="true"></i> NFTS View</div>
                 <div class="grid-view-button"><i class="fa fa-bars" aria-hidden="true"></i> Owners View</div>
             </div>
-
-            <table class="table table-borderless table-striped border-dark mt-5" id="list-view">
+        <div id="list-view">
+            <table class="table table-borderless table-striped border-dark mt-5" id="nftRanking">
 
                 <style>
                     .table-bg{
@@ -82,24 +82,29 @@
                     }
 
                 </style>
+
+                <style>
+                    i{
+                        color:white;
+                    }
+                    i:hover{
+                        color:black;
+                    }
+                </style>
+
                 <thead >
                 <tr class="table-bg text-light">
 
-                    <th scope=""><a href=""># <i class="fa fa-arrows-v"></i></a></th>
+                    <th scope="" onclick="sortNftsNumbers(0)"># <i class="fa fa-arrows-v"></i></th>
                     <th scope="">Image</th>
-                    <th scope="">Title <a href="" name="title" id="title"><i class="fa fa-angle-double-down"></i></a> </th>
-                    <style>
-                        a{
-                            color:white;
-                        }
-                    </style>
-                    <th class="">Creation Date <a href="" name="date" id="date"><i class="fa fa-angle-double-down"></i></a></th>
-                    <th scope="">Likes <a href="" name="likes" id="likes"><i class="fa fa-angle-double-down"></i></a></th>
-                    <th scope="">Category <a href="" name="category" id="category"><i class="fa fa-angle-double-down"></i></a></th>
-                    <th scope="">SubCategory <a href="" name="subCategory" id="subCategory"><i class="fa fa-angle-double-down"></i></a></th>
-                    <th scope="">Price <a href="" name="price" id="price"><i class="fa fa-angle-double-down"></i></a></th>
-                    <th scope="">Currency <a href="" name="currency" id="currency"><i class="fa fa-angle-double-down"></i></a></th>
-                    <th scope="">Owner <a href="" name="owner" id="owner"><i class="fa fa-angle-double-down"></i></a></th>
+                    <th scope="" onclick="sortNfts(2)">Title <i class="fa fa-angle-double-down"></i></th>
+                    <th class="" onclick="sortNfts(3)">Creation Date <i class="fa fa-angle-double-down"></i></th>
+                    <th scope="" onclick="sortNftsNumbers(4)">Likes <i class="fa fa-angle-double-down"></i></th>
+                    <th scope="" onclick="sortNfts(5)">Category <i class="fa fa-angle-double-down"></i></th>
+                    <th scope="" onclick="sortNfts(6)">SubCategory <i class="fa fa-angle-double-down"></i></th>
+                    <th scope="" onclick="sortNftsNumbers(7)">Price <i class="fa fa-angle-double-down"></i></th>
+                    <th scope="" onclick="sortNfts(8)">Currency <i class="fa fa-angle-double-down"></i></th>
+                    <th scope="" onclick="sortNfts(9)">Owner <i class="fa fa-angle-double-down"></i></th>
 
                 </tr>
                 </thead>
@@ -107,14 +112,14 @@
 
                 {% for nft in nfts %}
                     <tr>
-                        <th scope="row">{{ loop.index }}</th>
+                        <td scope="row" style="font-weight: bold;">{{ loop.index }}</td>
                         <td><a href="{{ path('nftItem',{'id':nft.id}) }}"><img src="{{ asset('NFTS/'~ nft.image) }}" style="width: 70px; height: 70px;"></a></td>
-                        <td><u><a href="{{ path('nftItem',{'id':nft.id}) }}" style="color:black">{{ nft.title }}</a></u></td>
+                        <a href="{{ path('nftItem',{'id':nft.id}) }}" style="color:black"><td style="text-decoration: underline;">{{ nft.title }}</td></a>
                         <td>{{ nft.creationDate | date('d M Y, H:m') }}</td>
                         <td>{{ nft.likes }} </td>
                         <td>{{ nft.category.name }} </td>
                         <td>{{ nft.subCategory.name }} </td>
-                        <td> <strong>{{ nft.price | round(5,"common")  }} {{ nft.currency.coinCode }}</strong></td>
+                        <td style="font-weight: bold;">{{ nft.price | round(5,"common") }} </td>
                         <td>{{ nft.currency.nodeLabel }} </td>
                         <td><u><a href="{{ path('profil',{'id':nft.owner.id}) }}" style="color:black">{{ nft.owner.username }}</a></u></td>
 
@@ -124,9 +129,9 @@
                 </tbody>
 
             </table>
-
+        </div>
             <div id="grid-view">
-                <table class="table table-borderless table-striped border-dark mt-5" id="list-view">
+                <table class="table table-borderless table-striped border-dark mt-5" id="clientRanking">
 
                     <style>
                         .table-bg{
@@ -137,27 +142,22 @@
                     <thead >
                     <tr class="table-bg text-light">
 
-                        <th scope=""><a href=""># <i class="fa fa-arrows-v"></i></a></th>
+                        <th onclick="sortOwnersNumbers(0)"># <i class="fa fa-arrows-v"></i></th>
                         <th scope="">Owner</th>
-                        <th scope="">Volume <a href=""><i class="fa fa-angle-double-down"></i></a> </th>
-                        <style>
-                            a{
-                                color:white;
-                            }
-                        </style>
-                        <th class="">Floor Price <a href=""><i class="fa fa-angle-double-down"></i></a></th>
-                        <th scope="">Number of nfts <a href=""><i class="fa fa-angle-double-down"></i></a></th>
+                        <th onclick="sortOwnersNumbers(2)">Volume <i class="fa fa-angle-double-down"></i></th>
+                        <th class="" onclick="sortOwnersNumbers(3)">Floor Price <i class="fa fa-angle-double-down"></i></th>
+                        <th onclick="sortOwnersNumbers(4)">Number of nfts <i class="fa fa-angle-double-down"></i></th>
                     </tr>
                     </thead>
                     <tbody class="bg-light">
 
                     {% for client in clients %}
                         <tr>
-                            <th scope="row">{{ loop.index }}</th>
-                            <td><u><a href="{{ path('profil',{'id':client   .id}) }}" style="color:black">{{ client.username }}</a></u></td>
-                            <td>{{ volume[loop.index-1] }}</td>
-                            <td>{{ floorPrice[loop.index-1] }} </td>
-                            <td>{{ nombreNfts[loop.index-1] }} </td>
+                            <td scope="row" style="font-weight: bold;">{{ loop.index }}</td>
+                            <td><u><a href="{{ path('profil',{'id':client.id}) }}" style="color:black">{{ client.username }}</a></u></td>
+                            <td style="font-weight: bold;">{{ volume[loop.index-1] }}</td>
+                            <td style="font-weight: bold;">{{ floorPrice[loop.index-1] }} </td>
+                            <td style="font-weight: bold;">{{ nombreNfts[loop.index-1] }} </td>
                         </tr>
                     {% endfor %}
 
@@ -172,5 +172,6 @@
                 </div>
             </div>
         </section>
+        </div>
     </main>
 {% endblock %}

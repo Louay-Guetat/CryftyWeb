@@ -41,14 +41,18 @@
                     <!-- end sidebar -->
 
                     <!-- content -->
-                    <div class="col-12 col-xl-9 order-xl-1" id="idContenu">
+                    <div class="col-12 col-xl-9 order-xl-1" id="nft">
                         <div class="row row--grid">
                             {% for f in nft %}
                             <div class="col-12 col-sm-6 col-lg-4 nft">
                                 <!-- card -->
                                 <div class="card">
                                     <a href="{{ path('nftItem',{'id': f.id }) }}" style="width: 250px;height: 250px" class="card__cover">
-                                        <img src="{{ asset('NFTS/'~ f.image) }}" alt="">
+                                        {% if app.user.id == f.owner.id %}
+                                            <img src="{{ asset('NFTS/'~ f.image) }}" alt="image">
+                                        {% else %}
+                                            <img src="{{ asset('NFTS/'~ f.image) | imagine_filter('imageNft') }}" alt="image">
+                                        {% endif %}
 									</span>
                                         <div class="card__time">
                                             <span>{{ f.creationDate | date('d-M-Y')}} </span>

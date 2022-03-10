@@ -36,6 +36,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NFTController extends AbstractController
 {
@@ -52,7 +53,7 @@ class NFTController extends AbstractController
             $likedBy = $item->getLikedBy();
             $j=0;
             do{
-                if($likedBy[$i]!= null){
+                if($likedBy[$j]!= null){
                     if($client->getId() == $likedBy[$j]->getId()){
                         $situation[$i] = 1;
                     }
@@ -64,7 +65,7 @@ class NFTController extends AbstractController
                     $situation[$i]=0;
                     $j++;
                 }
-            }while($j<count($likedBy) && $situation[$i]!=1);
+            }while($j<count($likedBy)-1 && $situation[$i]!=1);
             $i++;
         }
         return $this->render('nft/index.html.twig', ['nft' => $nfts,'user'=>$this->getUser(),'situation'=>$situation]);
@@ -80,15 +81,14 @@ class NFTController extends AbstractController
         $data = new SearchData();
         $form = $this->createForm(SearchForm::class,$data);
         $form->handleRequest($request);
-        $client = $clientRepo->find($this->getUser());
+        $client = $clientRepo->find($this->getUser()->getId());
         $situation =[];
         $i=0;
         foreach ($nft as $item){
             $likedBy = $item->getLikedBy();
             $j=0;
-
             do{
-                if($likedBy[$i]!= null){
+                if($likedBy[$j]!= null){
                     if($client->getId() == $likedBy[$j]->getId()){
                         $situation[$i] = 1;
                     }
@@ -100,7 +100,7 @@ class NFTController extends AbstractController
                     $situation[$i]=0;
                     $j++;
                 }
-            }while($j<count($likedBy) && $situation[$i]!=1);
+            }while($j<count($likedBy)-1 && $situation[$i]!=1);
             $i++;
         }
         if ($form->isSubmitted() && $form->isValid()){
@@ -117,7 +117,8 @@ class NFTController extends AbstractController
     /**
      * @Route("nft/AfficheItem/{id}", name="nftItem")
      */
-    function AfficheNft($id, NftRepository $nftRepository, NftCommentRepository $Commentrepository, Request $request){
+    function AfficheNft($id, NftRepository $nftRepository, NftCommentRepository $Commentrepository,
+                            ClientRepository $clientRepo,Request $request){
         $nft =$nftRepository->find($id);
         $comments =$Commentrepository->findAllByNft($nft->getId());
         $comment = new NftComment();
@@ -137,8 +138,28 @@ class NFTController extends AbstractController
             }
         }
 
+        $client = $clientRepo->find($this->getUser()->getId());
+        $situation=0;
+        $i=0;
+            $likedBy = $nft->getLikedBy();
+            $j=0;
+            do{
+                if($likedBy[$j]!= null){
+                    if($client->getId() == $likedBy[$j]->getId()){
+                        $situation = 1;
+                    }
+                    else
+                        $situation=0;
+                    $j++;
+                }
+                else{
+                    $situation=0;
+                    $j++;
+                }
+            }while($j<count($likedBy)-1 && $situation[$i]!=1);
+
         return $this->render('nft/nft.html.twig',['nftItem'=>$nft,'nftComment'=>$comments,
-            'CommentForm'=>$ajoutComment->createView(),'user'=>$this->getUser()]);
+            'CommentForm'=>$ajoutComment->createView(),'user'=>$this->getUser(), 'situation'=>$situation]);
     }
 
     /**
@@ -294,6 +315,7 @@ class NFTController extends AbstractController
             return $this->redirect($request->headers->get('referer'));
         }
     }
+
 
     /* Api Mobile */
 

@@ -621,9 +621,6 @@
             "./templates/base.html.twig"
         ]
     },
-    "symfony/ux-chartjs": {
-        "version": "v2.0.1"
-    },
     "symfony/validator": {
         "version": "4.4",
         "recipe": {

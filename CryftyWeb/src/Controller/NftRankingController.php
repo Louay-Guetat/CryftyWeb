@@ -31,7 +31,7 @@ class NftRankingController extends AbstractController
             $nombre=0;
             $prices = 0.0;
             foreach($nft as $item){
-                if($item->getOwner()==$individual){
+                if($item->getOwner() === $individual){
                     $nombre++;
                     $prices = $prices + $item->getPrice();
                 }

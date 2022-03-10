@@ -52,32 +52,6 @@ class NftComment
      */
     private $dislikes;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Users\Client",inversedBy="$commentLiked")
-     */
-    private $userLiked;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Users\Client",inversedBy="commentDisliked")
-     */
-    private $userDisliked;
-
-    /**
-     * @return mixed
-     */
-    public function getUserLiked()
-    {
-        return $this->userLiked;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUserDisliked()
-    {
-        return $this->userDisliked;
-    }
-
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\NFT\Nft", inversedBy="comments")
@@ -207,34 +181,6 @@ class NftComment
     public function setUser($user): void
     {
         $this->user = $user;
-    }
-
-    public function setLikedBy($client): void
-    {
-        $this->userLiked[count($this->userLiked)] = $client;
-    }
-
-    public function removeLikedBy($client): void
-    {
-        for($i=0;$i<count($this->userLiked);$i++){
-            if($client == $this->userLiked[$i]){
-                unset($this->userLiked[$i]);
-            }
-        }
-    }
-
-    public function setDisLikedBy($client): void
-    {
-        $this->userDisliked[count($this->userDisliked)] = $client;
-    }
-
-    public function removeDisLikedBy($client): void
-    {
-        for($i=0;$i<count($this->userDisliked);$i++){
-            if($client == $this->userDisliked[$i]){
-                unset($this->userDisliked[$i]);
-            }
-        }
     }
 
 }

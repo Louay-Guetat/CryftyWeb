@@ -7,6 +7,7 @@ parameters:
     images_directory: '%kernel.project_dir%/public//NFTS'
     blog_directory: '%kernel.project_dir%/public/uploads/blogs'
     wallet_image_directory:  '%kernel.project_dir%/public/uploads/walletImages'
+    locale: 'fr_FR'
 
 services:
     # default configuration for services in *this* file

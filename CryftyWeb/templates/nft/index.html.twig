@@ -48,7 +48,11 @@
                                     <!-- card -->
                                     <div class="card">
                                         <a href= "{{ path('nftItem',{'id': f.id }) }}" class="card__cover">
-                                            <img src="{{ asset('NFTS/'~ f.image) | imagine_filter('nft') }}" alt="image">
+                                            {% if app.user.id == f.owner.id %}
+                                                <img src="{{ asset('NFTS/'~ f.image) }}" alt="image">
+                                            {% else %}
+                                                <img src="{{ asset('NFTS/'~ f.image) | imagine_filter('imageNft') }}" alt="image">
+                                            {% endif %}
                                             <div class="post__content">
                                             <a href="#" class="post__category">{{ f.category.name }}</a>
                                                 <h3 class="card__title"><a href="{{ path('nftItem',{'id': f.id }) }}">{{ f.title }}</a></h3>
