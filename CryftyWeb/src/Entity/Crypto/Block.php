@@ -18,7 +18,7 @@ class Block
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Node::class, inversedBy="Blocks")
+     * @ORM\ManyToOne(targetEntity=Node::class, inversedBy="blocks")
      * @ORM\JoinColumn(nullable=false)
      */
     private $node;

@@ -151,7 +151,7 @@
         document.querySelector('.share_linkedin').addEventListener('click', function(e){
             e.preventDefault();
             var url = this.getAttribute('data-url');
-            var shareUrl = "https://www.linkedin.com/shareArticle?url=" + encodeURIComponent(url);
+            var shareUrl = "http://vk.com/share.php?url=" + encodeURIComponent(url);
             popupCenter(shareUrl, "Partager sur Linkedin");
         });
 

@@ -1789,7 +1789,7 @@ body::-webkit-scrollbar-thumb {
 	Home
 ==============================*/
 .home {
-  background: url("../img/home/home.png") no-repeat bottom center/cover;
+  background: url("../img/bg/banner.jpg") no-repeat bottom center/cover;
   border-bottom: 1px solid #222227;
 }
 .home--hero {

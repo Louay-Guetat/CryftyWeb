@@ -44,7 +44,7 @@ class Transaction
 
 
     /**
-     * @ORM\ManyToOne (targetEntity="App\Entity\Crypto\Wallet",inversedBy="walletTransaction")
+     * @ORM\ManyToOne (targetEntity="App\Entity\Crypto\Wallet")
      * @Groups ("wallets:read")
      */
     private $wallets;

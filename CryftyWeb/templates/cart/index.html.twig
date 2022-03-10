@@ -27,7 +27,7 @@
                                     <tr style="text-align: center">
                                         <td class="home__text">{{ element.produit.title }}</td>
                                         <td class="home__text">{{ element.produit.description }} </td>
-                                        <td class="home__text"><img src="{{ asset('NFTS/'~ element.produit.image) }}"></td>
+                                        <td class="home__text"><img width="150" src="{{ asset('NFTS/'~ element.produit.image) }}"></td>
                                         <td class="home__text">{{ element.produit.price }} </td>
                                         <td>
                                             {%  if is_granted('IS_AUTHENTICATED_FULLY')  %}

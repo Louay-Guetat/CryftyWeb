@@ -150,7 +150,7 @@ class RegistrationController extends AbstractController
 
 
     /**
-     * @Route("/client/delete/{id}", name="delete_client")
+     * @Route("admin/client/delete/{id}", name="delete_client")
      */
     public function deleteclient($id,ClientRepository $repository) {
 
@@ -164,7 +164,7 @@ class RegistrationController extends AbstractController
 
     /**
      * @return Response
-     * @Route ("/Clientlist/",name="Clientlist")
+     * @Route ("admin/Clientlist/",name="Clientlist")
      */
     public function Listclient(ClientRepository $repository,Request $request,PaginatorInterface $paginator): Response
     {
@@ -291,7 +291,7 @@ class RegistrationController extends AbstractController
 
 
     /**
-     * @Route("/Client/{id}", name="show_client")
+     * @Route("admin/Client/{id}", name="show_client")
      */
     public function ShowClient(int $id,ClientRepository $repository)
     {
