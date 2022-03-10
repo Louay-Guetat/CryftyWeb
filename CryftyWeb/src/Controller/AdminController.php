@@ -33,7 +33,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/registeradmin", name="registeradmin")
+     * @Route("/admin/registeradmin", name="registeradmin")
      */
     public function registerAdmin(Request $request)
     {
@@ -49,7 +49,7 @@ class AdminController extends AbstractController
 
             // Set their role
             $user->setRoles(['ROLE_ADMIN']);
-            $user->setIsActive(false);
+            $user->setIsActive(true);
 
             // Save
             $em = $this->getDoctrine()->getManager();
@@ -65,7 +65,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/updateadmin/{id}", name="updateadmin")
+     * @Route("/admin/updateadmin/{id}", name="updateadmin")
      */
     public function updateAdmin(Request $request,AdminRepository $repository,$id)
     {
@@ -107,7 +107,7 @@ class AdminController extends AbstractController
 
     /**
      * @return Response
-     * @Route ("/Adminlist",name="adminlist")
+     * @Route ("/admin/Adminlist",name="adminlist")
      */
     public function Listclient(AdminRepository $repository,Request $request,PaginatorInterface $paginator){
         $donnees=$repository->findAll();

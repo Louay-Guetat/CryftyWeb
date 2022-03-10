@@ -77,7 +77,7 @@ class UpdateProfilType extends AbstractType
                 ,'label_attr'=>['class'=>'sign__label']
                 ,'attr'=>['class'=>'sign__input']
             ])
-            ->add('save', SubmitType::class, ['label'=>"Cree",
+            ->add('save', SubmitType::class, ['label'=>"save",
                 'attr' => ['class' => 'sign__btn'],
             ]);
         ;

@@ -90,7 +90,7 @@ class ContactController extends AbstractController
 
 
     /**
-     * @Route("/contact/traite/{id}", name="traite_contact")
+     * @Route("/admin/contact/traite/{id}", name="traite_contact")
      */
     public function traitecontact($id,SupportTicketRepository $repository) {
 
@@ -101,7 +101,7 @@ class ContactController extends AbstractController
         return $this->redirectToRoute('contactlist');
     }
     /**
-     * @Route("/contact/abondone/{id}", name="abondone_contact")
+     * @Route("/admin/contact/abondone/{id}", name="abondone_contact")
      */
     public function abondonecontact($id,SupportTicketRepository $repository) {
 
@@ -126,7 +126,7 @@ class ContactController extends AbstractController
 
     /**
      * @return Response
-     * @Route ("/contactlist/",name="contactlist")
+     * @Route ("/admin/contactlist/",name="contactlist")
      */
     public function Listclient(SupportTicketRepository $repository,Request $request,PaginatorInterface $paginator){
         $donnees=$repository->findAll();
@@ -141,7 +141,7 @@ class ContactController extends AbstractController
 
 
     /**
-     * @Route("/Contact/{id}", name="show_contact")
+     * @Route("/admin/Contact/{id}", name="show_contact")
      */
     public function ShowContact(int $id,SupportTicketRepository $repository,Request $request)
     {
