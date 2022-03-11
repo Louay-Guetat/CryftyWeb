@@ -24,12 +24,10 @@ return [
     Endroid\QrCodeBundle\EndroidQrCodeBundle::class => ['all' => true],
     Vangrg\ProfanityBundle\VangrgProfanityBundle::class => ['all' => true],
     FOS\CKEditorBundle\FOSCKEditorBundle::class => ['all' => true],
-<<<<<<< HEAD
     PUGX\AutocompleterBundle\PUGXAutocompleterBundle::class => ['all' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
-=======
     Knp\Bundle\SnappyBundle\KnpSnappyBundle::class => ['all' => true],
     Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
     SymfonyCasts\Bundle\ResetPassword\SymfonyCastsResetPasswordBundle::class => ['all' => true],
->>>>>>> fb1c17cfb9c520f8939693178c7edcd197813609
+
 ];
