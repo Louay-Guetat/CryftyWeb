@@ -33,8 +33,10 @@ class Message
      */
 
     private $createdAt;
-
-
+    /**
+     * @ORM\Column(type="string",nullable="true")
+     */
+    private $emoji;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users\User", inversedBy="Message")
@@ -121,6 +123,22 @@ class Message
     public function setCreatedAt(string $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmoji()
+    {
+        return $this->emoji;
+    }
+
+    /**
+     * @param mixed $emoji
+     */
+    public function setEmoji($emoji): void
+    {
+        $this->emoji = $emoji;
     }
 
 

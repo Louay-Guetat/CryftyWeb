@@ -12,6 +12,7 @@ twig:
         user_wallet: '@App\Repository\WalletRepository'
         chat_group: '@App\Repository\GroupChatRepository'
         chat_private: '@App\Repository\PrivateChatRepository'
+        chat_message: '@App\Repository\MessageRepository'
         cart: '@App\Repository\CartRepository'
     paths:
         '%kernel.project_dir%/public/img': images

@@ -171,7 +171,6 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/phpdocumentor/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/phpdocumentor/reflection-common" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/version" />
-      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/type" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/resource-operations" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/recursion-context" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/object-reflector" />
@@ -285,6 +284,18 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/sendgrid-mailer" />
 
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/polyfill-intl-grapheme" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/string" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-snappy-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-snappy" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sebastian/type" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/mercure" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/mercure-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/lcobucci/jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/lcobucci/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/spatie/emoji" />
+
+
+      <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/polyfill-intl-grapheme" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-snappy-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/knplabs/knp-snappy" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/symfony/string" />
@@ -314,6 +325,7 @@
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/phenx/php-font-lib" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/sabberworm/php-css-parser" />
       <excludeFolder url="file://$MODULE_DIR$/CryftyWeb/vendor/friendsofsymfony/ckeditor-bundle" />
+
 
 
     </content>

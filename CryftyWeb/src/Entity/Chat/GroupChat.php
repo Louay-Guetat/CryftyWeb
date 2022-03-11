@@ -2,6 +2,7 @@
 
 namespace App\Entity\Chat;
 
+use App\Entity\Users\User;
 use App\Repository\GroupChatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -95,18 +96,28 @@ class GroupChat extends Conversation
     {
         $this->participants = $participants;
     }
-
-
-
-
-
-
-
-
-
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+
+    public function addUser(User $user): self
+    {
+        if (!$this->participants ->contains($user)) {
+            $this->participants [] = $user;
+            $user->addGroup($this);
+        }
+        return $this;
+    }
+    public function removeUser(User $user): self
+    {
+        for($i=0;$i<count($this->participants);$i++)
+        {
+            if($user->getId()==$this->participants[$i]->getId())
+            {
+                unset($this->participants[$i]);
+            }
+        }return $this;
     }
 }

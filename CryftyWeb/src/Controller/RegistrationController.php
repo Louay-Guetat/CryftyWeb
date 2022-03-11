@@ -64,9 +64,11 @@ class RegistrationController extends AbstractController
             // Set their role
             $user->setRoles(['ROLE_USER']);
 
+
             $user->setIsActive(false);
             $user->setAvatar($newFilename);
             $user->setCouverture($newFilename);
+
 
             // Save
             $em = $this->getDoctrine()->getManager();

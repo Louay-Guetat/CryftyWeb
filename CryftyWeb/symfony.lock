@@ -123,6 +123,7 @@
             "./config/packages/fos_ckeditor.yaml"
         ]
     },
+
     "guzzlehttp/psr7": {
         "version": "2.1.0"
     },
@@ -152,6 +153,12 @@
     },
     "laminas/laminas-code": {
         "version": "4.5.1"
+    },
+    "lcobucci/clock": {
+        "version": "2.0.0"
+    },
+    "lcobucci/jwt": {
+        "version": "4.0.4"
     },
     "liip/imagine-bundle": {
         "version": "2.7",
@@ -339,6 +346,9 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "spatie/emoji": {
+        "version": "3.0.0"
+    },
     "stripe/stripe-php": {
         "version": "v7.116.0"
     },
@@ -498,6 +508,21 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/mercure": {
+        "version": "v0.6.1"
+    },
+    "symfony/mercure-bundle": {
+        "version": "0.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "0.3",
+            "ref": "e0a854b5439186e04b28fb8887b42c54f24a0d32"
+        },
+        "files": [
+            "./config/packages/mercure.yaml"
+        ]
     },
     "symfony/mime": {
         "version": "v4.4.37"
