@@ -1,0 +1,61 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block body %}
+
+
+    <section id="main-content">
+        <section class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> Blog management</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content-panel">
+                        <h4><i class="fa fa-angle-right"></i> BlogArticles Table     <a style="margin: auto" href=" {{ path('AfficheBAAD' )}} "> *Back to Articles </a></h4>
+                        <hr>
+                        <input id="myInput" type="text" placeholder="Search..">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>id article</th>
+                                <th>Title</th>
+                                <th>id</th>
+                                <th>user</th>
+                                <th>Comment</th>
+                                <th>Date Of Post</th>
+                                <th><i class=" fa fa-edit"></i> Status</th>
+                            </tr>
+                            </thead>
+                            <tbody id="myTable">
+                            <tr {% for a in Blogcomment%}>
+                                <td>{{ a.article.id }}</td>
+                                <td>{{ a.article.title }}</td>
+                                <td>{{ a.id }}</td>
+                                <td>{{ a.user.username }}</td>
+                                <td>{{ a.comment }}</td>
+                                <td>{{a.getPostDate()|date('d-m-Y,H:i:s')}}</td>
+                                <td>
+                                  <a href=" {{ path('dcAD',{'id':a.id}) }} "><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a>
+                                </td>
+                            </tr {% endfor %}>
+
+                            </tbody>
+                        </table>
+                        <a href=" {{ path('AfficheBA' )}} ">Back to menu </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+
+{% endblock %}

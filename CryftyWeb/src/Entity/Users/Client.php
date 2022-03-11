@@ -21,7 +21,6 @@ class Client extends User
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Users\SupportTicket", mappedBy="Client")
      */
-
     private $supportticket;
 
 
@@ -62,6 +61,16 @@ class Client extends User
      */
     private $address;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $avatar;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $couverture;
+
 
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\NFT\Nft", mappedBy="owner")
@@ -86,6 +95,7 @@ class Client extends User
      * @ORM\ManyToMany(targetEntity="App\Entity\NFT\Nft")
      */
     private $likes;
+
 
     public function __construct()
     {
@@ -223,21 +233,6 @@ class Client extends User
         $this->nfts = $nfts;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
-
-    /**
-     * @param mixed $comments
-     */
-    public function setComments($comments): void
-    {
-        $this->comments = $comments;
-    }
 
     /**
      * @return mixed
@@ -264,6 +259,7 @@ class Client extends User
         }
     }
 
+
     public function addWallet(Wallet $wallet): self
     {
         if (!$this->wallets->contains($wallet)) {
@@ -285,4 +281,38 @@ class Client extends User
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param mixed $avatar
+     */
+    public function setAvatar($avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCouverture()
+    {
+        return $this->couverture;
+    }
+
+    /**
+     * @param mixed $couverture
+     */
+    public function setCouverture($couverture): void
+    {
+        $this->couverture = $couverture;
+    }
+
+
 }

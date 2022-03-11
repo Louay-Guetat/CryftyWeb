@@ -42,6 +42,9 @@
                         </p>
                 </div>
                 <a class="btn btn-theme text-white" href="{{ path('wallet-pdf',{'walletId':wallet.id}) }}"><i class="fa fa-download"></i> Download</a>
+                {% if not wallet.isMain %}
+                <a class="btn btn-secondary text-white" href="{{ path('make-main',{'walletId':wallet.id}) }}"><small><i class="fa fa-check-circle"></i> Make Main Wallet</small></a>
+                {% endif %}
 
             </div>
             <div class="row justify-content-center">
@@ -85,10 +88,28 @@
                 overflow-wrap: break-word;
             }
         </style>
-
+        {% set queryParams = app.request.query.all  %}
         <div class="row mt-3">
         <div class="col-sm-6 ">
-            <h2 class="activity__title">Sent :  </h2>
+            <h2 class="activity__title">Sent :</h2>
+            <ul class="nav nav-pills">
+
+                <li class="nav-item">
+                    <a class="nav-link
+                    {% if app.request.query.get('date_in') == "ASC" %}
+                    active
+                    {% endif %}
+                        " href="{{ path('view-wallet-info', {'walletId':wallet.id}|merge(app.request.query.all)|merge({'date_in':'ASC'})) }}">ASC</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link
+
+                    {% if app.request.query.get('date_in') == "DESC" %}
+                    active
+                    {% endif %}
+                        " href="{{ path('view-wallet-info', {'walletId':wallet.id}|merge(app.request.query.all)|merge({'date_in':'DESC'})) }}">DESC</a>
+                </li>
+            </ul>
             {% if inTransfers is not empty %}
             <table class="table  table-responsive text-center ">
                 <thead class="">
@@ -115,6 +136,25 @@
         </div>
         <div class="col-sm-6 ">
             <h2 class="activity__title">Received :  </h2>
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link
+
+{% if app.request.query.get('date_out') == "ASC" %}
+                    active
+                    {% endif %}
+
+" href="{{ path('view-wallet-info', {'walletId':wallet.id}|merge(app.request.query.all)|merge({'date_out':'ASC'})) }}">ASC</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link
+
+{% if app.request.query.get('date_out') == "DESC" %}
+                    active
+                    {% endif %}
+" href="{{ path('view-wallet-info', {'walletId':wallet.id}|merge(app.request.query.all)|merge({'date_out':'DESC'})) }}">DESC</a>
+                </li>
+            </ul>
             {% if outTransfers is not empty %}
             <table class="table  table-responsive text-center">
                 <thead class="">
@@ -150,4 +190,7 @@
             {{ form_row(transfer_form.senderId,{'attr':{'value':wallet.walletAddress,'readonly':'readonly'}}) }}
         {{ form_end(transfer_form) }}
     </div>
+
+
+
 {% endblock %}

@@ -18,6 +18,9 @@
                     <p>Email : {{ T.email }}</p>
                     <p>Subject : {{ T.subject }}</p>
                     <p>Message : {{ T.message }}</p>
+                    <button type="button" ><a href="{{ path('traite_contact',{'id':T.id}) }}">Traite</a></button>
+                    <button type="button" ><a href="{{ path('abondone_contact',{'id':T.id}) }}">Abondoné</a></button>
+
 
                 </div>
             </div>

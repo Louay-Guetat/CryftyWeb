@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Crypto\Node;
 use App\Entity\Crypto\Wallet;
 use App\Entity\Payment\Transaction;
+use App\Repository\WalletRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -21,20 +22,6 @@ class TransactionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('montant',MoneyType::class,[
-                'label'=>"Montant"
-            ,'label_attr'=>['class'=>'sign__label']
-            ,'attr'=>['class'=>'sign__input']
-            ,'constraints'=>array(new NotNull(['message'=>'ce champs est obligatoire']))])
-            ->add('wallets',EntityType::class,[
-                'class'=>Wallet::class,
-                'required' => false,
-                'choice_label'=>'walletAddress',
-                'label'=>"wallets"
-                ,'label_attr'=>['class'=>'sign__label']
-                ,'attr'=>['class'=>'sign__input']
-                ,'constraints'=>array(new NotNull(['message'=>'ce champs est obligatoire']))
-            ])
             ->add('Payer', SubmitType::class, ['label'=>"Payer",
                 'attr' => ['class' => 'sign__btn'],
             ])

@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\Image;
-
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 //use Symfony\Component\Validator\Constraints\DateTime;
 
 class BlogArticleType extends AbstractType
@@ -32,7 +32,7 @@ class BlogArticleType extends AbstractType
                 ]
             ])
             //->add('contents',TextType::class)
-            ->add('contents',TextareaType::class,[
+            ->add('contents',CKEditorType::class,[
                 'label'=>'Contents',
                 'attr'=>[
                     'placeholder'=>'content'
@@ -72,6 +72,12 @@ class BlogArticleType extends AbstractType
                 ]
                 ,'attr'=>['class'=>'custom-file-input','name'=>'filename','id'=>'customFile','accept' => "image/*"]
                 , 'constraints' => [new Image()]
+            ])
+            ->add('base64',TextareaType::class,[
+                'label'=>'base64',
+                'attr'=>[
+                    'placeholder'=>'base64'
+                ]
             ])
         ;
     }

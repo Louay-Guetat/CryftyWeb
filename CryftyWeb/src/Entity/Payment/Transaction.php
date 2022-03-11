@@ -30,15 +30,6 @@ class Transaction
     }
 
     /**
-     * @ORM\Column(type="float")
-     * @Groups ("cartId:read")
-     * @Groups ("wallets:read")
-     */
-    private $montant;
-
-
-
-    /**
      * @ORM\Column(type="datetime")
      * @Groups ("cartId:read")
      * @Groups ("wallets:read")
@@ -95,22 +86,6 @@ class Transaction
         $this->wallets = $wallets;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getMontant()
-    {
-        return $this->montant;
-    }
-
-    /**
-     * @param mixed $montant
-     */
-    public function setMontant($montant): void
-    {
-        $this->montant = $montant;
-    }
 
     /**
      * @return mixed

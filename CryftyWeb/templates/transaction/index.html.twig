@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TransactionController!{% endblock %}
+{% block title %}Transaction{% endblock %}
 
 {% block body %}
 
@@ -19,10 +19,9 @@
                 <!-- registration form -->
                 <div class="sign__form--create">
                     <div class="sign">
-                        <div class="sign__content" style="margin-left: 250px">
+                        <div class="sign__content">
                             <div class="sign__form">
                                 {{ form_start(f) }}
-                                {{ form_row(f.montant) }}
                                 {{ form_row(f.wallets) }}
                                 {{ form_row(f.Payer) }}
                                 {{ form_end(f) }}

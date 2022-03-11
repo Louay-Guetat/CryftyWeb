@@ -42,6 +42,29 @@ class MailerService
             ->subject('Group deleted')
             ->htmlTemplate('emails/groupdeleted.html.twig')
             ->context($variables);
+    }
+
+
+    public function sendClientVerificationEmail(string $toMail, array $variables){
+        $email = (new TemplatedEmail())
+            ->from('khalilrezgui1607@gmail.com')
+            ->to($toMail)
+            ->subject('Verify Your acount')
+            ->htmlTemplate('emails/ClientVerification.html.twig')
+            ->context($variables);
+        $this->mailer->send($email);
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function sendClientReclamationEmail(string $toMail, array $variables){
+        $email = (new TemplatedEmail())
+            ->from('khalilrezgui1607@gmail.com')
+            ->to($toMail)
+            ->subject('Reclamation ')
+            ->htmlTemplate('emails/ClientReclamation.html.twig')
+            ->context($variables);
         $this->mailer->send($email);
     }
 }

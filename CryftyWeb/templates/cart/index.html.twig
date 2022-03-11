@@ -1,19 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %} Cart {% endblock %}
 
 {% block body %}
     <main class="main">
         <!-- home -->
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="home__content">
-                            <h1 class="home__title">Votre Panier</h1>
-                            {% if dataPanier | length >0 %}
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="home__content">
+                        <h1 class="home__title" style="margin-bottom: 30px">Votre Panier</h1>
+                        {% if dataPanier | length >0 %}
                             <table class="table table-bordered" style="size: 150px">
-                                    <thead>
+                                <thead>
                                 <tr>
                                     <th class="home__text">Title NFT</th>
                                     <th class="home__text">Description</th>
@@ -24,59 +24,98 @@
                                 </thead>
                                 {% for element in dataPanier %}
                                     <tbody>
-                                    <tr>
-                                        <td>{{ element.produit.title }}</td>
-                                        <td class="text-end">{{ element.produit.description }} </td>
-                                        <td><img src="{{asset('NFTS/'~ element.produit.image) }}"></td>
-                                        <td>{{ element.produit.price }} €</td>
+                                    <tr style="text-align: center">
+                                        <td class="home__text">{{ element.produit.title }}</td>
+                                        <td class="home__text">{{ element.produit.description }} </td>
+                                        <td class="home__text"><img src="{{ asset('NFTS/'~ element.produit.image) }}"></td>
+                                        <td class="home__text">{{ element.produit.price }} </td>
                                         <td>
-                                           <a href="{{path('delete_panier', {id: element.produit.id})}}">
-                                               <button class="asset__btn" type="submit">
-                                                   <i class="fa fa-trash"></i> </button></a>
+                                            {%  if is_granted('IS_AUTHENTICATED_FULLY')  %}
+                                            <a href="{{path('delete_panier', {id: element.produit.id})}}" style="background-color: darkred">
+                                                <button class="asset__btn" type="submit">
+                                                    <i class="fa fa-trash" ></i> </button>
                                             </a>
+                                            {% else %}
+                                                <a href="{{path('delete_panier_index', {id: element.produit.id})}}">
+                                                    <button class="asset__btn" type="submit" style="color: red">
+                                                        <i class="fa fa-trash" ></i> </button>
+                                                </a>
+                                                {% endif %}
                                         </td>
                                     </tr>
-
-                                        </tbody>
+                                    </tbody>
                                 {% endfor %}
                                 <tfoot>
                                 {% set tab=0 %}
                                 {% for element in dataPanier %}
-                                {% set tab=tab+element.produit.price %}
+                                    {% set tab=tab+element.produit.price %}
                                 {% endfor %}
                                 <tr>
                                     <td colspan="3" class="home__title">Total : </td>
-                                    <td colspan="2">{{ tab }}</td>
+                                    <td colspan="2" class="home__text" style="text-align: center">{{ tab }}</td>
                                 </tr>
                                 </tfoot>
                             </table>
 
-                            {% else %}
+                        {% else %}
+                                    <h5 class="home__text"> Votre panier est vide</h5>
+                        {% endif %}
 
-                                <h5 class="home__text"> Votre panier est vide</h5>
-
-                            {% endif %}
-                            <div class="sign__form"  style="margin-left: 700px;size: 150px">
-                                {% set tab=0 %}
-                                {% for element in dataPanier %}
-                                    {% set tab=tab+element.produit.price %}
-                                {% endfor %}
-                                <span class="home__text" >Total :{{ tab }}</span>
-                           {# <script src="https://js.stripe.com/v3/"></script> #}
-                            <a href="{{path('TransactionWallet',{'id': cart.id })}}" class="home__btn home__btn--clr">Procéder au paiement avec wallet</a>
-                            <span class="sign__delimiter" style="margin-top: 30px">Or</span>
-                            <button id="checkout-button" class="asset__btn" > Procéder au paiement avec carte bancaire</button>
-
+                        <div class="main__title main__title--border-top col-sm-3">
+                        <a class="sign__btn" href="{{ path("nft") }}">
+                            <i class="fa fa-angle-double-left mx-2"></i> Remplir votre panier</a>
                         </div>
+
+
+                        <div class="sign__form"  style="margin-left: 700px;size: 150px">
+                            {% set tab=0 %}
+                            {% for element in dataPanier %}
+                                {% set tab=tab+element.produit.price %}
+                            {% endfor %}
+                            <span class="home__text" >Total :{{ tab }}</span>
+
+
+                            {%  if is_granted('IS_AUTHENTICATED_FULLY')  %}
+
+
+                            {% if user_wallet.findOneBy({'client' :  app.user.id }).balance >=  tab  and tab != 0 %}
+                                <a href="{{path('TransactionWallet',{'id': cart.id })}}" class="home__btn home__btn--clr">
+                                    Procéder au paiement avec wallet</a>
+                                <span class="sign__delimiter" style="margin-top: 30px">Or</span>
+                                <a href="{{path('stripe',{'id': cart.id })}}" class="home__btn home__btn--clr">
+                                    Procéder au paiement avec carte bancaire
+                                </a>
+                            {% else %}
+                            <a href="{{path('TransactionWallet',{'id': cart.id })}}" class="home__btn home__btn" style="pointer-events: none;
+                            cursor: default;color: #6c757d">
+                                Procéder au paiement avec wallet</a>
+                            <span class="sign__delimiter" style="margin-top: 30px">Or</span>
+                            <a href="{{path('stripe',{'id': cart.id })}}" class="home__btn home__btn" style="pointer-events: none;
+                            cursor: default;color: #6c757d">
+                                Procéder au paiement avec carte bancaire
+                            </a>
+                            {% endif %}
+
+                            {% else %}
+                            <a href="{{path('app_login')}}" class="home__btn home__btn--clr" >
+                                Procéder au paiement avec wallet</a>
+                            <span class="sign__delimiter" style="margin-top: 30px">Or</span>
+                            <a href="{{path('app_login')}}" class="home__btn home__btn--clr" >
+                                Procéder au paiement avec carte bancaire
+                            </a>
+                        {% endif %}
+
+
 
                         </div>
 
                     </div>
+
                 </div>
             </div>
+        </div>
 
         <!-- end home -->
     </main>
 
-    </body>
 {% endblock %}

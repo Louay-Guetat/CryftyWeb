@@ -6,6 +6,7 @@ use App\Repository\NftCommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vangrg\ProfanityBundle\Validator\Constraints as ProfanityAssert;
 
 /**
  * @ORM\Entity(repositoryClass=NftCommentRepository::class)
@@ -23,6 +24,7 @@ class NftComment
 
     /**
      * @ORM\Column (type="string")
+     * @ProfanityAssert\ProfanityCheck
      * @Groups ("comments:read")
      * @Groups ("user:read")
      */

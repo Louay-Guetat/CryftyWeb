@@ -21,7 +21,7 @@ class CryptoRankingController extends AbstractController
     }
 
     /**
-     * @Route ("rankings/list", name="rankings-list")
+         * @Route ("rankings/list", name="rankings-list")
      * @throws TransportExceptionInterface
      */
     public function fetchAPIMarketList(PaginatorInterface $paginator, Request $request): Response

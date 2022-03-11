@@ -47,4 +47,15 @@ class NodeRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function searchByName(string $search)
+    {
+        return $this->createQueryBuilder('n')
+            ->select('n','b')
+            ->join('n.blocks', 'b')
+        ->andWhere('n.nodeLabel LIKE :val')
+        ->setParameter('val', '%'.$search.'%')
+        ->getQuery()
+        ->getArrayResult()
+        ;
+    }
 }

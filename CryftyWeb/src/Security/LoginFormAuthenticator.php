@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Security;
@@ -74,6 +75,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         if (!$user) {
             throw new UsernameNotFoundException('Username could not be found.');
         }
+        if(!$user->getIsActive()){
+            throw new UsernameNotFoundException('Username could not be found.');
+
+        }
 
         return $user;
     }
@@ -99,7 +104,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $user = $this->security->getUser();
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         if(['ROLE_USER'] == $user->getRoles()) {
-            return new RedirectResponse($this->urlGenerator->generate('nft'));
+
+                return new RedirectResponse($this->urlGenerator->generate('nft'));
+
         }
         else{
             return new RedirectResponse($this->urlGenerator->generate('Clientlist'));

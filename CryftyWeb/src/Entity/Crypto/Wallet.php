@@ -37,7 +37,7 @@ class Wallet
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Assert\NotBlank
      */
-    private $NodeId;
+    private $nodeId;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -64,10 +64,6 @@ class Wallet
         return $this->id;
     }
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Payment\Cart",mappedBy="wallets")
-     */
-    private $cartwallet;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -87,18 +83,7 @@ class Wallet
     /**
      * @return mixed
      */
-    public function getCartwallet()
-    {
-        return $this->cartwallet;
-    }
 
-    /**
-     * @param mixed $cartwallet
-     */
-    public function setCartwallet($cartwallet): void
-    {
-        $this->cartwallet = $cartwallet;
-    }
 
 
     public function getWalletAddress(): ?string
@@ -127,12 +112,12 @@ class Wallet
 
     public function getNodeId(): ?Node
     {
-        return $this->NodeId;
+        return $this->nodeId;
     }
 
-    public function setNodeId(Node $NodeId): self
+    public function setNodeId(Node $nodeId): self
     {
-        $this->NodeId = $NodeId;
+        $this->nodeId = $nodeId;
 
         return $this;
     }

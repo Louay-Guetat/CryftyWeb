@@ -178,32 +178,56 @@
         <div class="header__menu">
             <ul class="header__nav">
                 <li class="header__nav-item">
-                    <a class="header__nav-link" href="{{ path ('nft') }}" role="button"  aria-haspopup="true" aria-expanded="false">Home<path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></svg></a>
+                    <a class="header__nav-link" href="{{ path ('nft') }}" role="button"  aria-haspopup="true" aria-expanded="false">Home<path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></a>
                 </li>
                 <li class="header__nav-item">
-                    <a class="header__nav-link" href="{{ path ('AfficheNft') }}" role="button"  aria-haspopup="true" aria-expanded="false">Explore <path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></svg></a>
+                    <a class="header__nav-link" href="{{ path ('AfficheNft') }}" role="button"  aria-haspopup="true" aria-expanded="false">Explore <path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></a>
                 </li>
 
-
                 <li class="header__nav-item">
-                    <a class="header__nav-link" href="{{ path('AfficheBA') }}" role="button" aria-haspopup="true" aria-expanded="false">Blogs <path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></svg></a>
-                </li>
-                <li class="header__nav-item">
-                    <a class="header__nav-link" href="#" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></svg></a>
+                    <a class="header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Rankings <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></svg></a>
 
-                    <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="authors.html">Authors</a></li>
-                        <li><a href="author.html">Author</a></li>
-                        <li><a href="collection.html">Collection</a></li>
-                        <li><a href="create.html">Create</a></li>
+                    <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenuHome">
+
+                        <li><a href="{{ path ('rankings-list') }}">Crypto Currency</a></li>
+
                     </ul>
                 </li>
-                <li class="header__nav-item">
-                    <a class="header__nav-link" href="/panier" role="button" aria-haspopup="true" aria-expanded="false">Panier</a>
 
+
+                <li class="header__nav-item">
+                    <a class="header__nav-link" href="{{ path('AfficheBA') }}" role="button" aria-haspopup="true" aria-expanded="false">Blogs <path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></a>
                 </li>
                 <li class="header__nav-item">
-                    <a class="header__nav-link" href="/afficheTransaction/" role="button" aria-haspopup="true" aria-expanded="false">Transaction</a>
+                    <a class="header__nav-link" href="#" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Rankings <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></svg></a>
+
+                    <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="{{ path('nftRanking') }}">Nft Ranking</a></li>
+                        <li><a href="{{ path('rankings-list') }}">Crypto Ranking</a></li>
+                    </ul>
+                </li>
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
+
+                    <li class="header__nav-item">
+                    <a class="header__nav-link" href="/cart/panier" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-shopping-cart" style="color: white;size: 60px"></i>
+                        <div style="border-radius: 40px;margin-top:20px;background-color: darkred;color: white;size: 5px">&nbsp;
+                    {% if  app.session.get('nbNft')  > 0 %}
+                            {{ app.session.get('nbNft') }} &nbsp;
+                            {% else %} 0 &nbsp; {% endif %}
+                        </div>Panier</a>
+                </li>
+                {% else %}
+                <li class="header__nav-item">
+                    <a class="header__nav-link" href="/panier" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-shopping-cart" style="color: white;size: 60px"></i>
+                    <div style="border-radius: 40px;margin-top:20px;background-color: darkred;color: white;size: 5px">&nbsp;
+                        {% if  app.session.get('nbNft')  > 0 %}
+                        {{ app.session.get('nbNft') }} &nbsp;
+                        {% else %} 0 &nbsp; {% endif %}
+                    </div>Panier</a>
+                </li>
+                {% endif %}
+                <li class="header__nav-item">
+                    <a class="header__nav-link" href="/transaction/afficheTransaction/" role="button" aria-haspopup="true" aria-expanded="false">Transaction</a>
 
                 </li>
 
@@ -238,16 +262,25 @@
 {% else %}
     <div class="header__action header__action--profile">
         <a class="header__profile-btn header__profile-btn--verified" href="#" role="button" id="dropdownMenuProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="img/avatars/avatar5.jpg" alt="">
+
+            <img src="{{ asset("uploads/avatar/"~ app.user.avatar) }}" alt="">
             <div><p>{{ app.user.username }}</p>
-                <span>{{ user_wallet.findOneBy({'client' : app.user.id,'isMain': true}).balance }}
-                    {{ user_wallet.findOneBy({'client' : app.user.id,'isMain': true}).nodeId.coinCode }}</span></div>
+                <span>
+
+                    {% if user_wallet.findOneBy({'client' : app.user.id,'isMain': true}) is not null %}
+                    {{ user_wallet.findOneBy({'client' : app.user.id,'isMain': true}).balance }}
+                    {{ user_wallet.findOneBy({'client' : app.user.id,'isMain': true}).nodeId.coinCode }}
+                    {% else %}
+                    <small class="text-danger">no Wallet</small>
+                    {% endif %}
+                </span></div>
+
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path></svg>
         </a>
 
         <ul class="dropdown-menu header__profile-menu" aria-labelledby="dropdownMenuProfile" style="">
             <li><a href="{{ path('client-profil',{'id':app.user.id}) }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.71,12.71a6,6,0,1,0-7.42,0,10,10,0,0,0-6.22,8.18,1,1,0,0,0,2,.22,8,8,0,0,1,15.9,0,1,1,0,0,0,1,.89h.11a1,1,0,0,0,.88-1.1A10,10,0,0,0,15.71,12.71ZM12,12a4,4,0,1,1,4-4A4,4,0,0,1,12,12Z"></path></svg> <span>Profile</span></a></li>
-            <li><a href="create.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,13H4a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h6a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,19H5V15H9ZM20,3H14a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h6a1,1,0,0,0,1-1V4A1,1,0,0,0,20,3ZM19,9H15V5h4Zm1,7H18V14a1,1,0,0,0-2,0v2H14a1,1,0,0,0,0,2h2v2a1,1,0,0,0,2,0V18h2a1,1,0,0,0,0-2ZM10,3H4A1,1,0,0,0,3,4v6a1,1,0,0,0,1,1h6a1,1,0,0,0,1-1V4A1,1,0,0,0,10,3ZM9,9H5V5H9Z"></path></svg> <span>Réclamations</span></a></li>
+            <li><a href="{{ path('Mreclamation',{'id':app.user.id}) }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,13H4a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h6a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,19H5V15H9ZM20,3H14a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h6a1,1,0,0,0,1-1V4A1,1,0,0,0,20,3ZM19,9H15V5h4Zm1,7H18V14a1,1,0,0,0-2,0v2H14a1,1,0,0,0,0,2h2v2a1,1,0,0,0,2,0V18h2a1,1,0,0,0,0-2ZM10,3H4A1,1,0,0,0,3,4v6a1,1,0,0,0,1,1h6a1,1,0,0,0,1-1V4A1,1,0,0,0,10,3ZM9,9H5V5H9Z"></path></svg> <span>Réclamations</span></a></li>
             <li><a href="author.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.9,12.66a1,1,0,0,1,0-1.32L21.18,9.9a1,1,0,0,0,.12-1.17l-2-3.46a1,1,0,0,0-1.07-.48l-1.88.38a1,1,0,0,1-1.15-.66l-.61-1.83A1,1,0,0,0,13.64,2h-4a1,1,0,0,0-1,.68L8.08,4.51a1,1,0,0,1-1.15.66L5,4.79A1,1,0,0,0,4,5.27L2,8.73A1,1,0,0,0,2.1,9.9l1.27,1.44a1,1,0,0,1,0,1.32L2.1,14.1A1,1,0,0,0,2,15.27l2,3.46a1,1,0,0,0,1.07.48l1.88-.38a1,1,0,0,1,1.15.66l.61,1.83a1,1,0,0,0,1,.68h4a1,1,0,0,0,.95-.68l.61-1.83a1,1,0,0,1,1.15-.66l1.88.38a1,1,0,0,0,1.07-.48l2-3.46a1,1,0,0,0-.12-1.17ZM18.41,14l.8.9-1.28,2.22-1.18-.24a3,3,0,0,0-3.45,2L12.92,20H10.36L10,18.86a3,3,0,0,0-3.45-2l-1.18.24L4.07,14.89l.8-.9a3,3,0,0,0,0-4l-.8-.9L5.35,6.89l1.18.24a3,3,0,0,0,3.45-2L10.36,4h2.56l.38,1.14a3,3,0,0,0,3.45,2l1.18-.24,1.28,2.22-.8.9A3,3,0,0,0,18.41,14ZM11.64,8a4,4,0,1,0,4,4A4,4,0,0,0,11.64,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,11.64,14Z"></path></svg> <span>Settings</span></a></li>
             <li><a href="{{ path('app_logout') }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z"></path></svg> <span>Sign out</span></a></li>
             <li><a href="{{ path('Contact_add') }}">Contact</a></li>
@@ -264,12 +297,15 @@
         </button>
     </div>
 </header>
+
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
 <div class="container-wa">
     <div class="card">
         <div class="mb-2">
         <span class="fw-5 h6">Your Chats</span> <a href="{{ path('listUser') }}" class="btn btn-primary btn-sm">Add New Group</a>
         </div>
+
         {% set groups = chat_group.findAll()  %}
         {% set privates = chat_private.UsersContacter(app.user.id) %}
 
@@ -338,5 +374,4 @@
 
     </div>
 </div>
-
 {% endif %}

@@ -1,53 +1,56 @@
 {% extends 'baseAdmin.html.twig' %}
-{% block title %}Hello CartController!{% endblock %}
+{% block title %} Transaction {% endblock %}
 
 {% block body %}
-<section id="main-content">
-    <section class="wrapper site-min-height">
-        <div><h3><i class="fa fa-angle-right"></i> Transaction : </h3>
-        <form action="{{ path('r') }}" style="float: right">
-            <input type="text" placeholder="nom du client" name="rechercher">
-            <input type="submit" value="Rechercher">
-        </form></div>
-        <div class="row mt">
-            <div class="col-lg-12">
-                <section id="unseen">
+    <section id="main-content">
+        <section class="wrapper site-min-height">
+            <div>
+                <div><h3><i class="fa fa-angle-right"></i> Transaction : </h3>
+                <form action="{{ path('r') }}" style="float: right">
+                    <input type="text" placeholder="nom du client" name="rechercher" id="myInput">
+                    <input type="submit" value="Rechercher">
+                </form></div>
+            <div class="row mt">
+                <div class="col-lg-12">
+                    <section id="unseen">
 
-                    <style>
-                        th,td {
-                            text-align: center;
-                        }
-                    </style>
+                        <style>
+                            th,td {
+                                text-align: center;
+                            }
+                        </style>
 
 
-            <table border="3" style="size: 150px"class="table table-bordered table-striped table-condensed " >
-                <thead>
+                        <table border="3" style="size: 150px"class="table table-bordered table-striped table-condensed " >
+                            <thead>
 
-                <tr>
-                    <th class="home__text"></th>
-                    <th class="home__text">Client</th>
-                    <th class="home__text">Montant</th>
-                    <th class="home__text">Date Transaction</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for trans in t %}
-                    <tr>
-                        <td class="home__text">{{ trans.id }}</td>
-                        <td class="home__text">{{ trans.cartId.clientId.firstname}}</td>
-                        <td class="home__text">{{ trans.montant }}</td>
-                        <td class="home__text">{{ trans.datetransaction|date }}</td>
-                    </tr>
-                {% endfor %}
-                {{ knp_pagination_render(t) }}
+                            <tr>
+                                <th class="home__text"></th>
+                                <th class="home__text">Client</th>
+                                <th class="home__text">Montant</th>
+                                <th class="home__text">Date Transaction</th>
+                            </tr>
+                            </thead>
+                            <tbody id="idContenuTransaction">
+                            {% for trans in t %}
+                                <tr>
+                                    <td class="home__text">{{ trans.id }}</td>
+                                    <td class="home__text">{{ trans.cartId.clientId.firstname}}</td>
+                                    <td class="home__text">{{ trans.cartId.total }}</td>
+                                    <td class="home__text">{{ trans.datetransaction|date }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <div style="text-align: center">
+                            {{ knp_pagination_render(t) }}
+                        </div>
 
-                </tbody>
-            </table>
-
-                </section>
+                    </section>
+                </div>
             </div>
-        </div>
+            </div>
+        </section>
+        <!-- /wrapper -->
     </section>
-    <!-- /wrapper -->
-</section>
 {% endblock %}
