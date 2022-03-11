@@ -272,6 +272,7 @@
         </div>
         {% set groups = chat_group.findAll()  %}
         {% set privates = chat_private.UsersContacter(app.user.id) %}
+
         <div>
             <ul class="list-group">
                 {% for private in privates %}
@@ -281,10 +282,15 @@
                                  src="{{ asset('uploads/walletImages/defaultImage.png') }}"/>
                             {% if private.Sender.id ==app.user.id %}
                                 {{  private.Received.Username }}
+
                             {% else %}
                                 {{ private.Sender.Username }}
+
                             {% endif %}
                         </a>
+                     {% set lastmsg = chat_message.AffichelastMsg(private.id) %}
+                    {% if lastmsg is empty %}
+                    <p></p>{% else %}<p> {{ lastmsg[0]["contenu"] }}</p>{% endif %}
                     </li>
                 {% endfor %}
 
@@ -297,6 +303,12 @@
                              src="{{ asset('uploads/walletImages/defaultImage.png') }}"/>
                         {{ gr.nom }}
                     </a>
+                    {% set lastmsgG = chat_message.AffichelastMsg(gr.id) %} {% if lastmsgG is empty %}
+                    <p></p>{% else %}<p> {{ lastmsgG[0]["contenu"] }}</p>{% endif %}
+                    <td class="numeric">
+                        <a style="float: right" href="{{ path('del',{'id2': gr.id }) }}" class="btn btn-theme04 btn-sm "onclick="return confirm('are u sure?')"><i style="color: brown" class="fa fa-trash " ></i>
+                        </a>
+                    </td>
                 </li>
                     {% endif %}
                 {% endfor %}
@@ -310,6 +322,9 @@
                              src="{{ asset('uploads/walletImages/defaultImage.png') }}"/>
                         {{ gr.nom }}
                     </a>
+
+                    {% set lastmsgG2 = chat_message.AffichelastMsg(gr.id) %} {% if lastmsgG2 is empty %}
+                    <p> </p>{% else %}<p>{{ lastmsgG2[0]["contenu"] }}</p>{% endif %}
                 </li>
                         {% endif %}
                 {% endfor %}

@@ -53,4 +53,5 @@ security:
          - { path: ^/chat, roles: ROLE_USER }
          - { path: ^/wallet, roles: ROLE_USER }
          - { path: ^/nft, roles: ROLE_USER }
+         - { path: ^/profile, roles: ROLE_USER }
 

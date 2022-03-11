@@ -5,13 +5,10 @@
     <section id="main-content">
         <section class="wrapper site-min-height">
             <div><h3><i class="fa fa-angle-right"></i> Groups </h3>
-                <form action="{{ path('searchGroups') }}" style="float: right">
-                    <input type="text" placeholder="Group name" name="search">
-                    <input type="submit" value="search">
-                </form></div>
-            <div class="row mt">
+                </div>
+            <div class="row mt" >
                 <div class="col-lg-12">
-                    <section id="unseen">
+                    <section id="unseen" >
 
                         <style>
                             th,td {
@@ -20,12 +17,14 @@
                         </style>
 
 
-                        <table border="3" style="size: 150px"class="table table-bordered table-striped table-condensed " >
-                            <thead>
+                        <div>
 
-                            <tr>
+                            <table id="Groups" border="3" style="size: 150px" class="table table-bordered table-striped table-condensed " >
+                                <thead>
+
+                            <tr >
                                 <th class="home__text"></th>
-                                <th class="home__text">Group</th>
+
                                 <th class="home__text">Name</th>
                                 <th class="home__text">Owner </th>
                                 <th class="home__text">Members </th>
@@ -35,28 +34,34 @@
                             <tbody>
 
                             {% for group in groups %}
-                                <tr>
+                                <tr class="group">
                                     <td class="home__text">{{ group.id }}</td>
                                     <td class="home__text">{{ group.nom }}</td>
-                                    <td class="home__text">{{ group.owner.id }}</td>
-                                    {% for member in group.getParticipants %}
-                                    <td class="home__text">{{ member.username }}</td>
-                                {% endfor %}
-                                     <td class="numeric"><a href="{{ path('delete_Group',{'id': group.id }) }}" class="btn btn-theme04 btn-sm"onclick="return confirm('are u sure?')"s>Delete</a></td>
-                                    </tr>
+                                    <td>{{ group.owner.username }}</td>
+
+                                        <td class="home__text">
+                                            {% for member in group.getParticipants %}
+                                            {{ member.username }}<br>
+                                            {% endfor %}
+                                        </td>
+
+                                    <td class="numeric"><a href="{{ path('delete_Group',{'id': group.id }) }}" class="btn btn-theme04 btn-sm"onclick="return confirm('are u sure?')"s>Delete</a></td>
+                                </tr>
 
 
 
-                                    {% endfor %}
-                                    {{ knp_pagination_render(groups) }}
+                            {% endfor %}
+                            {{ knp_pagination_render(groups) }}
                             </tbody>
-                        </table>
+                            </table>
 
+
+                        </div>
                     </section>
                 </div>
             </div>
         </section>
         <!-- /wrapper -->
     </section>
-{% endblock %}
 
+{% endblock %}

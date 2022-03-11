@@ -31,4 +31,17 @@ class MailerService
             ->context($variables);
         $this->mailer->send($email);
     }
+
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function sendEmailwherGroupDeleted(string $toMail, array $variables){
+        $email = (new TemplatedEmail())
+            ->from('khalilrezgui1607@gmail.com')
+            ->to($toMail)
+            ->subject('Group deleted')
+            ->htmlTemplate('emails/groupdeleted.html.twig')
+            ->context($variables);
+        $this->mailer->send($email);
+    }
 }

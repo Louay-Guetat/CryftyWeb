@@ -12,13 +12,24 @@
                     <div class="sign">
                         <div class="sign__content">
                             <div action="#" class="sign__form">
+                                {% if updateGroup ==true %}
+                                <div class="title ">
+                                  <h2 style="color: white">Edit group</h2>
+                                </div>
+                                {% else %}
                                 <div class="title ">
                                     <h2 style="color: white">Add new group</h2>
                                 </div>
+                                {% endif %}
                                 <div >
                                     {{ form_start(form) }}
-                                    {{ form_row(form) }}
-                                    <button class="sign__btn" type="submit">Create GROUP</button>
+                                    <small class="text-danger ml-3">   {{ form_errors(form.nom) }}</small>
+                                    {{ form_label(form.nom) }}
+                                    {{ form_widget(form.nom) }}
+                                    <small class="text-danger ml-3">   {{ form_errors(form.Participants) }}</small>
+                                    {{ form_label(form.Participants) }}
+                                    {{ form_widget(form.Participants) }}
+
                                     {{ form_end(form) }}
                                 </div>
                             </div>

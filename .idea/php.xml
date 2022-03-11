@@ -284,6 +284,10 @@
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/knplabs/knp-snappy" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/sebastian/type" />
       <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/mercure" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/symfony/mercure-bundle" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/lcobucci/clock" />
+      <path value="$PROJECT_DIR$/CryftyWeb/vendor/spatie/emoji" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
