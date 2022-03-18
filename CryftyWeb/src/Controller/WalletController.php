@@ -242,7 +242,8 @@ class WalletController extends AbstractController
         $transferForm->handleRequest($request);
         if($transferForm->isSubmitted() && $transferForm->isValid())
         {
-         $this->transferCrypto($request,$walletRepository,$blockRepository);
+            $this->transferCrypto($request,$walletRepository,$blockRepository);
+            $this->redirectToRoute("view-wallet-info",['walletId' => $walletId]);
         }
 
         $transferOutArray = $transferRepository->findBy(array('senderId'=>$walletId));
@@ -371,10 +372,7 @@ class WalletController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $imageFile = $form->get('image')->getData();
-
-
             if ($imageFile) {
-
                 $safeFilename = bin2hex(random_bytes(16));
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
 
@@ -388,10 +386,6 @@ class WalletController extends AbstractController
                 }
                 $walletToUpdate->setWalletImageFileName($newFilename);
             }
-
-
-
-
 
             $em = $this->getDoctrine()->getManager();
             $count = $blockRepository->countUserBlocks($walletToUpdate->getId());
@@ -466,5 +460,7 @@ class WalletController extends AbstractController
                "Not Enough Crypto"
            );
        }
+
+
     }
 }

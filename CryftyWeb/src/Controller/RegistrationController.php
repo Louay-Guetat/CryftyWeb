@@ -287,7 +287,8 @@ class RegistrationController extends AbstractController
         }
         $nfts = $nftRepository->findBy(['owner'=>$id]);
         return $this->render('registration/clientProfile.html.twig',['form' => $updateForm->createView(),'nfts'=>$nfts,
-            'user' => $userToUpdate
+            'user' => $userToUpdate,
+            'id' => $id
         ]);
         }
 

@@ -24,6 +24,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -246,9 +247,14 @@ class NFTController extends AbstractController
     public function ModifierNft(Request $request, $id, NftRepository $repository){
         $nft =$repository->find($id);
         $nftForm = $this->createForm(AjoutNftType::class,$nft);
-
+        $nftForm->add('image', TextType::class,[
+            'data' => 'NFTS/'.$nft->getImage(),
+            'disabled'=>true,
+            'attr'=>['hidden' => true]
+        ]);
         $nftForm->handleRequest($request);
-        if(($nftForm->isSubmitted()) && $nftForm->isValid()){
+        if (($nftForm->isSubmitted()) && $nftForm->isValid()) {
+            $nft->setImage($nft->getImage());
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('nft');

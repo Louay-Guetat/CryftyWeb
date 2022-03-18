@@ -158,7 +158,7 @@ class ChatController extends AbstractController
                     'multiple'=>true,
                     'label'=>"Choice your participant group",
                     'label_attr'=>['class'=>'sign__label']
-                    ,'attr'=>['class'=>'sign__input']
+                    ,'attr'=>['class'=>'sign__input'],'constraints'=>array( new count(['min'=>2]))
 
                 ]);
 
@@ -313,7 +313,7 @@ class ChatController extends AbstractController
     //!!!!!!!!!!!!!start backoffice!!!!!!!!!!!!!!!!!!!
 
     /**
-     * @Route("chat/AdminGroups", name="AdminGroups")
+     * @Route("admin/AdminGroups", name="AdminGroups")
      */
     public function index(PaginatorInterface $paginator,Request $request,GroupChatRepository  $repository): Response
     {
@@ -326,7 +326,7 @@ class ChatController extends AbstractController
     }
     /**
 
-     * @Route ("chat/Delete/{id}", name="delete_Group")
+     * @Route ("admin/Delete/{id}", name="delete_Group")
      */
     function DeleteGroup( GroupChatRepository  $repository,$id){
 

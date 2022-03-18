@@ -24,12 +24,12 @@
                                 <p>3829</p>
                                 <span>Followers</span>
                             </div>
-                            {% for item in nfts %}
-                            <button class="author__follow" type="button"> <a href="{{ path('Privatechat',{'id1':item.owner.id}) }}" class="card__cover">
+
+                            <button class="author__follow" type="button"> <a href="{{ path('Privatechat',{'id1':id}) }}" class="card__cover">
                                <i class="fa fa-comments icon wa" style="margin-top:15px;color:#fff; width: 30px;font-size:25px;height: 30px;" aria-hidden="true"></i>
                         </a>
                             </button>
-                            {% endfor %}
+
                         </div>
                     </div>
                 </div>

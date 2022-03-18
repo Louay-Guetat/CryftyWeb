@@ -106,11 +106,13 @@ class TransactionController extends AbstractController
         foreach($cartNft as $nft)
         {
             $author = $nft->getOwner();
+            $nft->setOwner($this->getUser()) ;
 
             //wallet tezedelha flous
             $authWallet = $walletRepository->findOneBy(array('client' => $author,'isMain' => true));
 
             $authWallet->setBalance($authWallet->getBalance() + $nft->getPrice() );
+            $buyerWallet->setBalance($buyerWallet->getBalance() - $nft->getPrice());
 
             $walletBlocks = $blockRepository->findBy(array('wallet'=> $buyerWallet));
 
@@ -128,13 +130,8 @@ class TransactionController extends AbstractController
             $nft->setCartProd(null);
                 $em->flush();
         }
-        $count = $blockRepository->countUserBlocks($buyerWallet->getNodeId()->getNodeReward() );
-        if ($count != null ) {
-            $buyerWallet->setBalance($count* $buyerWallet->getNodeId()->getNodeReward());
-        }
-        else{
-            $buyerWallet->setBalance(0);
-        }
+
+
         $idcart->setNftProd(null);
         $em->flush();
 

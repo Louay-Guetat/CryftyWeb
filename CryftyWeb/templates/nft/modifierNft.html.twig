@@ -58,6 +58,7 @@
                             <div class="col-12">
                                 <div class="author__text">
                             {{ form_start(formModifierNft) }}
+                                    {{ form_widget(formModifierNft.image, { 'attr': {'class': 'hidden'} }) }}
                             {{ form_widget(formModifierNft) }}
                             {{  form_row(formModifierNft) }}
                             {{ form_errors(formModifierNft) }}
