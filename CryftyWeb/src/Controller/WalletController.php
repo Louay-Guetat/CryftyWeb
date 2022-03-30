@@ -28,6 +28,7 @@ use Doctrine\ORM\NoResultException;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -205,6 +206,7 @@ class WalletController extends AbstractController
      * @Route("wallet/viewWallets/", name="view-wallets")
      * @param WalletRepository $walletRepository
      * @param ClientRepository $clientRepository
+     * @param Request $request
      * @return Response
      */
     public function viewWallets(WalletRepository $walletRepository,ClientRepository $clientRepository,Request $request):Response
@@ -411,6 +413,7 @@ class WalletController extends AbstractController
     }
 
 
+
     private function transferCrypto(Request $request,WalletRepository $walletRepository,BlockRepository $blockRepository):void{
        $data = $request->request->get("transfer");
        $amount = $request->request->get("amount");
@@ -463,4 +466,5 @@ class WalletController extends AbstractController
 
 
     }
+
 }

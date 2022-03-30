@@ -23,6 +23,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Knp\Component\Pager\PaginatorInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class BlogArticleController extends AbstractController
 {
@@ -279,12 +280,14 @@ class BlogArticleController extends AbstractController
         $contents = $request->query->get("contents");
         $em = $this->getDoctrine()->getManager();
         $date = new \DateTime('now');
+        $image =$request->query->get("image");
 
         $article->setTitle($title);
         $article->setCategory($category);
         $article->setContents($contents);
         $article->setAuthor($author);
         $article->setDate($date);
+        $article->setImage($image);
 
         $em->persist($article);
         $em->flush();
@@ -298,7 +301,7 @@ class BlogArticleController extends AbstractController
 
     /**
      * @param Request $request
-     * @Route("/deleteReclamation", name="delete_reclamation")
+     * @Route("/deleteArticle", name="delete_article")
      * @Method("DELETE")
      */
 
@@ -312,11 +315,11 @@ class BlogArticleController extends AbstractController
             $em->flush();
 
             $serialize = new Serializer([new ObjectNormalizer()]);
-            $formatted = $serialize->normalize("Reclamation a ete supprimee avec success.");
+            $formatted = $serialize->normalize("Article a ete supprimee avec success.");
             return new JsonResponse($formatted);
 
         }
-        return new JsonResponse("id reclamation invalide.");
+        return new JsonResponse("id article invalide.");
 
 
     }
@@ -324,10 +327,10 @@ class BlogArticleController extends AbstractController
     /******************Modifier Reclamation*****************************************/
     /**
      * @param Request $request
-     * @Route("/updateReclamation", name="update_reclamation")
+     * @Route("/updateArticle", name="update_article")
      * @Method("PUT")
      */
-    public function modifierArticle(Request $request) {
+    public function modifierArticle(Request $request,SerializerInterface $serializer) {
         $em = $this->getDoctrine()->getManager();
         $article = $this->getDoctrine()->getManager()
             ->getRepository(BlogArticle::class)
@@ -341,12 +344,9 @@ class BlogArticleController extends AbstractController
 
         $em->persist($article);
         $em->flush();
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($article);
-        return new JsonResponse("Reclamation a ete modifiee avec success.");
-
+        $formatted = $serializer->normalize($article,200,['groups'=>[]]);
+        return new JsonResponse($formatted);
     }
-
 
 
     /******************affichage Reclamation*****************************************/
@@ -354,12 +354,12 @@ class BlogArticleController extends AbstractController
     /**
      * @Route("/displayReclamations", name="display_reclamation")
      */
-    public function allRecAction()
+    public function allArAction()
     {
 
-        $reclamation = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->findAll();
+        $article = $this->getDoctrine()->getManager()->getRepository(BlogArticle::class)->findAll();
         $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($reclamation);
+        $formatted = $serializer->normalize($article);
 
         return new JsonResponse($formatted);
 

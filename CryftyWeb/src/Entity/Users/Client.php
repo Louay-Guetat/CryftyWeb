@@ -3,12 +3,16 @@
 namespace App\Entity\Users;
 
 use App\Entity\Crypto\Wallet;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Repository\WalletRepository;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+
 
 
 
@@ -21,16 +25,19 @@ class Client extends User
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Users\SupportTicket", mappedBy="Client")
      */
+
     private $supportticket;
 
 
     /**
      * @Assert\Length(min=3,max=255)
      * @ORM\Column(type="string", length=255)
+     * @Groups("users:read")
      */
     private $firstName;
 
     /**
+     * @Groups("wallets:read")
      * @Assert\Length(min=3,max=255)
      * @ORM\Column(type="string", length=255)
      */
@@ -40,12 +47,14 @@ class Client extends User
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Email is required")
      * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
+     * @Groups("users:read")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Regex("/^[0-9]{8}$/")
+     * @Groups("users:read")
      */
     private $phoneNumber;
 
@@ -95,7 +104,6 @@ class Client extends User
      * @ORM\ManyToMany(targetEntity="App\Entity\NFT\Nft")
      */
     private $likes;
-
 
     public function __construct()
     {
@@ -233,6 +241,21 @@ class Client extends User
         $this->nfts = $nfts;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
 
     /**
      * @return mixed
@@ -258,7 +281,6 @@ class Client extends User
             }
         }
     }
-
 
     public function addWallet(Wallet $wallet): self
     {

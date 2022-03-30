@@ -17,20 +17,20 @@ class GroupChat extends Conversation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("post:read")
-     * @Groups("owner:read")
+     * @Groups("participants:read")
+     * @Groups("ownerGroup:read")
      */
     protected $id;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Users\User")
-     * @Groups("post:read")
+     * @Groups("participants:read")
      */
     private $participants;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users\User", inversedBy="Group")
-     * @Groups("owner:read")
+     * @Groups("ownerGroup:read")
      */
     private $Owner;
 
@@ -40,6 +40,8 @@ class GroupChat extends Conversation
     public function __construct()
     {
         $this->participants = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $this->Owner = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 

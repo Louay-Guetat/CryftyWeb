@@ -16,18 +16,20 @@ class PrivateChat extends Conversation
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("messages:read")
-     * @Groups("Sender:read")
+     * @Groups("PrivateChat:read")
      */
     protected $id;
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users\User", inversedBy ="privateChatSender")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users\User", inversedBy="privateChatSender")
+     * @Groups("PrivateChat:read")
      */
     private $Sender;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users\User", inversedBy="privateChatReceived")
+     * @Groups("PrivateChat:read")
      */
     private $Received;
 
@@ -46,10 +48,6 @@ class PrivateChat extends Conversation
     {
         $this->Sender = $Sender;
     }
-
-
-
-
 
 
     /**

@@ -173,33 +173,6 @@ class TransactionController extends AbstractController
         return $this->render('transaction/adminTransaction.html.twig',['t'=>$transaction1]);
     }
 
-    /**
-     * @Route ("transaction/afficheTransactiontest",name="AfficheTest",methods={"GET"})
-     */
-    function AfficherTransactionTest(TransactionRepository $repository,CartRepository $cartRepository){
-        $transaction=$repository->findAll();
-        //return $this->render('transaction/adminTransaction.html.twig',['t'=>$transaction]);
-        return $this->json($transaction,200,[],['groups'=>['cartId:read','wallets:read']]);
-    }
-    /**
-     * @Route("AddTransactionTest", name="AddTransactionTest")
-     * @Method ("POST")
-     */
-    public function ajouterTransactionTest(Request $request,
-                                           SerializerInterface $serializer,
-                                           TransactionRepository $transactionRepository)
-    {
-        $montant=$request->query->get("montant");
-        $transaction = new Transaction();
-        $transaction->setMontant($montant);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($transaction);
-        $em->flush();
-
-        $formatted = $serializer->normalize($transaction,200,['groups'=>['cartId:read','wallets:read']]);
-        return new JsonResponse($formatted);
-
-    }
 
     /**
      * @Route("transaction/pdfTransaction/{id}", name="pdfTransaction")
@@ -229,5 +202,50 @@ class TransactionController extends AbstractController
             $knpSnappyPdf->getOutputFromHtml($html),
             'file.pdf'
         );
+    }
+
+    /**
+     * @Route ("afficheTransactiontest/{id}",name="AfficheTest",methods={"GET"})
+     */
+    function AfficherTransactionTest(TransactionRepository $repository,CartRepository $cartRepository,$id){
+        //$transaction=$repository->find($id);
+        //return $this->render('transaction/adminTransaction.html.twig',['t'=>$transaction]);
+        $cartTr=$cartRepository->find($id);
+        $transaction=$repository->afficherTransaction($cartTr);
+        return $this->json($transaction,200,[],['groups'=>['cartId:read','wallets:read']]);
+    }
+    /**
+     * @Route("AddTransactionTest", name="AddTransactionTest")
+     * @Method ("POST")
+     */
+    public function ajouterTransactionTest(Request $request,
+                                           SerializerInterface $serializer,
+                                           TransactionRepository $transactionRepository,BlockRepository $blockRepository,
+                                           CartRepository $cartRepository,WalletRepository $walletRepository)
+    {
+        $adresseWallet=$request->query->get("wallets");
+        $cartId=$request->query->get("cartId");
+        $transaction = new Transaction();
+        $transaction->setWallets($this->getDoctrine()->getManager()->getRepository(Wallet::class)->find($adresseWallet));
+        $transaction->setCartId($this->getDoctrine()->getManager()->getRepository(Cart::class)->find($cartId));
+        $em = $this->getDoctrine()->getManager();
+        $this->bLock($transaction,$cartRepository,$walletRepository,$blockRepository,$cartId);
+        $em->persist($transaction);
+        $em->flush();
+        $formatted = $serializer->normalize($transaction,200,['groups'=>['wallets:read','cartId:read']]);
+        return new JsonResponse($formatted);
+
+    }
+
+    /**
+     * @Route ("afficheTransactionWalletTest",name="AfficheTestWallet",methods={"GET"})
+     */
+    public function afficheTransactionWalletTest(Request $request,
+                                                 SerializerInterface $serializer,
+                                                 TransactionRepository $transactionRepository,WalletRepository $walletRepository)
+    {
+        $idClient=$request->query->get("clientWallet");
+        $w=$walletRepository->WalletClient($idClient);
+        return $this->json($w,200,[],['groups'=>['wallets:read']]);
     }
 }

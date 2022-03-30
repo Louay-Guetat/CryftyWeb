@@ -47,12 +47,11 @@ class ReclamationController extends AbstractController
         $SupportTicket->setMessage($message);
         $SupportTicket->setName($name);
         $SupportTicket->setEmail($email);
+        $SupportTicket->setEtat("En attente");
 
         $em->persist($SupportTicket);
         $em->flush();
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($SupportTicket);
-        return new JsonResponse($formatted);
+        return $this->json($SupportTicket,200,[],['groups'=>['supportTicket:read']]);
 
     }
 
@@ -100,8 +99,6 @@ class ReclamationController extends AbstractController
 
         $em->persist($SupportTicket);
         $em->flush();
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($SupportTicket);
         return new JsonResponse("Reclamation a ete modifiee avec success.");
 
     }
@@ -117,11 +114,7 @@ class ReclamationController extends AbstractController
     {
 
         $SupportTicket = $this->getDoctrine()->getManager()->getRepository(SupportTicket::class)->findAll();
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($SupportTicket);
-
-        return new JsonResponse($formatted);
-
+        return $this->json($SupportTicket,200,[],['groups'=>['supportTicket:read']]);
     }
 
 
@@ -136,17 +129,8 @@ class ReclamationController extends AbstractController
     public function detailReclamationAction(Request $request)
     {
         $id = $request->get("id");
-
-        $em = $this->getDoctrine()->getManager();
         $SupportTicket = $this->getDoctrine()->getManager()->getRepository(SupportTicket::class)->find($id);
-        $encoder = new JsonEncoder();
-        $normalizer = new ObjectNormalizer();
-        $normalizer->setCircularReferenceHandler(function ($object) {
-            return $object->getDescription();
-        });
-        $serializer = new Serializer([$normalizer], [$encoder]);
-        $formatted = $serializer->normalize($SupportTicket);
-        return new JsonResponse($formatted);
+        return $this->json($SupportTicket,200,[],['groups'=>['supportTicket:read']]);
     }
 
 

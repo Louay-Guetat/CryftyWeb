@@ -33,15 +33,16 @@ class Cart
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\NFT\Nft",cascade={"persist"})
+     * @Groups ("nftProd:read")
      */
     private $nftProd;
 
 
 
     /**
-    * @Assert\DateTime
-    * @ORM\Column(type="datetime")
-    * @var string A "Y-m-d H:i:s" formatted value
+     * @Assert\DateTime
+     * @ORM\Column(type="datetime")
+     * @var string A "Y-m-d H:i:s" formatted value
      * @Groups ("cartId:read")
 
      */
@@ -80,7 +81,7 @@ class Cart
     {
         $this->total = $total;
     }
-    
+
     /**
      * @return mixed
      */

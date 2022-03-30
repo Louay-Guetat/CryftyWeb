@@ -16,27 +16,27 @@ class Message
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-
+     * @Groups("msg:read")
      */
     private $id;
     /**
      * @Assert\NotBlank
      * @ORM\Column(type="string")
-
+     * @Groups("msg:read")
      */
     private $contenu;
     /**
      * @Assert\DateTime
      * @ORM\Column(type="datetime")
      * @var string A "Y-m-d H:i:s" formatted value
-
+     * @Groups("msg:read")
      */
 
     private $createdAt;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users\User", inversedBy="Message")
+     * @Groups("msg:read")
      */
     private $Sender;
 
@@ -121,8 +121,6 @@ class Message
     {
         $this->createdAt = $createdAt;
     }
-
-
 
 
 

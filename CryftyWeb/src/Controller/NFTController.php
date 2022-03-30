@@ -7,7 +7,6 @@ use App\Entity\NFT\Category;
 use App\Entity\NFT\Nft;
 use App\Entity\NFT\NftComment;
 use App\Entity\NFT\SubCategory;
-use App\Entity\Users\Client;
 use App\Form\AjoutNftType;
 use App\Form\CommentType;
 use App\Form\ModifierNftType;
@@ -16,28 +15,20 @@ use App\Repository\CategoryRepository;
 use App\Repository\ClientRepository;
 use App\Repository\NftCommentRepository;
 use App\Repository\NftRepository;
+use App\Repository\NodeRepository;
 use App\Repository\SubCategoryRepository;
+use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use phpDocumentor\Reflection\Types\Integer;
-use PhpParser\Node\Scalar\String_;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Constraints\Count;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Routing\Annotation\Route;
+
 
 class NFTController extends AbstractController
 {
@@ -199,13 +190,12 @@ class NFTController extends AbstractController
         $category = new Category();
         $subCategory = new SubCategory();
         $nft->setCreationDate(new \DateTime('now'));
-        $nft->setOwner($this->getUser());
+        $nft->setOwner(1);
         $nft->setLikes(0);
 
         $formNft = $this->createForm(AjoutNftType::class,$nft);
         $formNft->add('image', FileType::class,['label'=>'e. g. Image, Audio, Video',
-            'label_attr'=>['class'=>'sign__label'
-                , 'class'=>'custom-file-label'
+            'label_attr'=>['class'=>'sign__label custom-file-label'
                 ,'for'=>'customFile'
                 ,'mapped'=>false
                 ,'required'=>true
@@ -226,7 +216,6 @@ class NFTController extends AbstractController
                     try {
                         $file->move($this->getParameter('images_directory'), $fileName);
                     } catch (FileException $e) {
-                        $e->getMessage();
                     }
                     $nft->setImage($fileName);
                     $category = $catRepo->find($nft->getCategory());
@@ -332,36 +321,41 @@ class NFTController extends AbstractController
 
     /**
      * @Route("/nft/AjoutNftJson", name="AjoutNftJson")
-     * @Method=("POST")
      */
-    public function AjoutNftJson(Request $request,SerializerInterface $serializer)
+    public function AjoutNftJson(Request $request,SerializerInterface $serializer, CategoryRepository $catRepo,
+                                 SubCategoryRepository $subCatRepo, NodeRepository $currencyRepo, ClientRepository $clientRepo)
     {
         $nft = new Nft();
+        $image = $request->query->get("image");
         $title = $request->query->get("title");
         $description = $request->query->get("description");
         $price = $request->query->get("price");
-        $creationDate = $request->query->get("creationDate");
-        $image = $request->query->get("image");
         $likes = $request->query->get("likes");
+        $idCat = $request->query->get("category");
+        $idSubCat = $request->query->get("subCategory");
+        $idCurrency = $request->query->get("currency");
+        $idClient = $request->query->get("owner");
+        $category = $catRepo->find($idCat);
+        $subCategory= $subCatRepo->find($idSubCat);
+        $currency = $currencyRepo->find($idCurrency);
+        $client = $clientRepo->find($idClient);
 
-        $em = $this->getDoctrine()->getManager();
         $nft->setTitle($title);
         $nft->setDescription($description);
         $nft->setPrice($price);
-        $file = $nft->getImage();
-        $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-        try {
-            $file->move($this->getParameter('images_directory'), $fileName);
-        } catch (FileException $e) {
-            $e->getMessage();
-        }
-        $nft->setImage($fileName);
+        $nft->setImage($image);
         $nft->setLikes($likes);
+        $nft->setCategory($category);
+        $nft->setSubCategory($subCategory);
+        $nft->setCurrency($currency);
+        $nft->setOwner($client);
         $nft->setCreationDate(new \DateTime('now'));
+
+        $em = $this->getDoctrine()->getManager();
         $em->persist($nft);
         $em->flush();
 
-        $formatted = $serializer->normalize($nft);
+        $formatted = $serializer->normalize($nft,200,['groups'=>['Category:read']]);
 
         return new JsonResponse($formatted);
     }
@@ -379,7 +373,7 @@ class NFTController extends AbstractController
      */
     function AfficheCommentsJson($id, NftCommentRepository $Commentrepository){
         $comments =$Commentrepository->findAllByNft($id);
-        return $this->json($comments,200,[],['groups'=>['user:read','comments:read']]);
+        return $this->json($comments,200,[],['groups'=>['commentedBy:read','comments:read']]);
     }
 
     /**
@@ -398,4 +392,174 @@ class NFTController extends AbstractController
         return $this->json($nft,200,[],['groups'=>['Category:read','subCategory:read','owner:read','currency:read']]);
     }
 
+    /**
+     * @Route("nft/searchNftJson", name="searchNftJson")
+     */
+    function SearchJson(NftRepository $repository,Request $request){
+        $title = $request->query->get("title");
+        $categories[] = $request->query->get("categories");
+        $subCategories[] = $request->query->get("subCategories");
+        $currencies[] = $request->query->get("currencies");
+        $prixMin = $request->query->get("prixMin");
+        $prixMax = $request->query->get("prixMax");
+        $prixOrder = $request->query->get("prixOrder");
+        $likesOrder = $request->query->get("likesOrder");
+
+        $data = new SearchData();
+        if(!empty($title)){
+            $data->setQ($title);
+        }
+        if(!empty($categories)){
+            $data->setCategories($categories);
+        }
+
+        if(!empty($subCategories)){
+            $data->setSubCategories($subCategories);
+        }
+
+        if(!empty($currencies)){
+            $data->setCurrency($currencies);
+        }
+
+        if($prixMin != ""){
+            $data->setMin((int)$prixMin);
+        }
+        if($prixMax != ""){
+            $data->setMax((int)$prixMax);
+        }
+        if($prixOrder != ""){
+            $data->setTriPrix($prixOrder);
+        }
+
+        if($likesOrder != ""){
+            $data->setTriLikes($likesOrder);
+        }
+
+        $nft = $repository->findSearchJson($data);
+
+        return $this->json($nft,200,[],['groups'=>['Category:read','subCategory:read','owner:read','currency:read']]);
+    }
+
+    /**
+     * @Route("nft/CurrencyJson", name="CurrencyJson",methods={"GET"})
+     */
+    function CurrencyJson(NodeRepository $repository){
+        $curr = $repository->findAll();
+        return $this->json($curr,200,[],['groups'=>['curr:read']]);
+    }
+
+    /**
+     * @Route("nft/ModifierNftJson/{id}", name="modifierNftJson")
+     */
+    public function ModifierNftJson(Request $request, $id, NftRepository $repository,
+                                    CategoryRepository $catRepo, SubCategoryRepository $subCatRepo, NodeRepository $currencyRepo,
+                                    SerializerInterface $serializer){
+        $nft = $repository->find($id);
+        $title = $request->query->get("title");
+        $description = $request->query->get("description");
+        $price = $request->query->get("price");
+        $idCat = $request->query->get("category");
+        $idSubCat = $request->query->get("subCategory");
+        $idCurrency = $request->query->get("currency");
+        $likes = $request->query->get("likes");
+
+        $category = $catRepo->find($idCat);
+        $subCategory= $subCatRepo->find($idSubCat);
+        $currency = $currencyRepo->find($idCurrency);
+
+
+        $nft->setTitle($title);
+        $nft->setDescription($description);
+        $nft->setPrice($price);
+        $nft->setCategory($category);
+        $nft->setSubCategory($subCategory);
+        $nft->setCurrency($currency);
+        $nft->setLikes($likes);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        $formatted = $serializer->normalize($nft,200,['groups'=>[]]);
+        return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Route ("nft/deleteNftJson/{id}", name="deleteNftJson")
+     */
+    function DeleteJson($id,NftRepository $repository, SerializerInterface $serializer){
+        $nft=$repository->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($nft);
+        $em->flush();
+        $formatted = $serializer->normalize($nft,200,['groups'=>[]]);
+        return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Route("nft/AjoutNftCommentJson", name="AjoutNftCommentJson", methods={"POST"})
+     */
+    function AddCommentJson(Request $request,NftRepository $nftRepository, UserRepository $userRepository,
+                            SerializerInterface $serializer){
+        $comment = $request->query->get("comment");
+        $idNft = $request->query->get("nft");
+        $idClient = $request->query->get("owner");
+
+        $nft = $nftRepository->find($idNft);
+        $client = $userRepository->find($idClient);
+
+        $nftComment = new NftComment();
+        $nftComment->setComment($comment);
+        $nftComment->setNft($nft);
+        $nftComment->setUser($client);
+        $nftComment->setLikes(0);
+        $nftComment->setDislikes(0);
+        $nftComment->setPostDate(new \DateTime('now'));
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($nftComment);
+        $em->flush();
+
+        $formatted = $serializer->normalize($nftComment,200,['groups'=>[]]);
+
+        return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Route ("nft/likedJson/{id}", name="like")
+     */
+    function likeJson($id,NftRepository $nftRepo,ClientRepository $clientRepo,Request $request, SerializerInterface $serializer){
+        $idClient = $request->query->get("client");
+
+        $nft = $nftRepo->find($id);
+        $client = $clientRepo->find($idClient);
+
+        $likedBy = $nft->getLikedBy();
+        $situation =0;
+
+        for($i=0;$i<count($likedBy);$i++){
+            if($client->getId() == $likedBy[$i]->getId())
+                $situation =1;
+        }
+
+        if ($situation == 0) {
+            $client->setLikes($nft);
+            $nft->setLikedBy($client);
+            $nft->setLikes($nft->getLikes() + 1);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $formatted = $serializer->normalize($nft,200,['groups'=>[]]);
+            return new JsonResponse($formatted);
+        }
+        else{
+            $client->removeLike($nft);
+            $nft->removeLikedBy($client);
+            $nft->setLikes($nft->getLikes()-1);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $formatted = $serializer->normalize($nft,200,['groups'=>[]]);
+            return new JsonResponse($formatted);
+        }
+    }
 }

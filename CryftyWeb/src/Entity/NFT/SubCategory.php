@@ -20,6 +20,8 @@ class SubCategory
      * @ORM\Column(type="integer")
      * @Groups ("category1:read")
      * @Groups ("nfts:read")
+     * @Groups ("SubCat:read")
+     * @Groups ("subCategory:read")
      */
     private $id;
 
@@ -27,9 +29,9 @@ class SubCategory
      * @ORM\Column (type="string")
      * @ProfanityAssert\ProfanityCheck
      * @Assert\NotNull
-     * @Groups ("subCategory:read")
      * @Groups ("category1:read")
      * @Groups ("nfts:read")
+     * @Groups ("SubCat:read")
      */
     private $name;
 
@@ -38,6 +40,7 @@ class SubCategory
      * @ORM\Column(type="datetime")
      * @Groups ("category1:read")
      * @Groups ("nfts:read")
+     * @Groups ("SubCat:read")
      */
     private $creationDate;
 
@@ -45,12 +48,14 @@ class SubCategory
      * @ORM\Column (type="integer")
      * @Groups ("category1:read")
      * @Groups ("nfts:read")
+     * @Groups ("SubCat:read")
      */
     private $nbrNft;
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\NFT\Category", inversedBy="subCategories")
      * @Groups ("category1:read")
+     * @Groups ("SubCat:read")
      */
     private $category;
 

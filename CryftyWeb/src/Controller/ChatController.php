@@ -53,20 +53,7 @@ class ChatController extends AbstractController
     }
 
 
-    /**
-     * @Route("/afficheGroups", name="afficheGroups",methods={"GET"})
-     */
-    public function afficheGroup(GroupChatRepository  $repository)
-    {
-        return $this->json($repository->findAll(),200,[],['groups'=>['post:read','owner:read']]);
-    }
-    /**
-     * @Route("/afficheUsers", name="afficheUsers",methods={"GET"})
-     */
-    public function afficheUsers(UserRepository $UserRepository)
-    {
-        return $this->json($UserRepository->findAll(),200,[],['groups'=>['post:read','owner:read']]);
-    }
+
     /*/**
      * @Route("/afficheUsers", name="afficheUsers",methods={"GET"})
      */

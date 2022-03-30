@@ -17,6 +17,9 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ("Cat:read")
+     * @Groups ("Category:read")
+     * @Groups ("SubCat:read")
      */
     private $id;
 
@@ -24,23 +27,26 @@ class Category
      * @ORM\Column(type="string")
      * @ProfanityAssert\ProfanityCheck
      * @Assert\NotNull
-     * @Groups ("Category:read")
+     * @Groups ("Cat:read")
      */
     private $name;
 
     /**
      * @Assert\DateTime()
      * @ORM\Column(type="datetime")
+     * @Groups ("Cat:read")
      */
     private $creationDate;
 
     /**
      * @ORM\Column (type="integer")
+     * @Groups ("Cat:read")
      */
     private $nbrNft;
 
     /**
      * @ORM\Column (type="integer")
+     * @Groups ("Cat:read")
      */
     private $nbrSubCategory;
 

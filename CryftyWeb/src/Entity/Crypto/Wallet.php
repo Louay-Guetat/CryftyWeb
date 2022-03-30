@@ -5,10 +5,12 @@ namespace App\Entity\Crypto;
 use App\Entity\Users\Client;
 use App\Repository\WalletRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @GroupSequence
  * @ORM\Entity(repositoryClass=WalletRepository::class)
  */
 class Wallet
@@ -17,18 +19,20 @@ class Wallet
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups ("wallets:read")
+     * @Groups({"wallets:read","apiwallets:read","apiwallets:write"})
+     * @Groups ("clientWallet:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups ("wallets:read")
+     * @Groups({"wallets:read","apiwallets:read","apiwallets:write"})
      */
     private $walletAddress;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"apiwallets:read","apiwallets:write"})
      */
     private $balance;
 
@@ -36,6 +40,8 @@ class Wallet
      * @ORM\ManyToOne (targetEntity=Node::class)
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Assert\NotBlank
+     * @Groups({"apiwallets:read","apiwallets:write"})
+     * @MaxDepth (2)
      */
     private $nodeId;
 
@@ -45,6 +51,7 @@ class Wallet
      * @Assert\Length(min=5,max=50,
      *                minMessage="Your label should longer than {{ limit }} characters ",
      *                maxMessage="Your address should be less than {{ limit }} characters")
+     * @Groups({"apiwallets:read","apiwallets:write"})
      */
     private $walletLabel;
 
@@ -56,6 +63,7 @@ class Wallet
     /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="wallets")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups ("clientWallet:read")
      */
     private $client;
 
@@ -67,16 +75,19 @@ class Wallet
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"apiwallets:read","apiwallets:write"})
      */
     private $walletImageFileName;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"apiwallets:read","apiwallets:write"})
      */
     private $isActive;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"apiwallets:read","apiwallets:write"})
      */
     private $isMain;
 
@@ -114,6 +125,8 @@ class Wallet
     {
         return $this->nodeId;
     }
+
+
 
     public function setNodeId(Node $nodeId): self
     {

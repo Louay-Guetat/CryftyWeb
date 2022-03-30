@@ -21,14 +21,16 @@ class Conversation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("post:read")
-     * @Groups("owner:read")
+     * @Groups("participants:read")
+     * @Groups("ownerGroup:read")
+
      */
     protected $id;
     /**
      * @ORM\Column(type="string")
-     * @Groups("post:read")
-     * @Groups("owner:read")
+     * @Groups("participants:read")
+     * @Groups("ownerGroup:read")
+
      */
 
     protected $nom;

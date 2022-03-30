@@ -151,4 +151,23 @@ class CategoryController extends AbstractController
         return $this->render('category/consulterCategory.html.twig',['Category'=>$Category,'subCategory'=>$Subcategory]);
     }
 
+
+    //Api Mobile
+
+    /**
+     * @Route("category/AfficheCatJson", name="showCatJson", methods={"GET"})
+     */
+    function AfficheCategoryJson(CategoryRepository $repository){
+        $category = $repository->findAll();
+        return $this->json($category,200,[],['groups'=>['Cat:read']]);
+    }
+
+    /**
+     * @Route("category/AfficheSubCatJson", name="showSubCatJson", methods={"GET"})
+     */
+    function AfficheSubCategoryJson(SubCategoryRepository $repository){
+        $subCategory = $repository->findAll();
+        return $this->json($subCategory,200,[],['groups'=>['SubCat:read']]);
+    }
+
 }

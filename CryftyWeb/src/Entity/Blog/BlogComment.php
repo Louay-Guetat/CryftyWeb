@@ -16,7 +16,7 @@ class BlogComment
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("post:read")
+     * @Groups("post1:read")
      */
     private $id;
 
@@ -27,35 +27,35 @@ class BlogComment
 
     /**
      * @ORM\Column (type="string")
-     * @Groups("post:read")
+     * @Groups("post1:read")
      */
     private $comment;
     /**
      * @Assert\DateTime()
      * @ORM\Column(type="datetime")
-     * @Groups("post:read")
+     * @Groups("post1:read")
      */
     private $postDate;
     /**
      * @ORM\Column (type="integer")
-     * @Groups("post:read")
+     * @Groups("post1:read")
      */
     private $likes;
 
     /**
      * @ORM\Column (type="integer")
-     * @Groups("post:read")
+     * @Groups("post1:read")
      */
     private $dislikes;
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Blog\BlogArticle", inversedBy="comments")
-     * @Groups("post:read")
+     * @Groups("post1:read")
      */
     private $article;
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Users\Client", inversedBy="commentsb")
-     * @Groups("post:read")
+     * @Groups("post2:read")
      */
     private $user;
 
@@ -165,6 +165,10 @@ class BlogComment
     public function setClient($client): void
     {
         $this->client = $client;
+    }
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
     }
 
 

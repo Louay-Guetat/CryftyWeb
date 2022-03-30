@@ -19,6 +19,8 @@ class Node
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"apiwallets:read","apiwallets:write"})
+     * @Groups ("curr:read")
      */
     private $id;
 
@@ -28,6 +30,9 @@ class Node
      * @Assert\Length(min=5,max=20,
      *     minMessage="label too short (More than {{ limit }} characters needed !)",
      *     maxMessage="label too long (less than {{ limit }} characters needed !)" )
+     * @Groups({"apiwallets:read","apiwallets:write"})
+     * @Groups ("curr:read")
+     * @Groups ("currency:read")
      */
     private $nodeLabel;
 
@@ -45,12 +50,16 @@ class Node
      * @Assert\NotNull
      * @Assert\Length(min="3",max=5,minMessage="Code must be >= {{ limit }} Characters",
      *     maxMessage="Code must be <= {{ limit }} Cahracters")
+     * @Groups({"apiwallets:read","apiwallets:write"})
+     * @Groups ("curr:read")
+     * @Groups ("currency:read")
      */
     private $coinCode;
 
     /**
      * @ORM\Column(type="float")
      * @Assert\Positive
+     * @Groups ("curr:read")
      */
     private $nodeReward;
     

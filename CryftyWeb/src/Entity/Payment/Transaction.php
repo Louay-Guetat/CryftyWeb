@@ -46,6 +46,7 @@ class Transaction
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Crypto\Wallet")
      * @Groups ("wallets:read")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $wallets;
 

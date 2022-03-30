@@ -71,7 +71,7 @@ class BlogArticle
     private $image;
     /**
      * @ORM\OneToMany (targetEntity="App\Entity\Blog\BlogComment", mappedBy="article" , orphanRemoval=true)
-     * @Groups("post:read")
+     * @Groups("post1:read")
      */
     private $comments;
 

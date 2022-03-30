@@ -60,7 +60,7 @@ class NftComment
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Users\Client", inversedBy="comments")
-     * @Groups ("user:read")
+     * @Groups ("commentedBy:read")
      */
     private $user;
 

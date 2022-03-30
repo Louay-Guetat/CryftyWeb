@@ -2,7 +2,6 @@
 
 namespace App\Entity\Users;
 
-use App\Entity\Chat\GroupChat;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +9,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Repository\WalletRepository;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -27,29 +29,42 @@ abstract class User implements UserInterface
      * @ORM\Column(type="integer")
      * @Groups("owner:read")
      * @Groups("post:read")
+     * @Groups("users:read")
+     * @Groups("ownerGroup:read")
+     * @Groups("participants:read")
+     * @Groups("PrivateChat:read")
+     * @Groups("msg:read")
+     * @Groups ("commentedBy:read")
      */
     protected $id;
 
     /**
      * @ORM\Column(name="username",type="string", length=180, unique=true)
+     * @Groups("users:read")
+     * @Groups("ownerGroup:read")
+     * @Groups("participants:read")
+     * @Groups("PrivateChat:read")
+     * @Groups("msg:read")
+     * @Groups ("commentedBy:read")
+     * @Groups ("owner:read")
      */
     private $username;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups("users:read")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups("users:read")
      */
     private $password;
 
 
-    /**
-     * @param $Groups
-     */
+
     public function __construct()
     {
         $this->Groups = new \Doctrine\Common\Collections\ArrayCollection();
@@ -72,7 +87,9 @@ abstract class User implements UserInterface
         $this->comments = $comments;
     }
 
-
+    /**
+     * @param $Groups
+     */
 
 
     /**
@@ -242,7 +259,6 @@ abstract class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Chat\GroupChat", mappedBy="Owner")
-
      */
     private $Group;
 
@@ -313,21 +329,4 @@ abstract class User implements UserInterface
         $this->isActive = $isActive;
     }
 
-    public function addGroup(GroupChat $groupChat): self
-    {
-        if (!$this->Groups->contains($groupChat)) {
-            $this->Groups[] = $groupChat;
-        }
-        return $this;
-    }
-    public function removeGroup(GroupChat $groupChat): self
-    {
-        if ($this->Groups->contains( $groupChat)) {
-            $this->Groups->removeElement( $groupChat);
-        }
-        return $this;
-    }
-
-
 }
-

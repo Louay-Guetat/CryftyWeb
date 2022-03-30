@@ -72,5 +72,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $query->getFirstResult();
     }
 
-
+    public  function findusersMinusOwner ($id)
+    {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT u FROM App\Entity\Users\User u where u.id!=:id')
+            ->setParameter('id',$id);
+        return $query->getResult();
+    }
 }

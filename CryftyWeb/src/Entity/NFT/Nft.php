@@ -123,7 +123,7 @@ class Nft
     private $subCategory;
 
     /**
-     * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="nft",orphanRemoval=true)
+     * @ORM\OneToMany (targetEntity="App\Entity\NFT\NftComment", mappedBy="nft", orphanRemoval=true)
      * @Groups ("comments:read")
      */
     private $comments;
