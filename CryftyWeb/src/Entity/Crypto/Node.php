@@ -32,7 +32,6 @@ class Node
      *     maxMessage="label too long (less than {{ limit }} characters needed !)" )
      * @Groups({"apiwallets:read","apiwallets:write"})
      * @Groups ("curr:read")
-     * @Groups ("currency:read")
      */
     private $nodeLabel;
 
