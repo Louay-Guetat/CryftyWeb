@@ -9,8 +9,8 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
 /**
- * @GroupSequence
  * @ORM\Entity(repositoryClass=WalletRepository::class)
  */
 class Wallet

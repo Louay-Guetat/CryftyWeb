@@ -4,7 +4,7 @@ security:
         ROLE_ADMIN: [ROLE_MODERATOR, ROLE_ALLOWED_TO_SWITCH]
     encoders:
         App\Entity\Users\User:
-            algorithm: auto
+            algorithm: bcrypt
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
