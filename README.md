@@ -17,3 +17,4 @@
 - yarn encore dev
 
 ### NB: yarn v1.22.17 / composer v2.2.4 / php v7.4.27 / symfony4
+### Last version in ValidationFinale branch
