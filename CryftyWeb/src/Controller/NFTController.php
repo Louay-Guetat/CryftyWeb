@@ -72,29 +72,37 @@ class NFTController extends AbstractController
         $data = new SearchData();
         $form = $this->createForm(SearchForm::class,$data);
         $form->handleRequest($request);
-        $client = $clientRepo->find($this->getUser()->getId());
+        if($this->getUser()){
+            $client = $clientRepo->find($this->getUser());
+        }
+        else{
+            $client=null;
+        }
         $situation =[];
         $i=0;
-        foreach ($nft as $item){
-            $likedBy = $item->getLikedBy();
-            $j=0;
-            do{
-                if($likedBy[$j]!= null){
-                    if($client->getId() == $likedBy[$j]->getId()){
-                        $situation[$i] = 1;
+        if($client==null){
+
+        }else {
+            foreach ($nft as $item) {
+                $likedBy = $item->getLikedBy();
+                $j = 0;
+                do {
+                    if ($likedBy[$j] != null) {
+                        if ($client->getId() == $likedBy[$j]->getId()) {
+                            $situation[$i] = 1;
+                        } else
+                            $situation[$i] = 0;
+                        $j++;
+                    } else {
+                        $situation[$i] = 0;
+                        $j++;
                     }
-                    else
-                        $situation[$i]=0;
-                    $j++;
-                }
-                else{
-                    $situation[$i]=0;
-                    $j++;
-                }
-            }while($j<count($likedBy)-1 && $situation[$i]!=1);
-            $i++;
+                } while ($j < count($likedBy) - 1 && $situation[$i] != 1);
+                $i++;
+            }
         }
         if ($form->isSubmitted() && $form->isValid()){
+            //dd($data);
             $nft = $repository->findSearch($data);
             $nfts = $paginator->paginate($nft, $request->query->getInt('page',1),6);
             return $this->render('nft/afficheNft.html.twig',['nft'=>$nfts,'category'=>$category,

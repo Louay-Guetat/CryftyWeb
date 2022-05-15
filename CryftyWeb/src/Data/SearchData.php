@@ -36,12 +36,12 @@ class SearchData
     public $min;
 
     /**
-     * @var boolean
+     * @var null|integer
      */
     public $triPrix;
 
     /**
-     * @var boolean
+     * @var null|integer
      */
     public $triLikes;
 
@@ -142,33 +142,33 @@ class SearchData
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function isTriPrix(): bool
+    public function isTriPrix(): ?int
     {
         return $this->triPrix;
     }
 
     /**
-     * @param bool $triPrix
+     * @param int $triPrix
      */
-    public function setTriPrix(bool $triPrix): void
+    public function setTriPrix(int $triPrix): void
     {
         $this->triPrix = $triPrix;
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function isTriLikes(): bool
+    public function isTriLikes(): ?int
     {
         return $this->triLikes;
     }
 
     /**
-     * @param bool $triLikes
+     * @param int $triLikes
      */
-    public function setTriLikes(bool $triLikes): void
+    public function setTriLikes(int $triLikes): void
     {
         $this->triLikes = $triLikes;
     }
