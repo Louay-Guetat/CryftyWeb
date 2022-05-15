@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Chat\PrivateChat;
 use App\Entity\Payment\Cart;
 use App\Entity\Users\Client;
 use App\Entity\Users\User;
@@ -80,6 +81,25 @@ class RegistrationController extends AbstractController
             $cart->setTotal(0);
             $em->persist($cart);
             $em->flush();
+
+
+            $users = $repository->findAll();
+           // dd($users);
+            for($i=0;$i<count($users);$i++)
+            {
+                if($users[$i]->getId()==$user->getId())
+                { }
+                else
+                { $privateChat=new PrivateChat();
+                    $privateChat->setNom("hh");
+                    $privateChat->setSenderP($user);
+                    $privateChat->setReceived($users[$i]);
+                    $em->persist($privateChat);
+                    $em->flush();
+                }
+            }
+
+
             $account_sid = 'AC9e2a04a58eb7173bf6c77a21ba9f08d6';
             $auth_token = '34f03ffe77268678bb2d42bce7fa72ff';
             $twilio_number = "+16127784838";
