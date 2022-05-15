@@ -64,13 +64,14 @@ class MessageRepository extends ServiceEntityRepository
             ->setMaxResults(1);
         return $query->getResult();
     }
-    public function AffichelastIdmsg($idConversation)
+    public function AffichelastIdmsg($idConversation,$idUser)
     {
         $em=$this->getEntityManager();
-        $query=$em->createQuery('SELECT m.id FROM App\Entity\Chat\Message m
-         join m.conversation c where c.id=:idConversation ORDER BY m.createdAt DESC  ')
+        $query=$em->createQuery('SELECT max(m.id) FROM App\Entity\Chat\Message m
+         join m.conversation c where c.id=:idConversation and m.Sender=:idUser ')
 
             ->setParameter('idConversation',$idConversation)
+            ->setParameter('idUser',$idUser)
             ->setMaxResults(1);
         return $query->getResult();
     }
