@@ -7,10 +7,12 @@ use App\Entity\Crypto\Transfer;
 use App\Entity\Crypto\Wallet;
 use App\Entity\NFT\Nft;
 use App\Entity\Payment\Transaction;
+use App\Entity\Users\User;
 use App\Form\QrCodeType;
 use App\Repository\BlockRepository;
 use App\Repository\NftRepository;
 use App\Repository\TransferRepository;
+use App\Repository\UserRepository;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
@@ -33,6 +35,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Validator\Constraints\NotNull;
 use App\Services\Transaction\QrcodeService;
+use App\Entity\Payment\Cart;
 
 class TransactionController extends AbstractController
 {
@@ -90,7 +93,7 @@ class TransactionController extends AbstractController
     }
 
     function bLock(Transaction $transaction,CartRepository $cartRepository,WalletRepository $walletRepository
-                    ,BlockRepository $blockRepository,int $id)
+        ,BlockRepository $blockRepository,int $id)
     {
         //jebna cart
         $idcart=$cartRepository->find($id);
@@ -118,17 +121,17 @@ class TransactionController extends AbstractController
 
             $counter = ( $nft->getPrice() / $authWallet->getNodeId()->getNodeReward() )+1;
 
-                foreach ($walletBlocks as $block){
-                    if ($counter >= 0)
-                    {
-                        $block->setWallet($authWallet);
-                        $em->persist($block);
-                        $em->persist($buyerWallet);
-                    }
-                    $counter--;
+            foreach ($walletBlocks as $block){
+                if ($counter >= 0)
+                {
+                    $block->setWallet($authWallet);
+                    $em->persist($block);
+                    $em->persist($buyerWallet);
                 }
+                $counter--;
+            }
             $nft->setCartProd(null);
-                $em->flush();
+            $em->flush();
         }
 
 
@@ -208,17 +211,70 @@ class TransactionController extends AbstractController
      * @Route ("afficheTransactiontest/{id}",name="AfficheTest",methods={"GET"})
      */
     function AfficherTransactionTest(TransactionRepository $repository,CartRepository $cartRepository,$id){
-        //$transaction=$repository->find($id);
-        //return $this->render('transaction/adminTransaction.html.twig',['t'=>$transaction]);
         $cartTr=$cartRepository->find($id);
         $transaction=$repository->afficherTransaction($cartTr);
         return $this->json($transaction,200,[],['groups'=>['cartId:read','wallets:read']]);
     }
+
+    function bLockMobile(UserRepository $userRepository,Transaction $transaction,CartRepository $cartRepository,WalletRepository $walletRepository
+        ,BlockRepository $blockRepository,int $id,int $idUser)
+    {
+        //jebna cart
+        $idcart=$cartRepository->find($id);
+
+        //jebna nft fel cart array
+        $cartNft=$idcart->getNftProd();
+
+        //client qui vas payer
+        $buyerWallet = $transaction->getWallets();
+
+        $em = $this->getDoctrine()->getManager();
+
+        foreach($cartNft as $nft)
+        {
+            $author = $nft->getOwner();
+            $nft->setOwner($userRepository->find($idUser)) ;
+
+            //wallet tezedelha flous
+            $authWallet = $walletRepository->findOneBy(array('client' => $author,'isMain' => true));
+
+            $authWallet->setBalance($authWallet->getBalance() + $nft->getPrice() );
+            $buyerWallet->setBalance($buyerWallet->getBalance() - $nft->getPrice());
+
+            $walletBlocks = $blockRepository->findBy(array('wallet'=> $buyerWallet));
+
+            $counter = ( $nft->getPrice() / $authWallet->getNodeId()->getNodeReward() )+1;
+
+            foreach ($walletBlocks as $block){
+                if ($counter >= 0)
+                {
+                    $block->setWallet($authWallet);
+                    $em->persist($block);
+                    $em->persist($buyerWallet);
+                }
+                $counter--;
+            }
+            $nft->setCartProd(null);
+            $em->flush();
+        }
+
+
+        $idcart->setNftProd(null);
+        $em->flush();
+
+    }
+
+
+
+
+
     /**
-     * @Route("AddTransactionTest", name="AddTransactionTest")
+     * @Route("/AddTransactionTest/{total}", name="AddTransactionTest")
      * @Method ("POST")
      */
-    public function ajouterTransactionTest(Request $request,
+    public function ajouterTransactionTest(UserRepository $userRepository,
+                                                          $total,
+                                           Request $request,
                                            SerializerInterface $serializer,
                                            TransactionRepository $transactionRepository,BlockRepository $blockRepository,
                                            CartRepository $cartRepository,WalletRepository $walletRepository)
@@ -229,7 +285,7 @@ class TransactionController extends AbstractController
         $transaction->setWallets($this->getDoctrine()->getManager()->getRepository(Wallet::class)->find($adresseWallet));
         $transaction->setCartId($this->getDoctrine()->getManager()->getRepository(Cart::class)->find($cartId));
         $em = $this->getDoctrine()->getManager();
-        $this->bLock($transaction,$cartRepository,$walletRepository,$blockRepository,$cartId);
+        $this->bLockMobile($userRepository,$transaction,$cartRepository,$walletRepository,$blockRepository,$cartId,$cartId);
         $em->persist($transaction);
         $em->flush();
         $formatted = $serializer->normalize($transaction,200,['groups'=>['wallets:read','cartId:read']]);

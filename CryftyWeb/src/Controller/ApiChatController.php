@@ -54,12 +54,12 @@ class ApiChatController extends AbstractController
         $tab= [];
         $i=0;
         $Group=$repository->find($idGroup);
-            foreach ($Group->getParticipants() as $participant )
-            {
-              $tab[$i]= $participant;
-              $i++;
-            }
-            //$tab[$i] = $Group->getOwner();
+        foreach ($Group->getParticipants() as $participant )
+        {
+            $tab[$i]= $participant;
+            $i++;
+        }
+        //$tab[$i] = $Group->getOwner();
         return $this->json($tab,200,[],['groups'=>['participants:read','ownerGroup:read']]);
     }
     /**
@@ -79,41 +79,7 @@ class ApiChatController extends AbstractController
     {
         return $this->json($UserRepository->findusersMinusOwner($idOwner),200,[],['groups'=>['participants:read','ownerGroup:read']]);
     }
-    /*/**
-     * @Route("/afficheUsers", name="afficheUsers",methods={"GET"})
-     */
-    /*   public function Users(PrivateChatRepository $PrivateChatRepository)
-       {
-          return $this->json ($PrivateChatRepository->UsersContacter($this->getUser()->getId()),
-              200,[],
-              ['groups'=>'Sender:read']);
-       }*/
-    /*  /**
-       * @Route("/AddGroup", name="AddGroup")
-       * @Method ("POST")
-       */
-    /*   public function addGroup(Request $request,SerializerInterface $serializer ,
-                              EntityManagerInterface $em1, ValidatorInterface $validator)
-     {
-         $jsonRecu= $request->getContent();
-         try{
-             $group=$serializer->deserialize($jsonRecu,GroupChat::class,'json');
-             $errors=$validator->validate($group);
-             if(count($errors)>0)
-             {
-                 return $this->json($errors,400);
 
-             }
-             $em1->persist( $group);
-             $em1->flush();
-             return $this->json($group,201,[],['groups'=>['post:read','owner:read']]);
-
-         }catch(NotEncodableValueException $exception)
-         {
-             return $this->json(['status'=>400,'message'=>$exception->getMessage()]);
-         }
-
-     }*/
     /**
      * @Route("AddGroup", name="AddGroup")
      * @Method ("POST")
@@ -122,22 +88,23 @@ class ApiChatController extends AbstractController
                                  SerializerInterface $serializer,
                                  UserRepository $UserRepository)
     {
+        $TabUser=[];
         $GoupChat = new GroupChat();
         $em = $this->getDoctrine()->getManager();
 
         $nom=$request->query->get("nom");
-         $GoupChat->setNom($nom);
-             $usr[] = $request->query->get("participant");
-            $u=[',','[',']'];
-            $str = str_replace($u,' ',$usr[0],$count);
-
-            $pieces=explode(" ",$str );
-            for ($i =1;$i<=$count-1;$i++)
-             {
-                $user[$i] = $UserRepository->find($pieces[$i]);
-                 $GoupChat->addUser($user[$i]);
-            }
-
+        $GoupChat->setNom($nom);
+        $usr[] = $request->query->get("participant");
+        $u=[',','[',']'];
+        $str = str_replace($u,' ',$usr[0],$count);
+        // dd($str);
+        $pieces=explode(" ",$str );
+        for ($i =1;$i<=$count-1;$i++)
+        {
+            $user[$i] = $UserRepository->find($pieces[$i]);
+            $TabUser[$i]=$user[$i];
+        }
+        $GoupChat->setParticipants($TabUser);
         $Owner=$request->query->get("owner");
         $GoupChat->setOwner($UserRepository->find($Owner));
 
@@ -155,52 +122,41 @@ class ApiChatController extends AbstractController
      * @Method ("POST")
      */
     public function UpdateGroup(Request $request,$idGroup,GroupChatRepository  $repository,
-                                 SerializerInterface $serializer,
-                                 UserRepository $UserRepository)
+                                SerializerInterface $serializer,
+                                UserRepository $UserRepository)
     {
-        $tab=[];
+        $TabUser=[];
         $GoupChat =$repository->find($idGroup);
         $em = $this->getDoctrine()->getManager();
-
         $nom=$request->query->get("nom");
-       // dd($nom);
-        $GoupChat->setNom($nom);
 
+        $GoupChat->setParticipants(null);
+        $em->flush();
+        $GoupChat->setNom($nom);
         $usr[] = $request->query->get("participant");
         $u=[',','[',']'];
         $str = str_replace($u,' ',$usr[0],$count);
+
         $pieces=explode(" ",$str );
-        $k=0;
-        foreach ($GoupChat->getParticipants() as $participant )
+        for ($i =1;$i<=$count-1;$i++)
         {
-            $id=$participant->getId()."";
-                if ($usr[1]==$id)
-                {
-                   $k++;
-
-                }else{
-                $p= $UserRepository->find($id);
-               $GoupChat->removeUser($p);
-                   // $em->flush();
+            $user[$i] = $UserRepository->find($pieces[$i]);
+            $TabUser[$i]=$user[$i];
         }
-        }
-
-
+        $GoupChat->setParticipants($TabUser);
         $em->flush();
-
 
         $formatted = $serializer->normalize($GoupChat,200,['groups'=>['participants:read','ownerGroup:read']]);
         return new JsonResponse($formatted);
 
     }
 
-
     /**
      * @Route("/private/{id1}", name="PrivatechatApi")
      */
 
     public function PrivateChat(Request $request,
-        SerializerInterface $serializer,UserRepository $repositoryUser,PrivateChatRepository $repositoryChatPrive,$id1)
+                                SerializerInterface $serializer,UserRepository $repositoryUser,PrivateChatRepository $repositoryChatPrive,$id1)
     {
         $id=$request->query->get("CurrentUser");
         $id2=$repositoryUser->find($id);
@@ -208,8 +164,8 @@ class ApiChatController extends AbstractController
         $privateChat= $repositoryChatPrive->Privatechat($id1,$id2);
 
 
-            $formatted = $serializer->normalize($privateChat,200,['groups'=>['PrivateChat:read']]);
-            return new JsonResponse($formatted);
+        $formatted = $serializer->normalize($privateChat,200,['groups'=>['PrivateChat:read']]);
+        return new JsonResponse($formatted);
 
 
     }
@@ -221,7 +177,7 @@ class ApiChatController extends AbstractController
      */
 
     public function AddPrivateChat(Request $request,
-                                SerializerInterface $serializer,UserRepository $repositoryUser,PrivateChatRepository $repositoryChatPrive,$id1)
+                                   SerializerInterface $serializer,UserRepository $repositoryUser,PrivateChatRepository $repositoryChatPrive,$id1)
     {
         $id=$request->query->get("CurrentUser");
         $id2=$repositoryUser->find($id);
@@ -264,8 +220,8 @@ class ApiChatController extends AbstractController
     public function afficheMsg($idConv,MessageRepository  $repository,ConversationRepository $Conversationrepository)
     {
         $c=$Conversationrepository->find($idConv);
-      //  dd($repository->AfficheMessages($c));
-       return $this->json($repository->AfficheMessages($c),200,[],['groups'=>['msg:read']]);
+        //  dd($repository->AfficheMessages($c));
+        return $this->json($repository->AfficheMessages($c),200,[],['groups'=>['msg:read']]);
     }
     /**
      * @Route("/deleteMsg/{idMsg}", name="deleteMsg")
@@ -273,7 +229,7 @@ class ApiChatController extends AbstractController
      */
     public function DeleteMsg($idMsg,MessageRepository  $repository)
     {
-       $message=$repository->find($idMsg);
+        $message=$repository->find($idMsg);
         $em=$this->getDoctrine()->getManager();
         $em->remove($message);
         $em->flush();
@@ -307,8 +263,8 @@ class ApiChatController extends AbstractController
      * @Method ("POST")
      */
     public function SendMsg(Request $request,$idConv,$idSender,
-                                 SerializerInterface $serializer,UserRepository $userRepository,
-                                 ConversationRepository $ConvRepository)
+                            SerializerInterface $serializer,UserRepository $userRepository,
+                            ConversationRepository $ConvRepository)
     {
         $Message = new Message();
         $em = $this->getDoctrine()->getManager();

@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vangrg\ProfanityBundle\Validator\Constraints as ProfanityAssert;
+
 /**
  * @ORM\Entity(repositoryClass=NftRepository::class)
  */
@@ -22,6 +23,7 @@ class Nft
      * @Groups ("currency:read")
      * @Groups ("comments:read")
      * @Groups ("CartProd:read")
+     * @Groups ("nftProd:read")
      * @Groups ("owner:read")
      */
     private $id;
@@ -34,6 +36,7 @@ class Nft
      * @Groups ("currency:read")
      * @Groups ("comments:read")
      * @Groups ("CartProd:read")
+     * @Groups ("nftProd:read")
      * @Groups ("owner:read")
      */
     private $title;
@@ -46,6 +49,7 @@ class Nft
      * @Groups ("currency:read")
      * @Groups ("comments:read")
      * @Groups ("CartProd:read")
+     * @Groups ("nftProd:read")
      * @Groups ("owner:read")
      */
     private $description;
@@ -57,6 +61,7 @@ class Nft
      * @Groups ("currency:read")
      * @Groups ("comments:read")
      * @Groups ("CartProd:read")
+     * @Groups ("nftProd:read")
      * @Groups ("owner:read")
      */
     private $price;
@@ -74,6 +79,7 @@ class Nft
      * @Groups ("subCategory:read")
      * @Groups ("currency:read")
      * @Groups ("comments:read")
+     * @Groups ("nftProd:read")
      * @Groups ("CartProd:read")
      * @Groups ("owner:read")
      */
@@ -130,6 +136,7 @@ class Nft
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Payment\Cart",cascade={"persist"})
+     * @Groups ("cartProd:read")
      */
     private $cartProd;
 
@@ -289,13 +296,13 @@ class Nft
         $this->image = $image;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getCartProd()
     {
         return $this->cartProd;
     }
+
+
 
     /**
      * @param mixed $cartProd

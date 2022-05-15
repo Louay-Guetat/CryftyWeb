@@ -102,5 +102,14 @@ class WalletRepository extends ServiceEntityRepository
             ->setParameter('id',$id)
         ;
     }
+    function WalletClient($id)
+    {
+        return $this->createQueryBuilder('w')
+            ->where('w.client=:id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 }

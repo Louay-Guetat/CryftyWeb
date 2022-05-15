@@ -39,7 +39,7 @@ class NFTController extends AbstractController
         $nft = $repository->findAll();
         $nfts = $paginator->paginate($nft, $request->query->getInt('page',1),4);
         if($this->getUser()){
-        $client = $clientRepo->find($this->getUser());
+            $client = $clientRepo->find($this->getUser());
         }
         $situation =[];
         $i=0;
@@ -48,12 +48,7 @@ class NFTController extends AbstractController
             $j=0;
             do{
                 if($likedBy[$j]!= null){
-                    if($client->getId() == $likedBy[$j]->getId()){
-                        $situation[$i] = 1;
-                    }
-                    else
-                        $situation[$i]=0;
-                    $j++;
+                    $situation[$i]=0;
                 }
                 else{
                     $situation[$i]=0;
@@ -61,9 +56,11 @@ class NFTController extends AbstractController
                 }
             }while($j<count($likedBy)-1 && $situation[$i]!=1);
             $i++;
+
         }
         return $this->render('nft/index.html.twig', ['nft' => $nfts,'user'=>$this->getUser(),'situation'=>$situation]);
     }
+
 
     /**
      * @Route("nft/AfficheNft", name="AfficheNft")
@@ -291,6 +288,7 @@ class NFTController extends AbstractController
     function like($id, NftRepository $nftRepo,ClientRepository $clientRepo,Request $request){
         $nft = $nftRepo->find($id);
         $client = $clientRepo->find($this->getUser());
+
         $likedBy = $nft->getLikedBy();
         $situation =0;
         for($i=0;$i<count($likedBy);$i++){
@@ -314,6 +312,7 @@ class NFTController extends AbstractController
             $em->flush();
             return $this->redirect($request->headers->get('referer'));
         }
+
     }
 
 
@@ -525,7 +524,7 @@ class NFTController extends AbstractController
     }
 
     /**
-     * @Route ("nft/likedJson/{id}", name="like")
+     * @Route ("nft/likedJson/{id}", name="likeJson")
      */
     function likeJson($id,NftRepository $nftRepo,ClientRepository $clientRepo,Request $request, SerializerInterface $serializer){
         $idClient = $request->query->get("client");

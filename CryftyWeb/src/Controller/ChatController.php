@@ -54,66 +54,6 @@ class ChatController extends AbstractController
 
 
 
-    /*/**
-     * @Route("/afficheUsers", name="afficheUsers",methods={"GET"})
-     */
- /*   public function Users(PrivateChatRepository $PrivateChatRepository)
-    {
-       return $this->json ($PrivateChatRepository->UsersContacter($this->getUser()->getId()),
-           200,[],
-           ['groups'=>'Sender:read']);
-    }*/
-  /*  /**
-     * @Route("/AddGroup", name="AddGroup")
-     * @Method ("POST")
-     */
-   /*   public function addGroup(Request $request,SerializerInterface $serializer ,
-                             EntityManagerInterface $em1, ValidatorInterface $validator)
-    {
-        $jsonRecu= $request->getContent();
-        try{
-            $group=$serializer->deserialize($jsonRecu,GroupChat::class,'json');
-            $errors=$validator->validate($group);
-            if(count($errors)>0)
-            {
-                return $this->json($errors,400);
-
-            }
-            $em1->persist( $group);
-            $em1->flush();
-            return $this->json($group,201,[],['groups'=>['post:read','owner:read']]);
-
-        }catch(NotEncodableValueException $exception)
-        {
-            return $this->json(['status'=>400,'message'=>$exception->getMessage()]);
-        }
-
-    }*/
-    /**
-     * @Route("chat/AddGroup", name="AddGroup")
-     * @Method ("POST")
-     */
-    public function ajouterGroup(Request $request,
-                                 SerializerInterface $serializer,
-                                 UserRepository $UserRepository)
-    {
-        $us=$request->query->get("participant");
-      // for( $i=0;$i<Count( $us);$i++) {
-            $user = $UserRepository->find($us);
-        //}
-
-        $GoupChat = new GroupChat();
-        $nom=$request->query->get("nom");
-        $em = $this->getDoctrine()->getManager();
-        $GoupChat->setNom($nom);
-        $GoupChat->setParticipants([ $user]);
-        $em->persist($GoupChat);
-        $em->flush();
-
-        $formatted = $serializer->normalize($GoupChat,200,['groups'=>['post:read','owner:read']]);
-        return new JsonResponse($formatted);
-
-    }
 
     /**
      * @param $idGroup
@@ -145,7 +85,7 @@ class ChatController extends AbstractController
                     'multiple'=>true,
                     'label'=>"Choice your participant group",
                     'label_attr'=>['class'=>'sign__label']
-                    ,'attr'=>['class'=>'sign__input'],'constraints'=>array( new count(['min'=>2]))
+                    ,'attr'=>['class'=>'sign__textarea'],'constraints'=>array( new count(['min'=>2]))
 
                 ]);
 
@@ -179,7 +119,7 @@ class ChatController extends AbstractController
             'multiple'=>true,
             'label'=>"Choice your participant group",
             'label_attr'=>['class'=>'sign__label']
-            ,'attr'=>['class'=>'sign__input']
+            ,'attr'=>['class'=>'sign__textarea']
             ,'constraints'=>array( new count(['min'=>2]))
         ]);
             $form->add('Create group',SubmitType::class,['label'=>"Create",

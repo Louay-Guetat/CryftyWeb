@@ -18,6 +18,8 @@ class Cart
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups ("cartId:read")
+     * @Groups ("cartProd:read")
+     * @Groups ("nftProd:read")
      */
     private $id;
 
@@ -44,7 +46,8 @@ class Cart
      * @ORM\Column(type="datetime")
      * @var string A "Y-m-d H:i:s" formatted value
      * @Groups ("cartId:read")
-
+     * @Groups ("cartProd:read")
+     * @Groups ("nftProd:read")
      */
     private $date_creation;
 
@@ -62,6 +65,8 @@ class Cart
 
     /**
      * @ORM\Column (type="float")
+     * @Groups ("cartProd:read")
+     * @Groups ("nftProd:read")
      */
     private $total;
 

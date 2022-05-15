@@ -3,14 +3,18 @@
 namespace App\Controller;
 
 
+use App\Entity\Crypto\Wallet;
 use App\Entity\Payment\Cart;
+use App\Entity\Payment\Transaction;
 use App\Entity\Users\Client;
 use App\Entity\Users\User;
+use App\Repository\BlockRepository;
 use App\Repository\CartRepository;
 use App\Repository\ClientRepository;
 use App\Repository\NftRepository;
 use App\Repository\TransactionRepository;
 use App\Repository\UserRepository;
+use App\Repository\WalletRepository;
 use App\Services\Cart\CartService;
 use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +25,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\NFT\Nft;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 
 class CartController extends AbstractController
@@ -208,15 +214,91 @@ class CartController extends AbstractController
             "description"=>"Paiement réussie",
         ));
 
-        //$this->addFlash('success','paiement reussi');
         $session->remove("panier");
-        //$session->get('nbNft',$session->set('nbNft',0));
         return $this->render('cart/Stripe.html.twig');
 
     }
 
+    /**
+     * @Route("/ajouterNftToCartTest/{id}", name="ajouterNftToCartTest")
+     * @Method ("POST")
+     */
+    public function ajouterNftToCartTest($id,Request $request,
+                                         SerializerInterface $serializer,
+                                         CartRepository $cartRepository,
+                                         NftRepository $nftRepository)
+    {
+        $cart = $cartRepository->find($id);
+        $nftProd = $request->query->get("nftProd");
+        $nftt=$nftRepository->find($nftProd);
+        $nft = $this->getDoctrine()->getManager()->getRepository(Nft::class)->find($nftProd);
+        $tab=[];
+        for($i=0;$i<1;$i++)
+        {
+            $tab[$i]=$nft;
+        }
+
+
+        $cart->setNftProd($tab);
+        $tab2=[];
+        for($i=0;$i<1;$i++)
+        {
+            $tab2[$i]=$cart;
+        }
+        $nftt->setCartProd($tab2);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($cart);
+        $em->flush();
+        $formatted = $serializer->normalize($cart,200,['groups'=>['nftProd:read']]);
+        return new JsonResponse($formatted);
+    }
+
+
+    /**
+     * @Route("/afficheNftfromCartTest/{id}", name="afficheNftfromCartTest")
+     * @Method ("GET")
+     */
+    public function afficheNftFromCartTest($id, CartRepository $cartRepository,NftRepository $nftRepository)
+    {
+        $tab=[];
+        $i=0;
+        $nft = $nftRepository->findAll();
+        foreach ($nft as $oneNft)
+        {
+            foreach ($oneNft->getCartProd() as $cartt)
+            {
+                if ($cartt->getId() == $id)
+                {
+                    $tab[$i]=$oneNft;
+                    $i++;
+                }
+            }
+        }
+        return $this->json($tab,200,[],['groups'=>['nftProd:read']]);
+    }
 
 
 
+    /**
+     * @Route("/oneCart/{id}", name="oneCart")
+     * @Method ("GET")
+     */
+    public function oneCart($id,CartRepository $cartRepository,NftRepository $nftRepository)
+    {
+        $cart=$cartRepository->find($id);
+        return $this->json($cart,200,[],['groups'=>['cartProd:read']]);
+    }
 
+
+    /**
+     * @Route ("/deleteNftFromCart/{id}", name="deleteNftFromCart")
+     */
+    function DeleteNftFromCartTest($id,NftRepository $repository, SerializerInterface $serializer,NftRepository $nftRepository){
+        $nftc = $nftRepository->find($id);
+        $nftc->setCartProd(null);
+        $em=$this->getDoctrine()->getManager();
+        $em->flush();
+        $formatted = $serializer->normalize($nftc,200,['groups'=>[]]);
+        return new JsonResponse($formatted);
+    }
 }
